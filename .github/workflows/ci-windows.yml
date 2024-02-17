@@ -16,7 +16,7 @@ jobs:
     - uses: msys2/setup-msys2@v2
       with:
         update: true
-        install: git make mingw-w64-x86_64-gcc mingw-w64-x86_64-qt5-webview
+        install: git make mingw-w64-x86_64-gcc mingw-w64-x86_64-qt5-multimedia mingw-w64-x86_64-qt5-svg mingw-w64-x86_64-qt5-tools mingw-w64-x86_64-qt5-webview mingw-w64-x86_64-qt5-winextras mingw-w64-x86_64-qt5-xmlpatterns
     - uses: actions/checkout@master
     - name: Build
       env:
