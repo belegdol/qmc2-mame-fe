@@ -1,0 +1,29 @@
+name: CI (Windows)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: git make mingw-w64-x86_64-gcc mingw-w64-x86_64-qt5-webview
+    - uses: actions/checkout@master
+    - name: Build
+      env:
+        DISTCFG: 1
+      run: make -j4
+    - uses: actions/upload-artifact@master
+      with:
+        name: qmc2-windows-latest-${{ github.sha }}
+        path: |
+          qmc2-mame
