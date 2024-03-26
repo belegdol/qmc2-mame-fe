@@ -36,6 +36,7 @@ jobs:
       run: |
         export PATH="${{ matrix.qtpath }}:$PATH"
         make -j3
+        make install
     - uses: actions/upload-artifact@master
       with:
         name: qmc2-${{ matrix.os }}-${{ github.sha }}
