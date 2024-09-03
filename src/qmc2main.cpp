@@ -30,7 +30,7 @@
 #include <QColorDialog>
 #include <QChar>
 #include <QInputDialog>
-#include <QDesktopWidget>
+#include <QScreen>
 
 #include <algorithm> // std::sort()
 
@@ -323,7 +323,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	qmc2Config->setValue(QString(QMC2_FRONTEND_PREFIX + "InstanceRunning"), true);
 	qmc2StartupDefaultFont = new QFont(qApp->font());
-	desktopGeometry = qApp->desktop()->geometry();
+	desktopGeometry = qApp->primaryScreen()->availableGeometry();
 	isActiveState = launchForeignID = negatedMatch = isCreatingSoftList = searchActive = stopSearch = lastPageSoftware = false;
 	comboBoxEmuSelector = 0;
 	proxyStyle = 0;
@@ -2348,7 +2348,7 @@ void MainWindow::viewHtml(QString filePath)
 		webBrowser->restoreGeometry(qmc2Config->value(QMC2_FRONTEND_PREFIX + "WebBrowser/Geometry").toByteArray());
 	else {
 		webBrowser->adjustSize();
-		webBrowser->move(QApplication::desktop()->screen()->rect().center() - webBrowser->rect().center());
+		webBrowser->move(QApplication::primaryScreen()->availableGeometry().center() - webBrowser->rect().center());
 	}
 	connect(webBrowser->webViewBrowser->page(), SIGNAL(windowCloseRequested()), webBrowser, SLOT(close()));
 	if ( !filePath.isEmpty() ) {
@@ -2391,7 +2391,7 @@ void MainWindow::viewPdf(QString filePath)
 			webBrowser->restoreGeometry(qmc2Config->value(QMC2_FRONTEND_PREFIX + "PdfViewer/Geometry").toByteArray());
 		else {
 			webBrowser->adjustSize();
-			webBrowser->move(QApplication::desktop()->screen()->rect().center() - webBrowser->rect().center());
+			webBrowser->move(QApplication::primaryScreen()->availableGeometry().center() - webBrowser->rect().center());
 		}
 		connect(webBrowser->webViewBrowser->page(), SIGNAL(windowCloseRequested()), webBrowser, SLOT(close()));
 		if ( !filePath.isEmpty() ) {
@@ -9372,7 +9372,7 @@ void MainWindow::commonWebSearch(QString baseUrl, QTreeWidgetItem *item)
 			webBrowser->restoreGeometry(qmc2Config->value(QMC2_FRONTEND_PREFIX + "WebBrowser/Geometry").toByteArray());
 		else {
 			webBrowser->adjustSize();
-			webBrowser->move(QApplication::desktop()->screen()->rect().center() - webBrowser->rect().center());
+			webBrowser->move(QApplication::primaryScreen()->availableGeometry().center() - webBrowser->rect().center());
 		}
 		connect(webBrowser->webViewBrowser->page(), SIGNAL(windowCloseRequested()), webBrowser, SLOT(close()));
 		webBrowser->show();

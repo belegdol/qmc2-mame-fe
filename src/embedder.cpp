@@ -1,5 +1,5 @@
 #include <QtGui>
-#include <QDesktopWidget>
+#include <QScreen>
 #include "macros.h"
 
 #if defined(QMC2_EMBEDDER_SUPPORTED)

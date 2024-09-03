@@ -2,7 +2,7 @@
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QDir>
 #include <QWebEngineHistory>
 #include <QWebEngineSettings>
@@ -391,7 +391,7 @@ void MiniWebBrowser::webViewBrowser_linkClicked(const QUrl url)
 				webBrowser->restoreGeometry(qmc2Config->value(QMC2_FRONTEND_PREFIX + "WebBrowser/Geometry").toByteArray());
 			else {
 				webBrowser->adjustSize();
-				webBrowser->move(QApplication::desktop()->screen()->rect().center() - webBrowser->rect().center());
+				webBrowser->move(QApplication::primaryScreen()->availableGeometry().center() - webBrowser->rect().center());
 			}
 			connect(webBrowser->webViewBrowser->page(), SIGNAL(windowCloseRequested()), webBrowser, SLOT(close()));
 			webBrowser->webViewBrowser->load(url);
@@ -677,7 +677,7 @@ QWebEngineView *BrowserWidget::createWindow(QWebEnginePage::WebWindowType type)
 		webBrowser->restoreGeometry(qmc2Config->value(QMC2_FRONTEND_PREFIX + "WebBrowser/Geometry").toByteArray());
 	else {
 		webBrowser->adjustSize();
-		webBrowser->move(QApplication::desktop()->screen()->rect().center() - webBrowser->rect().center());
+		webBrowser->move(QApplication::primaryScreen()->availableGeometry().center() - webBrowser->rect().center());
 	}
 	connect(webBrowser->webViewBrowser->page(), SIGNAL(windowCloseRequested()), webBrowser, SLOT(close()));
 	webBrowser->show();

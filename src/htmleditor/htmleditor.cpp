@@ -39,7 +39,7 @@
 #include <QHash>
 #include <QRegExp>
 #include <QDesktopServices>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QToolButton>
 #include <QFileDialog>
 #include <QInputDialog>
@@ -516,7 +516,7 @@ void HtmlEditor::fileOpenInBrowser()
 		webBrowser->restoreGeometry(qmc2Config->value(QMC2_FRONTEND_PREFIX + "WebBrowser/Geometry").toByteArray());
 	else {
 		webBrowser->adjustSize();
-		webBrowser->move(QApplication::desktop()->screen()->rect().center() - webBrowser->rect().center());
+		webBrowser->move(QApplication::primaryScreen()->availableGeometry().center() - webBrowser->rect().center());
 	}
 	connect(webBrowser->webViewBrowser->page(), SIGNAL(windowCloseRequested()), webBrowser, SLOT(close()));
 	if ( ui->tabWidget->currentIndex() == 1 ) {
@@ -987,7 +987,7 @@ void HtmlEditor::openLink(const QUrl &url)
 		webBrowser->restoreGeometry(qmc2Config->value(QMC2_FRONTEND_PREFIX + "WebBrowser/Geometry").toByteArray());
 	else {
 		webBrowser->adjustSize();
-		webBrowser->move(QApplication::desktop()->screen()->rect().center() - webBrowser->rect().center());
+		webBrowser->move(QApplication::primaryScreen()->availableGeometry().center() - webBrowser->rect().center());
 	}
 	connect(webBrowser->webViewBrowser->page(), SIGNAL(windowCloseRequested()), webBrowser, SLOT(close()));
 	webBrowser->webViewBrowser->load(url);
