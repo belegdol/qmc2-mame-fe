@@ -10,8 +10,7 @@ HEADERS += src/qftp/qftp.h \
 SOURCES += src/qftp/qftp.cpp \
 	src/qftp/qurlinfo.cpp
 INCLUDEPATH += src/ \
-	src/qftp \
-	src/lzma
+	src/qftp
 TEMPLATE = app
 FORMS += ui/qmc2main.ui \
 	ui/options.ui \
@@ -163,36 +162,7 @@ SOURCES += src/qmc2main.cpp \
 	src/setupwizard.cpp \
 	src/clickablelabel.cpp \
 	src/htmleditor/htmleditor.cpp \
-	src/htmleditor/highlighter.cpp \
-	src/lzma/7zAlloc.c \
-	src/lzma/7zBuf2.c \
-	src/lzma/7zBuf.c \
-	src/lzma/7zCrc.c \
-	src/lzma/7zCrcOpt.c \
-	src/lzma/7zDec.c \
-	src/lzma/7zFile.c \
-	src/lzma/7zArcIn.c \
-	src/lzma/7zStream.c \
-	src/lzma/Alloc.c \
-	src/lzma/Bcj2.c \
-	src/lzma/Bra86.c \
-	src/lzma/Bra.c \
-	src/lzma/BraIA64.c \
-	src/lzma/CpuArch.c \
-	src/lzma/Delta.c \
-	src/lzma/LzFind.c \
-	src/lzma/Lzma2Dec.c \
-	src/lzma/Lzma2Enc.c \
-	src/lzma/Lzma86Dec.c \
-	src/lzma/Lzma86Enc.c \
-	src/lzma/LzmaDec.c \
-	src/lzma/LzmaEnc.c \
-	src/lzma/LzmaLib.c \
-	src/lzma/Ppmd7.c \
-	src/lzma/Ppmd7Dec.c \
-	src/lzma/Ppmd7Enc.c \
-	src/lzma/Sha256.c \
-	src/lzma/Sha256Opt.c
+	src/htmleditor/highlighter.cpp
 HEADERS += src/qmc2main.h \
 	src/options.h \
 	src/docbrowser.h \
@@ -304,12 +274,47 @@ TRANSLATIONS += data/lng/qmc2_de.ts \
 	data/lng/qmc2_us.ts
 RESOURCES += qmc2.qrc
 QMAKE_MAKEFILE = Makefile.qmake
-DEFINES += Z7_PPMD_SUPPORT Z7_ST
 
 contains(DEFINES, QMC2_LIBARCHIVE_ENABLED) {
 	SOURCES += src/archivefile.cpp
 	HEADERS += src/archivefile.h
 	LIBS += -larchive
+}
+
+contains(DEFINES, QMC2_BUNDLED_LZMA_SDK) {
+	INCLUDEPATH += src/lzma
+	SOURCES += src/lzma/7zAlloc.c \
+		src/lzma/7zBuf2.c \
+		src/lzma/7zBuf.c \
+		src/lzma/7zCrc.c \
+		src/lzma/7zCrcOpt.c \
+		src/lzma/7zDec.c \
+		src/lzma/7zFile.c \
+		src/lzma/7zArcIn.c \
+		src/lzma/7zStream.c \
+		src/lzma/Alloc.c \
+		src/lzma/Bcj2.c \
+		src/lzma/Bra86.c \
+		src/lzma/Bra.c \
+		src/lzma/BraIA64.c \
+		src/lzma/CpuArch.c \
+		src/lzma/Delta.c \
+		src/lzma/LzFind.c \
+		src/lzma/Lzma2Dec.c \
+		src/lzma/Lzma2Enc.c \
+		src/lzma/Lzma86Dec.c \
+		src/lzma/Lzma86Enc.c \
+		src/lzma/LzmaDec.c \
+		src/lzma/LzmaEnc.c \
+		src/lzma/LzmaLib.c \
+		src/lzma/Ppmd7.c \
+		src/lzma/Ppmd7Dec.c \
+		src/lzma/Ppmd7Enc.c \
+		src/lzma/Sha256.c \
+		src/lzma/Sha256Opt.c
+	DEFINES += Z7_PPMD_SUPPORT Z7_ST
+} else {
+	LIBS += -llzmasdk
 }
 
 contains(DEFINES, QMC2_BUNDLED_MINIZIP) {

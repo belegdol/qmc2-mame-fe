@@ -343,6 +343,17 @@ ifndef LIBARCHIVE
 LIBARCHIVE = 0
 endif
 
+# >>> SYSTEM_LZMA_SDK <<<
+#
+# Build using the system's minizip installation (for distro packagers, 1) or the
+# bundled source code (default, 0)?
+#
+# If set to 1, pkg-config will be used to setup compiler- and linker-flags!
+#
+ifndef SYSTEM_LZMA_SDK
+SYSTEM_LZMA_SDK = 0
+endif
+
 # >>> SYSTEM_MINIZIP <<<
 #
 # Build using the system's minizip installation (for distro packagers, 1) or the
@@ -662,6 +673,10 @@ endif
 
 ifeq '$(LIBARCHIVE)' '1'
 DEFINES += QMC2_LIBARCHIVE_ENABLED
+endif
+
+ifeq '$(SYSTEM_LZMA_SDK)' '0'
+DEFINES += QMC2_BUNDLED_LZMA_SDK
 endif
 
 ifeq '$(SYSTEM_MINIZIP)' '0'
