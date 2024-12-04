@@ -16,10 +16,10 @@
 #include "bigbytearray.h"
 
 extern "C" {
-#include "lzma/7z.h"
-#include "lzma/7zAlloc.h"
-#include "lzma/7zCrc.h"
-#include "lzma/7zFile.h"
+#include "7z.h"
+#include "7zAlloc.h"
+#include "7zCrc.h"
+#include "7zFile.h"
 }
 
 class SevenZipMetaData
