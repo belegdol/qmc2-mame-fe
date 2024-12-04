@@ -314,6 +314,7 @@ contains(DEFINES, QMC2_BUNDLED_LZMA_SDK) {
 		src/lzma/Sha256Opt.c
 	DEFINES += Z7_PPMD_SUPPORT Z7_ST
 } else {
+	INCLUDEPATH += /usr/include/lzma-sdk/C
 	LIBS += -llzmasdk
 }
 
