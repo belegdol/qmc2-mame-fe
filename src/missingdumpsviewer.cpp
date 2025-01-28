@@ -6,7 +6,7 @@
 #include <QDateTime>
 #include <QByteArray>
 #include <QBuffer>
-#include <QXmlQuery>
+#include <QXmlStreamReader>
 #include <QMultiMap>
 #include <QMessageBox>
 
@@ -78,82 +78,87 @@ void MissingDumpsViewer::on_toolButtonExportToDataFile_clicked()
 				QString id(dumpKeys.at(i));
 				if ( defaultEmulator() ) {
 					QString sourcefile, isbios, cloneof, romof, sampleof, description, year, manufacturer, merge;
-					QByteArray xmlDocument(ROMAlyzer::getXmlData(id, true).toUtf8());
-					QBuffer xmlQueryBuffer(&xmlDocument);
-					xmlQueryBuffer.open(QIODevice::ReadOnly);
-					QXmlQuery xmlQuery(QXmlQuery::XQuery10);
-					xmlQuery.bindVariable("xmlDocument", &xmlQueryBuffer);
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/@sourcefile/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&sourcefile);
-					sourcefile = sourcefile.trimmed();
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/@isbios/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&isbios);
-					isbios = isbios.trimmed();
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/@cloneof/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&cloneof);
-					cloneof = cloneof.trimmed();
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/@romof/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&romof);
-					romof = romof.trimmed();
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/@sampleof/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&sampleof);
-					sampleof = sampleof.trimmed();
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/description/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&description);
-					description = description.trimmed();
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/year/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&year);
-					year = year.trimmed();
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/manufacturer/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&manufacturer);
-					manufacturer = manufacturer.trimmed();
-					ts << "\t<machine name=\"" << id << "\"";
-					if ( !sourcefile.isEmpty() )
-						ts << " sourcefile=\"" << sourcefile << "\"";
-					if ( !isbios.isEmpty() && isbios != "no" )
-						ts << " isbios=\"" << isbios << "\"";
-					if ( !cloneof.isEmpty() )
-						ts << " cloneof=\"" << cloneof << "\"";
-					if ( !romof.isEmpty() )
-						ts << " romof=\"" << romof << "\"";
-					if ( !sampleof.isEmpty() )
-						ts << " sampleof=\"" << sampleof << "\"";
-					ts << ">\n";
-					if ( !description.isEmpty() )
-						ts << "\t\t<description>" << description << "</description>\n";
-					if ( !year.isEmpty() )
-						ts << "\t\t<year>" << year << "</year>\n";
-					if ( !manufacturer.isEmpty() )
-						ts << "\t\t<manufacturer>" << manufacturer << "</manufacturer>\n";
-					foreach (DumpRecord *dr, dumpMap.values(id)) {
-						if ( dr->type() == "ROM" ) {
-							ts << "\t\t<rom name=\"" << dr->name() << "\"";
-							xmlQuery.setQuery(QString("doc($xmlDocument)//%1/rom[@name='%2']/@merge/string()").arg(mainEntityName).arg(dr->name()));
-							xmlQuery.evaluateTo(&merge);
-							merge = merge.trimmed();
-							if ( !merge.isEmpty() )
-								ts << " merge=\"" << merge << "\"";
-							if ( !dr->size().isEmpty() )
-								ts << " size=\"" << dr->size() << "\"";
-							if ( !dr->crc().isEmpty() )
-								ts << " crc=\"" << dr->crc() << "\"";
-							if ( !dr->sha1().isEmpty() )
-								ts << " sha1=\"" << dr->sha1() << "\"";
-							ts << "/>\n";
-						} else {
-							ts << "\t\t<disk name=\"" << dr->name() << "\"";
-							xmlQuery.setQuery(QString("doc($xmlDocument)//%1/disk[@name='%2']/@merge/string()").arg(mainEntityName).arg(dr->name()));
-							xmlQuery.evaluateTo(&merge);
-							merge = merge.trimmed();
-							if ( !merge.isEmpty() )
-								ts << " merge=\"" << merge << "\"";
-							if ( !dr->sha1().isEmpty() )
-								ts << " sha1=\"" << dr->sha1() << "\"";;
-							ts << "/>\n";
+					QHash <QString, QString> mergeInfo;
+					QXmlStreamReader xmlMachineEntry(ROMAlyzer::getXmlData(id, false).toUtf8());
+					if ( xmlMachineEntry.readNextStartElement() ) {
+						if ( xmlMachineEntry.name() == "machine" ) {
+							ts << "\t<machine name=\"" << id << "\"";
+							if ( xmlMachineEntry.attributes().hasAttribute("sourcefile") ) {
+								sourcefile = xmlMachineEntry.attributes().value("sourcefile").toString();
+								if ( !sourcefile.isEmpty() )
+									ts << " sourcefile=\"" << sourcefile << "\"";
+							}
+							if ( xmlMachineEntry.attributes().hasAttribute("isbios") ) {
+								isbios = xmlMachineEntry.attributes().value("isbios").toString();
+								if ( !isbios.isEmpty() && isbios != "no" )
+									ts << " isbios=\"" << isbios << "\"";
+							}
+							if ( xmlMachineEntry.attributes().hasAttribute("cloneof") ) {
+								cloneof = xmlMachineEntry.attributes().value("cloneof").toString();
+								if ( !cloneof.isEmpty() )
+									ts << " cloneof=\"" << cloneof << "\"";
+							}
+							if ( xmlMachineEntry.attributes().hasAttribute("romof") ) {
+								romof = xmlMachineEntry.attributes().value("romof").toString();
+								if ( !romof.isEmpty() )
+									ts << " romof=\"" << romof << "\"";
+							}
+							if ( xmlMachineEntry.attributes().hasAttribute("sampleof") ) {
+								sampleof = xmlMachineEntry.attributes().value("sampleof").toString();
+								if ( !sampleof.isEmpty() )
+									ts << " sampleof=\"" << sampleof << "\"";
+							}
+							ts << ">\n";
+							while ( xmlMachineEntry.readNextStartElement() ) {
+								if ( xmlMachineEntry.name() == "description" ) {
+									description = xmlMachineEntry.readElementText();
+									if ( !description.isEmpty() )
+										ts << "\t\t<description>" << description << "</description>\n";
+								}
+								else if ( xmlMachineEntry.name() == "year" ) {
+									year = xmlMachineEntry.readElementText();
+									if ( !year.isEmpty() )
+										ts << "\t\t<year>" << year << "</year>\n";
+								}
+								else if ( xmlMachineEntry.name() == "manufacturer" ) {
+									manufacturer = xmlMachineEntry.readElementText();
+									if ( !manufacturer.isEmpty() )
+										ts << "\t\t<manufacturer>" << manufacturer << "</manufacturer>\n";
+								}
+								else if ( ( xmlMachineEntry.name() == "rom" || xmlMachineEntry.name() == "disk" ) && xmlMachineEntry.attributes().hasAttribute("name") && xmlMachineEntry.attributes().hasAttribute("merge") ) {
+									mergeInfo[xmlMachineEntry.attributes().value("name").toString()] = xmlMachineEntry.attributes().value("merge").toString();
+									xmlMachineEntry.skipCurrentElement();
+								}
+								else
+									xmlMachineEntry.skipCurrentElement();
+							}
+							foreach (DumpRecord *dr, dumpMap.values(id)) {
+								if ( dr->type() == "ROM" ) {
+									ts << "\t\t<rom name=\"" << dr->name() << "\"";
+									merge = mergeInfo[dr->name()];
+									if ( !merge.isEmpty() )
+										ts << " merge=\"" << merge << "\"";
+									if ( !dr->size().isEmpty() )
+										ts << " size=\"" << dr->size() << "\"";
+									if ( !dr->crc().isEmpty() )
+										ts << " crc=\"" << dr->crc() << "\"";
+									if ( !dr->sha1().isEmpty() )
+										ts << " sha1=\"" << dr->sha1() << "\"";
+									ts << "/>\n";
+								} else {
+									ts << "\t\t<disk name=\"" << dr->name() << "\"";
+									merge = mergeInfo[dr->name()];
+									if ( !merge.isEmpty() )
+										ts << " merge=\"" << merge << "\"";
+									if ( !dr->sha1().isEmpty() )
+										ts << " sha1=\"" << dr->sha1() << "\"";;
+									ts << "/>\n";
+								}
+								delete dr;
+							}
+							ts << "\t</machine>\n";
 						}
-						delete dr;
 					}
-					ts << "\t</machine>\n";
 				} else {
 					// FIXME "non-default emulator"
 				}

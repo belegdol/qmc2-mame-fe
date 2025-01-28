@@ -13,7 +13,7 @@
 #include <QDateTime>
 #include <QDate>
 #include <QTime>
-#include <QXmlQuery>
+#include <QXmlStreamReader>
 #include <QPalette>
 #include <QRegExp>
 #include <QRegularExpression>
@@ -3203,51 +3203,50 @@ void ROMAlyzer::exportToDataFile()
 				QString name = item->text(QMC2_ROMALYZER_COLUMN_SET).split(" ", Qt::SkipEmptyParts)[0];
 				if ( analyzerBadSets.contains(name) ) {
 					QString sourcefile, isbios, cloneof, romof, sampleof;
-					QByteArray xmlDocument(ROMAlyzer::getXmlData(name, true).toUtf8());
-					QBuffer xmlQueryBuffer(&xmlDocument);
-					xmlQueryBuffer.open(QIODevice::ReadOnly);
-					QXmlQuery xmlQuery(QXmlQuery::XQuery10);
-					xmlQuery.bindVariable("xmlDocument", &xmlQueryBuffer);
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/@sourcefile/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&sourcefile);
-					sourcefile = sourcefile.trimmed();
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/@isbios/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&isbios);
-					isbios = isbios.trimmed();
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/@cloneof/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&cloneof);
-					cloneof = cloneof.trimmed();
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/@romof/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&romof);
-					romof = romof.trimmed();
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/@sampleof/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&sampleof);
-					sampleof = sampleof.trimmed();
-					ts << "\t<machine name=\"" << name << "\"";
-					if ( !sourcefile.isEmpty() )
-						ts << " sourcefile=\"" << sourcefile << "\"";
-					if ( !isbios.isEmpty() && isbios != "no" )
-						ts << " isbios=\"" << isbios << "\"";
-					if ( !cloneof.isEmpty() )
-						ts << " cloneof=\"" << cloneof << "\"";
-					if ( !romof.isEmpty() )
-						ts << " romof=\"" << romof << "\"";
-					if ( !sampleof.isEmpty() )
-						ts << " sampleof=\"" << sampleof << "\"";
-					ts << ">\n";
-					QString description, year, manufacturer;
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/description/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&description);
-					description = description.trimmed();
-					ts << "\t\t<description>" << description << "</description>\n";
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/year/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&year);
-					year = year.trimmed();
-					ts << "\t\t<year>" << year << "</year>\n";
-					xmlQuery.setQuery(QString("doc($xmlDocument)//%1/manufacturer/string()").arg(mainEntityName));
-					xmlQuery.evaluateTo(&manufacturer);
-					manufacturer = manufacturer.trimmed();
-					ts << "\t\t<manufacturer>" << manufacturer << "</manufacturer>\n";
+					QXmlStreamReader xmlMachineEntry(ROMAlyzer::getXmlData(name, false).toUtf8());
+					if ( xmlMachineEntry.readNextStartElement() ) {
+						if ( xmlMachineEntry.name() == "machine" ) {
+							if ( xmlMachineEntry.attributes().hasAttribute("sourcefile") )
+								sourcefile = xmlMachineEntry.attributes().value("sourcefile").toString();
+							if ( xmlMachineEntry.attributes().hasAttribute("isbios") )
+								isbios = xmlMachineEntry.attributes().value("isbios").toString();
+							if ( xmlMachineEntry.attributes().hasAttribute("cloneof") )
+								cloneof = xmlMachineEntry.attributes().value("cloneof").toString();
+							if ( xmlMachineEntry.attributes().hasAttribute("romof") )
+								romof = xmlMachineEntry.attributes().value("romof").toString();
+							if ( xmlMachineEntry.attributes().hasAttribute("sampleof") )
+								sampleof = xmlMachineEntry.attributes().value("sampleof").toString();
+							ts << "\t<machine name=\"" << name << "\"";
+							if ( !sourcefile.isEmpty() )
+								ts << " sourcefile=\"" << sourcefile << "\"";
+							if ( !isbios.isEmpty() && isbios != "no" )
+								ts << " isbios=\"" << isbios << "\"";
+							if ( !cloneof.isEmpty() )
+								ts << " cloneof=\"" << cloneof << "\"";
+							if ( !romof.isEmpty() )
+								ts << " romof=\"" << romof << "\"";
+							if ( !sampleof.isEmpty() )
+								ts << " sampleof=\"" << sampleof << "\"";
+							ts << ">\n";
+							QString description, year, manufacturer;
+							while ( xmlMachineEntry.readNextStartElement() ) {
+								if ( xmlMachineEntry.name() == "description" ) {
+									description = xmlMachineEntry.readElementText();
+									ts << "\t\t<description>" << description << "</description>\n";
+								}
+								else if ( xmlMachineEntry.name() == "year" ) {
+									year = xmlMachineEntry.readElementText();
+									ts << "\t\t<year>" << year << "</year>\n";
+								}
+								else if ( xmlMachineEntry.name() == "manufacturer" ) {
+									manufacturer = xmlMachineEntry.readElementText();
+									ts << "\t\t<manufacturer>" << manufacturer << "</manufacturer>\n";
+								}
+								else
+									xmlMachineEntry.skipCurrentElement();
+							}
+						}
+					}
 					for (int j = 0; j < item->childCount(); j++) {
 						QTreeWidgetItem *childItem = item->child(j);
 						QString filestatus = childItem->text(QMC2_ROMALYZER_COLUMN_FILESTATUS);
