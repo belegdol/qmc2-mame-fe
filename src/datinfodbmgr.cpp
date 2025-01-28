@@ -8,7 +8,7 @@
 #include <QTextStream>
 #include <QTextCodec>
 #include <QXmlStreamReader>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QDir>
 #include <QUuid>
 #include <QHash>
@@ -736,7 +736,7 @@ void DatInfoDatabaseManager::importEmuInfo(QStringList pathList, bool fromScratc
 			QTextStream ts(&emuInfoDB);
 			ts.setCodec(QTextCodec::codecForName("UTF-8"));
 			quint64 recordsProcessed = 0, pendingUpdates = 0;
-			QRegExp lineBreakRx("(<br>){2,}");
+			QRegularExpression lineBreakRx("(<br>){2,}");
 			while ( !ts.atEnd() && !qmc2LoadingInterrupted ) {
 				QString singleLineSimplified = ts.readLine().simplified();
 				bool startsWithDollarInfo = singleLineSimplified.startsWith("$info=");

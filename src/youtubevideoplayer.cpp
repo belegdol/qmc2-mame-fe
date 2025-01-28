@@ -420,7 +420,7 @@ void YouTubeVideoPlayer::playNextVideo()
 						QString vidCopy(viw->videoID);
 						QString vidOrig(viw->videoID);
 						if ( localFile )
-							vidCopy.remove(QRegExp("^\\#\\:"));
+							vidCopy.remove(QRegularExpression("^\\#\\:"));
 						if ( checkBoxRepeat->isChecked() ) {
 							if ( localFile )
 								playMovieFile(vidCopy);
@@ -456,7 +456,7 @@ void YouTubeVideoPlayer::playNextVideo()
 						QString vidCopy(viw->videoID);
 						QString vidOrig(viw->videoID);
 						if ( localFile )
-							vidCopy.remove(QRegExp("^\\#\\:"));
+							vidCopy.remove(QRegularExpression("^\\#\\:"));
 						if ( checkBoxRepeat->isChecked() ) {
 							if ( localFile )
 								playMovieFile(vidCopy);
@@ -532,10 +532,10 @@ void YouTubeVideoPlayer::pasteYouTubeUrl()
 {
 	QString clipboardText(qApp->clipboard()->text()), videoID;
 	clipboardText.replace("https:", "http:");
-	if ( clipboardText.indexOf(QRegExp("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=.*$")) == 0 )
-		videoID = clipboardText.replace(QRegExp("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=(.*)$"), "\\1").replace(QRegExp("\\&.*$"), "");
-	else if ( clipboardText.indexOf(QRegExp("^http\\:\\/\\/.*youtu\\.be\\/.*$")) == 0 )
-		videoID = clipboardText.replace(QRegExp("^http\\:\\/\\/.*youtu\\.be\\/(.*)$"), "\\1").replace(QRegExp("\\&.*$"), "");
+	if ( clipboardText.indexOf(QRegularExpression("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=.*$")) == 0 )
+		videoID = clipboardText.replace(QRegularExpression("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=(.*)$"), "\\1").replace(QRegularExpression("\\&.*$"), "");
+	else if ( clipboardText.indexOf(QRegularExpression("^http\\:\\/\\/.*youtu\\.be\\/.*$")) == 0 )
+		videoID = clipboardText.replace(QRegularExpression("^http\\:\\/\\/.*youtu\\.be\\/(.*)$"), "\\1").replace(QRegularExpression("\\&.*$"), "");
 	if ( videoID.isEmpty() )
 		return;
 	QStringList videoInfoList;
@@ -550,10 +550,10 @@ void YouTubeVideoPlayer::playerPasteYouTubeUrl()
 {
 	QString clipboardText(qApp->clipboard()->text()), videoID;
 	clipboardText.replace("https:", "http:");
-	if ( clipboardText.indexOf(QRegExp("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=.*$")) == 0 )
-		videoID = clipboardText.replace(QRegExp("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=(.*)$"), "\\1").replace(QRegExp("\\&.*$"), "");
-	else if ( clipboardText.indexOf(QRegExp("^http\\:\\/\\/.*youtu\\.be\\/.*$")) == 0 )
-		videoID = clipboardText.replace(QRegExp("^http\\:\\/\\/.*youtu\\.be\\/(.*)$"), "\\1").replace(QRegExp("\\&.*$"), "");
+	if ( clipboardText.indexOf(QRegularExpression("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=.*$")) == 0 )
+		videoID = clipboardText.replace(QRegularExpression("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=(.*)$"), "\\1").replace(QRegularExpression("\\&.*$"), "");
+	else if ( clipboardText.indexOf(QRegularExpression("^http\\:\\/\\/.*youtu\\.be\\/.*$")) == 0 )
+		videoID = clipboardText.replace(QRegularExpression("^http\\:\\/\\/.*youtu\\.be\\/(.*)$"), "\\1").replace(QRegularExpression("\\&.*$"), "");
 	if ( videoID.isEmpty() )
 		return;
 	playVideo(videoID);
@@ -749,7 +749,7 @@ void YouTubeVideoPlayer::attachVideo(QString id, QString title, QString author, 
 		if ( itemType == VIDEOITEM_TYPE_YOUTUBE )
 			itemType = VIDEOITEM_TYPE_LOCAL_MOVIE;
 		if ( viwMap.keys().contains(id) ) {
-			id.remove(QRegExp("^\\#\\:"));
+			id.remove(QRegularExpression("^\\#\\:"));
 			qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("video player: the local movie file '%1' is already attached, ignored").arg(id));
 			return;
 		}
@@ -1069,25 +1069,25 @@ QUrl YouTubeVideoPlayer::getVideoStreamUrl(QString videoID, QStringList *videoIn
 			 printf("%s\n", (const char *)vInfo.toLatin1());
 #endif
 			 if ( vInfo.startsWith("status=") ) {
-				 vInfo.replace(QRegExp("^status="), "");
+				 vInfo.replace(QRegularExpression("^status="), "");
 				 status = vInfo;
 			 } else if ( vInfo.startsWith("errorcode=") ) {
-				 vInfo.replace(QRegExp("^errorcode="), "");
+				 vInfo.replace(QRegularExpression("^errorcode="), "");
 				 errorcode = vInfo;
 			 } else if ( vInfo.startsWith("reason=") ) {
-				 vInfo.replace(QRegExp("^reason="), "").replace("+", " ");
+				 vInfo.replace(QRegularExpression("^reason="), "").replace("+", " ");
 				 errortext = QUrl::fromPercentEncoding(vInfo.toLatin1());
 			 } else if ( vInfo.startsWith("author=") ) {
-				 vInfo.replace(QRegExp("^author="), "");
+				 vInfo.replace(QRegularExpression("^author="), "");
 				 debugUrl = QUrl::fromEncoded(vInfo.toLatin1());
 				 author = debugUrl.toString();
 				 authorUrl = VIDEOITEM_YOUTUBE_AUTHOR_URL_PATTERN;
 				 authorUrl.replace("$USER_ID$", author);
 			 } else if ( vInfo.startsWith("thumbnail_url=") ) {
-				 vInfo.replace(QRegExp("^thumbnail_url="), "");
+				 vInfo.replace(QRegularExpression("^thumbnail_url="), "");
 				 thumbnail_url = vInfo.replace("http%3A%2F%2F", "http://").replace("%2F", "/");
 			 } else if ( vInfo.startsWith("title") ) {
-				 vInfo.replace(QRegExp("^title="), "");
+				 vInfo.replace(QRegularExpression("^title="), "");
 				 debugUrl = QUrl::fromEncoded(vInfo.toLatin1());
 				 title = debugUrl.toString();
 				 title.replace("+", " ");
@@ -1131,7 +1131,7 @@ QUrl YouTubeVideoPlayer::getVideoStreamUrl(QString videoID, QStringList *videoIn
 			if ( forcedExit )
 				break;
 			if ( videoInfo.startsWith("url_encoded_fmt_stream_map=") ) {
-				QStringList fmtUrlMap(videoInfo.replace(QRegExp("^url_encoded_fmt_stream_map="), "").split("%2C", Qt::SkipEmptyParts));
+				QStringList fmtUrlMap(videoInfo.replace(QRegularExpression("^url_encoded_fmt_stream_map="), "").split("%2C", Qt::SkipEmptyParts));
 				foreach (QString fmtUrl, fmtUrlMap) {
 					if ( forcedExit )
 						break;
@@ -1269,7 +1269,7 @@ void YouTubeVideoPlayer::on_toolButtonPlayPause_clicked()
 	else if ( !currentVideoID.isEmpty() ) {
 		if ( currentVideoID.startsWith("#:") ) {
 			QString vidCopy = currentVideoID;;
-			vidCopy.remove(QRegExp("^\\#\\:"));
+			vidCopy.remove(QRegularExpression("^\\#\\:"));
 			playMovieFile(vidCopy);
 		} else
 			playVideo(currentVideoID);
@@ -1346,7 +1346,7 @@ void YouTubeVideoPlayer::on_listWidgetAttachedVideos_itemActivated(QListWidgetIt
 					play();
 			} else {
 				QString vidCopy = viw->videoID;
-				vidCopy.remove(QRegExp("^\\#\\:"));
+				vidCopy.remove(QRegularExpression("^\\#\\:"));
 				playMovieFile(vidCopy);
 			}
 		} else {
@@ -1391,7 +1391,7 @@ void YouTubeVideoPlayer::on_listWidgetAttachedVideos_customContextMenuRequested(
 {
 	QString clipboardText = qApp->clipboard()->text();
 	clipboardText.replace("https:", "http:");
-	if ( clipboardText.indexOf(QRegExp("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=.*$")) == 0 || clipboardText.indexOf(QRegExp("^http\\:\\/\\/.*youtu\\.be\\/.*$")) == 0 )
+	if ( clipboardText.indexOf(QRegularExpression("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=.*$")) == 0 || clipboardText.indexOf(QRegularExpression("^http\\:\\/\\/.*youtu\\.be\\/.*$")) == 0 )
 		avmActionPasteVideoUrl->setEnabled(true);
 	else
 		avmActionPasteVideoUrl->setEnabled(false);
@@ -1447,7 +1447,7 @@ void YouTubeVideoPlayer::videoPlayer_customContextMenuRequested(const QPoint &p)
 	if ( menuVideoPlayer ) {
 		QString clipboardText = qApp->clipboard()->text();
 		clipboardText.replace("https:", "http:");
-		if ( clipboardText.indexOf(QRegExp("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=.*$")) == 0 || clipboardText.indexOf(QRegExp("^http\\:\\/\\/.*youtu\\.be\\/.*$")) == 0 )
+		if ( clipboardText.indexOf(QRegularExpression("^http\\:\\/\\/.*youtube\\.com\\/watch\\?.*v\\=.*$")) == 0 || clipboardText.indexOf(QRegularExpression("^http\\:\\/\\/.*youtu\\.be\\/.*$")) == 0 )
 			videoMenuPasteVideoUrlAction->setEnabled(true);
 		else
 			videoMenuPasteVideoUrlAction->setEnabled(false);
@@ -1503,7 +1503,7 @@ void YouTubeVideoPlayer::on_lineEditSearchString_textChanged(const QString &text
 void YouTubeVideoPlayer::on_toolButtonSuggest_clicked()
 {
 	QString suggestedSearchPattern = mySetName;
-	suggestedSearchPattern = suggestedSearchPattern.replace(QRegExp("\\(.*\\)"), "").replace("\\", " ").replace("/", " ").simplified();
+	suggestedSearchPattern = suggestedSearchPattern.replace(QRegularExpression("\\(.*\\)"), "").replace("\\", " ").replace("/", " ").simplified();
 	if ( !suggestorAppendString.isEmpty() )
 		suggestedSearchPattern.append(" " + suggestorAppendString);
 	QTreeWidgetItem *item = qmc2MachineListItemHash.value(mySetID);
@@ -1625,7 +1625,7 @@ void YouTubeVideoPlayer::updateAttachedVideoInfoImages()
 				if ( forcedExit )
 					break;
 				if ( vInfo.startsWith("thumbnail_url=") ) {
-					vInfo.replace(QRegExp("^thumbnail_url="), "");
+					vInfo.replace(QRegularExpression("^thumbnail_url="), "");
 					thumbnail_url = vInfo.replace("http%3A%2F%2F", "http://").replace("%2F", "/");
 					break;
 				}
@@ -1722,7 +1722,7 @@ void YouTubeVideoPlayer::imageDownloadFinished(QNetworkReply *reply)
 	}
 	// example URL: 'http://i3.ytimg.com/vi/bFjX1uUhB1A/default.jpg'
 	QString videoID;
-	QRegExp rx("http\\:\\/\\/.*\\/vi\\/(.*)\\/.*");
+	QRegularExpression rx("http\\:\\/\\/.*\\/vi\\/(.*)\\/.*");
 	int pos = rx.indexIn(urlString);
 	if ( pos > -1 ) {
 		videoID = rx.cap(1);

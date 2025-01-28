@@ -695,7 +695,7 @@ void ArcadeModeSetup::on_pushButtonExport_clicked()
 	int minDrvStatus = comboBoxDriverStatus->currentIndex();
 	int itemCount = 0;
 	QString nameFilter = lineEditNameFilter->text();
-	QRegExp nameFilterRegExp(nameFilter);
+	QRegularExpression nameFilterRegExp(nameFilter);
 	QList<MachineListItem *> selectedMachines;
 
 	if ( !nameFilter.isEmpty() && !nameFilterRegExp.isValid() )

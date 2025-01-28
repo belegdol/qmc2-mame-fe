@@ -395,9 +395,9 @@ ImageChecker::ImageChecker(QWidget *parent)
 	progressBar->setRange(-1, -1);
 	progressBar->setValue(-1);
 
-	rxFourDigits = QRegExp("^\\d{4}$");
-	rxCharsToEscape = QRegExp("(\\s|\\\\|\\(|\\))");
-	rxColonSepStr = QRegExp("^.*\\: ");
+	rxFourDigits = QRegularExpression("^\\d{4}$");
+	rxCharsToEscape = QRegularExpression("(\\s|\\\\|\\(|\\))");
+	rxColonSepStr = QRegularExpression("^.*\\: ");
 
 	startStopClicked = isRunning = false;
 	currentImageType = QMC2_IMGCHK_INDEX_NONE;
@@ -1941,7 +1941,7 @@ void ImageChecker::updateResults()
 	bufferedObsoleteList.clear();
 	if ( !bufferedBadList.isEmpty() ) {
 		QString searchRegExp = "(" + bufferedBadList.join("|") + ")";
-		foreach (QListWidgetItem *item, listWidgetMissing->findItems(searchRegExp, Qt::MatchRegExp)) {
+		foreach (QListWidgetItem *item, listWidgetMissing->findItems(searchRegExp, Qt::MatchRegularExpression)) {
 			item->setIcon(QIcon(QString::fromUtf8(":/data/img/warning.png")));
 			QStringList blTemp;
 			for (int i = 0; i < bufferedBadList.count(); i++)

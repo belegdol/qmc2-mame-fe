@@ -644,7 +644,7 @@ void DeviceConfigurator::traverseDeviceTree(QTreeWidgetItem *parentItem, DeviceT
 			cbBios->setCurrentIndex(0);
 			cbBios->setEnabled(false);
 		} else {
-			currentOption.replace(QRegExp(" - .*"), QString());
+			currentOption.replace(QRegularExpression(" - .*"), QString());
 			if ( node->optionBioses(currentOption).isEmpty() ) {
 				cbBios->insertItem(0, tr("N/A"));
 				cbBios->setCurrentIndex(0);
@@ -684,7 +684,7 @@ void DeviceConfigurator::traverseDeviceTree(QTreeWidgetItem *parentItem, DeviceT
 
 void DeviceConfigurator::makeUnique(QStringList *devNames, QStringList *devBriefNames)
 {
-	QRegExp removeDigitsRx("\\d+$");
+	QRegularExpression removeDigitsRx("\\d+$");
 	QHash<QString, int> devNameCounts;
 	QHash<QString, int> devBriefNameCounts;
 	for (int i = 0; i < devNames->count(); i++) {
@@ -779,7 +779,7 @@ void DeviceConfigurator::optionComboBox_currentIndexChanged(int index)
 {
 	QComboBox *cb = (QComboBox *)sender();
 	QString currentOption(cb->itemText(index));
-	currentOption.replace(QRegExp(" - .*"), QString());
+	currentOption.replace(QRegularExpression(" - .*"), QString());
 	QTreeWidgetItem *item = (QTreeWidgetItem *)cb->itemData(index).toULongLong();
 	QString currentSlot(item->text(QMC2_SLOTCONFIG_COLUMN_SLOT));
 	DeviceTreeNode *parentNode = m_rootNode->findNode(m_rootNode, currentSlot);
@@ -1216,7 +1216,7 @@ void DeviceConfigurator::on_lineEditConfigurationName_textChanged(const QString 
 							if ( cbBIOS ) {
 								int index = -1;
 								if ( !biosValuePair.second.isEmpty() && !biosValuePair.second[i].isEmpty() )
-									index = cbBIOS->findText(QString("^%1(| / %2)$").arg(biosValuePair.second[i]).arg(tr("default")), Qt::MatchRegExp);
+									index = cbBIOS->findText(QString("^%1(| / %2)$").arg(biosValuePair.second[i]).arg(tr("default")), Qt::MatchRegularExpression);
 								if ( index >= 0 ) {
 									cbBIOS->blockSignals(true);
 									cbBIOS->setCurrentIndex(index);

@@ -1,6 +1,6 @@
 #if QMC2_JOYSTICK == 1
 
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include "settings.h"
 #include "joystick.h"
@@ -16,7 +16,7 @@ Joystick::Joystick(QObject *parent, int joystickEventTimeout, bool doAutoRepeat,
 	QObject(parent)
 {
 	if ( SDL_Init(SDL_INIT_JOYSTICK) == 0 ) {
-		QRegExp rx("(\\b.*\\b)\\1");
+		QRegularExpression rx("(\\b.*\\b)\\1");
 		for (int i = 0; i < SDL_NumJoysticks(); i++) {
 #if SDL_MAJOR_VERSION == 1
 			QString jsName(SDL_JoystickName(i));

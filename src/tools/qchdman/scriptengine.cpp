@@ -115,7 +115,7 @@ void ScriptEngine::dirStartEntryList(QString path, QString filter, bool subDirs)
 	if ( filter.isEmpty() )
 		nameFilters << "*";
 	else
-		nameFilters = filter.split(QRegExp(",.*"), Qt::SkipEmptyParts);
+		nameFilters = filter.split(QRegularExpression(",.*"), Qt::SkipEmptyParts);
 
 	if ( subDirs )
 		mEntryListIterator = new QDirIterator(path, nameFilters, QDir::Dirs | QDir::NoDotAndDotDot | QDir::Readable | QDir::CaseSensitive);
@@ -149,7 +149,7 @@ QStringList ScriptEngine::dirEntryList(QString path, QString filter, bool sort, 
 	if ( filter.isEmpty() )
 		nameFilters << "*";
 	else
-		nameFilters = filter.split(QRegExp(",.*"), Qt::SkipEmptyParts);
+		nameFilters = filter.split(QRegularExpression(",.*"), Qt::SkipEmptyParts);
 
 	mEntryListDir.setPath(path);
 	mEntryListDir.setFilter(QDir::Files | QDir::NoDotAndDotDot | QDir::Readable | QDir::CaseSensitive);
@@ -175,7 +175,7 @@ QStringList ScriptEngine::dirSubDirList(QString path, QString filter, bool sort,
 	if ( filter.isEmpty() )
 		nameFilters << "*";
 	else
-		nameFilters = filter.split(QRegExp(",.*"), Qt::SkipEmptyParts);
+		nameFilters = filter.split(QRegularExpression(",.*"), Qt::SkipEmptyParts);
 
 	mEntryListDir.setPath(path);
 	mEntryListDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot | QDir::Readable | QDir::CaseSensitive);
@@ -2855,7 +2855,7 @@ void ScriptEngine::processStarted(ProjectWidget *projectWidget)
 		projectItem->setText(QCHDMAN_PRJMON_PROGRESS, "000");
 		QString command = globalConfig->preferencesChdmanBinary();
 		foreach (QString arg, projectWidget->arguments) {
-			if ( arg.contains(QRegExp("\\s")) )
+			if ( arg.contains(QRegularExpression("\\s")) )
 				command += " \"" + arg + "\"";
 			else
 				command += " " + arg;

@@ -16,6 +16,7 @@
 #include <QXmlQuery>
 #include <QPalette>
 #include <QRegExp>
+#include <QRegularExpression>
 #include <QChar>
 #if defined(QMC2_OS_WIN)
 #include <windows.h>
@@ -499,7 +500,7 @@ void ROMAlyzer::showEvent(QShowEvent *e)
 	static bool initialCall = true;
 
 	QString userScopePath = Options::configPath();
-	QString variantName = QMC2_VARIANT_NAME.toLower().replace(QRegExp("\\..*$"), "");
+	QString variantName = QMC2_VARIANT_NAME.toLower().replace(QRegularExpression("\\..*$"), "");
 
 	// restore settings
 	checkBoxAppendReport->setChecked(qmc2Config->value(QMC2_FRONTEND_PREFIX + m_settingsKey + "/AppendReport", false).toBool());
@@ -2566,7 +2567,7 @@ void ROMAlyzer::chdManagerReadyReadStandardError()
 		if ( !s.isEmpty() ) {
 			log(tr("CHD manager: stderr: %1").arg(s));
 #if QMC2_CHD_CURRENT_VERSION >= 5
-			if ( s.contains(QRegExp(", \\d+\\.\\d+\\%\\ complete\\.\\.\\.")) ) {
+			if ( s.contains(QRegularExpression(", \\d+\\.\\d+\\%\\ complete\\.\\.\\.")) ) {
 				QRegExp rx(", (\\d+)\\.(\\d+)\\%\\ complete\\.\\.\\.");
 				int pos = rx.indexIn(s);
 				if ( pos > -1 ) {
@@ -2579,7 +2580,7 @@ void ROMAlyzer::chdManagerReadyReadStandardError()
 					chdManagerSHA1Success = true;
 			}
 #else
-			if ( s.contains(QRegExp("hunk \\d+/\\d+\\.\\.\\.")) ) {
+			if ( s.contains(QRegularExpression("hunk \\d+/\\d+\\.\\.\\.")) ) {
 				QRegExp rx("(\\d+)/(\\d+)");
 				int pos = rx.indexIn(s);
 				if ( pos > -1 ) {
@@ -3349,7 +3350,7 @@ void ROMAlyzer::copyToClipboard(bool onlyBadOrMissing)
 		}
 
 		QString cbText, cbLine;
-		QRegExp removeTrailingSpacesRx("\\s+$");
+		QRegularExpression removeTrailingSpacesRx("\\s+$");
 		for (int i = 0; i < columnTitles.count(); i++) {
 			if ( i == columnTitles.count() - 1 )
 				cbLine += columnTitles[i].leftJustified(columnWidths[i], ' ');
@@ -4695,9 +4696,9 @@ void CheckSumScannerThread::recursiveFileList(const QString &sDir, QStringList *
 
 int CheckSumScannerThread::fileType(QString fileName, bool &isZip, bool &is7z)
 {
-	static QRegExp zipRx("[Zz][Ii][Pp]");
-	static QRegExp sevenZipRx("7[Zz]");
-	static QRegExp chdRx("[Cc][Hh][Dd]");
+	static QRegularExpression zipRx("[Zz][Ii][Pp]");
+	static QRegularExpression sevenZipRx("7[Zz]");
+	static QRegularExpression chdRx("[Cc][Hh][Dd]");
 
 	QFileInfo fileInfo(fileName);
 	if ( fileInfo.isReadable() ) {

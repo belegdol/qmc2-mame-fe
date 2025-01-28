@@ -8,7 +8,7 @@
 #include <QMutex>
 #include <QWaitCondition>
 #include <QStringList>
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include "ui_imagechecker.h"
 #include "imagewidget.h"
@@ -95,9 +95,9 @@ class ImageChecker : public QDialog, public Ui::ImageChecker
 		QMap<int, ImageCheckerThread *> threadMap;
 		int passNumber;
 		int currentImageType;
-		QRegExp rxFourDigits;
-		QRegExp rxCharsToEscape;
-		QRegExp rxColonSepStr;
+		QRegularExpression rxFourDigits;
+		QRegularExpression rxCharsToEscape;
+		QRegularExpression rxColonSepStr;
 		ComboBoxWidget *comboBoxWidgetSoftwareLists;
 
 		ImageChecker(QWidget *parent = 0);

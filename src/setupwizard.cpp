@@ -359,7 +359,7 @@ void SetupWizard::importMameIni()
 				qApp->processEvents();
 			QString lineTrimmed(ts.readLine().trimmed());
 			if ( !lineTrimmed.isEmpty() && !lineTrimmed.startsWith('#') && !lineTrimmed.startsWith("<UNADORNED") ) {
-				QStringList tokens(lineTrimmed.split(QRegExp("\\s+"), Qt::SkipEmptyParts));
+				QStringList tokens(lineTrimmed.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts));
 				if ( tokens.count() > 1 ) {
 					QString option(tokens.at(0));
 					QString value(lineTrimmed.mid(lineTrimmed.indexOf(tokens.at(1), tokens.at(0).length())));
@@ -414,7 +414,7 @@ void SetupWizard::importUiIni()
 				qApp->processEvents();
 			QString lineTrimmed(ts.readLine().trimmed());
 			if ( !lineTrimmed.isEmpty() && !lineTrimmed.startsWith('#') && !lineTrimmed.startsWith("<UNADORNED") ) {
-				QStringList tokens(lineTrimmed.split(QRegExp("\\s+"), Qt::SkipEmptyParts));
+				QStringList tokens(lineTrimmed.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts));
 				if ( tokens.count() > 1 ) {
 					QString option(tokens.at(0));
 					QString value(lineTrimmed.mid(lineTrimmed.indexOf(tokens.at(1), tokens.at(0).length())));

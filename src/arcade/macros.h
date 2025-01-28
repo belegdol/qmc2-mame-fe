@@ -28,7 +28,7 @@
 
 #include <QStringList>
 #include <QString>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTime>
 #include <QDir>
 #include <stdio.h>
@@ -153,7 +153,7 @@
 // -debugqt
 #define QMC2_ARCADE_CLI_DEBUG_QT		(argumentList.indexOf("-debugqt") >= 0)
 // -h|-?|-help
-#define QMC2_ARCADE_CLI_HELP			(argumentList.indexOf(QRegExp("(-h|-\\?|-help)")) >= 0)
+#define QMC2_ARCADE_CLI_HELP			(argumentList.indexOf(QRegularExpression("(-h|-\\?|-help)")) >= 0)
 // argument validation
 #define QMC2_ARCADE_CLI_INVALID			(QMC2_ARCADE_CLI_EMU_INV || QMC2_ARCADE_CLI_THEME_INV || QMC2_ARCADE_CLI_CONS_INV || QMC2_ARCADE_CLI_LANG_INV || QMC2_ARCADE_CLI_VIDEO_INV || QMC2_ARCADE_CLI_JOY_INV)
 

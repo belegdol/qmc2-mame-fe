@@ -567,8 +567,8 @@ int TweakedQmlApplicationViewer::findIndex(QString pattern, int startIndex)
 	int foundIndex = startIndex;
 	bool indexFound = false;
 
-	QRegExp wildcard(pattern, Qt::CaseInsensitive, QRegExp::Wildcard);
-	QRegExp regexp(pattern, Qt::CaseInsensitive, QRegExp::RegExp);
+	QRegularExpression wildcard(pattern, Qt::CaseInsensitive, QRegularExpression::Wildcard);
+	QRegularExpression regexp(pattern, Qt::CaseInsensitive, QRegularExpression::RegExp);
 
 	for (int i = startIndex + 1; i < gameList.count() && !indexFound; i++) {
 		QString description = ((MachineObject *)gameList[i])->description();

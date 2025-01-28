@@ -3032,7 +3032,7 @@ void MainWindow::comboBoxSearch_editTextChanged_delayed()
 	pattern.replace(' ', ".* .*").replace(".*^", QString()).replace("$.*", QString());
 	listWidgetSearch->clear();
 
-	QRegExp patternRx(pattern, Qt::CaseInsensitive, QRegExp::RegExp2);
+	QRegularExpression patternRx(pattern, QRegularExpression::CaseInsensitiveOption);
 	if ( !patternRx.isValid() ) {
 		lastSearchText.clear();
 		lastNegatedMatch = negatedMatch;
@@ -3603,7 +3603,7 @@ void MainWindow::on_tabWidgetSoftwareDetail_currentChanged(int currentIndex)
 #endif
 				QString swInfo = qmc2MachineList->datInfoDb()->softwareInfo(listName, entryName);
 				if ( !swInfo.isEmpty() ) {
-					qmc2SoftwareNotesEditor->templateMap["$SOFTWARE_INFO$"] = swInfo.replace(QRegExp(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
+					qmc2SoftwareNotesEditor->templateMap["$SOFTWARE_INFO$"] = swInfo.replace(QRegularExpression(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
 					qmc2SoftwareNotesEditor->templateMap["$SOFTWARE_INFO_STATUS$"] = "OK";
 				} else {
 					qmc2SoftwareNotesEditor->templateMap["$SOFTWARE_INFO$"] = tr("No data available");
@@ -3630,7 +3630,7 @@ void MainWindow::on_tabWidgetSoftwareDetail_currentChanged(int currentIndex)
 				QString entryName = qmc2SoftwareList->currentItem->text(QMC2_SWLIST_COLUMN_NAME);
 				QString swInfo = qmc2MachineList->datInfoDb()->softwareInfo(listName, entryName);
 				if ( !swInfo.isEmpty() )
-					textBrowserSoftwareInfo->setHtml(swInfo.replace(QRegExp(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>")));
+					textBrowserSoftwareInfo->setHtml(swInfo.replace(QRegularExpression(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>")));
 				else
 					textBrowserSoftwareInfo->setHtml("<p>" + tr("No data available") + "</p>");
 				qmc2LastSoftwareInfoItem = qmc2SoftwareList->currentItem;
@@ -4279,7 +4279,7 @@ void MainWindow::on_tabWidgetMachineDetail_currentChanged(int currentIndex)
 						if ( emulator == "MESS" )
 							textBrowserMachineInfo->setHtml(messWikiToHtml(gameInfoText));
 						else
-							textBrowserMachineInfo->setHtml(gameInfoText.replace(QRegExp(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>")));
+							textBrowserMachineInfo->setHtml(gameInfoText.replace(QRegularExpression(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>")));
 					} else
 						textBrowserMachineInfo->setHtml("<h2>" + qmc2MachineListItemHash.value(machineName)->text(QMC2_MACHINELIST_COLUMN_MACHINE) + "</h2>" + tr("<p>No data available</p>"));
 				} else
@@ -4305,7 +4305,7 @@ void MainWindow::on_tabWidgetMachineDetail_currentChanged(int currentIndex)
 				if ( !emuInfoKey.isEmpty() ) {
 					QString emuInfoText = qmc2MachineList->datInfoDb()->emuInfo(emuInfoKey);
 					if ( !emuInfoText.isEmpty() )
-						textBrowserEmuInfo->setHtml(emuInfoText.replace(QRegExp(QString("(\\w+://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>")));
+						textBrowserEmuInfo->setHtml(emuInfoText.replace(QRegularExpression(QString("(\\w+://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>")));
 					else
 						textBrowserEmuInfo->setHtml(tr("No data available"));
 				} else
@@ -4484,7 +4484,7 @@ void MainWindow::on_tabWidgetMachineDetail_currentChanged(int currentIndex)
 				if ( !emuInfoKey.isEmpty() ) {
 					QString emuInfoText = qmc2MachineList->datInfoDb()->emuInfo(emuInfoKey);
 					if ( !emuInfoText.isEmpty() ) {
-						qmc2SystemNotesEditor->templateMap["$EMU_INFO$"] = emuInfoText.replace(QRegExp(QString("(\\w+://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
+						qmc2SystemNotesEditor->templateMap["$EMU_INFO$"] = emuInfoText.replace(QRegularExpression(QString("(\\w+://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
 						qmc2SystemNotesEditor->templateMap["$EMU_INFO_STATUS$"] = "OK";
 					} else {
 						qmc2SystemNotesEditor->templateMap["$EMU_INFO$"] = tr("No data available");
@@ -4542,7 +4542,7 @@ void MainWindow::on_tabWidgetMachineDetail_currentChanged(int currentIndex)
 						if ( emulator == "MESS" )
 							qmc2SystemNotesEditor->templateMap["$GAME_INFO$"] = messWikiToHtml(gameInfoText);
 						else
-							qmc2SystemNotesEditor->templateMap["$GAME_INFO$"] = gameInfoText.replace(QRegExp(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
+							qmc2SystemNotesEditor->templateMap["$GAME_INFO$"] = gameInfoText.replace(QRegularExpression(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
 						qmc2SystemNotesEditor->templateMap["$GAME_INFO_STATUS$"] = "OK";
 					} else {
 						qmc2SystemNotesEditor->templateMap["$GAME_INFO$"] = tr("No data available");
@@ -5019,7 +5019,7 @@ void MainWindow::action_embedEmulator_triggered()
 		QList<WId> winIdList;
 		int xwininfoRetries = 0;
 		while ( winIdList.isEmpty() && xwininfoRetries++ < QMC2_MAX_XWININFO_RETRIES ) {
-			WId windowId = x11FindWindowId(QRegExp::escape(QString("MAME: %1").arg(machineItem ? machineItem->text(QMC2_MACHINELIST_COLUMN_MACHINE) : "")), QRegExp::escape(QString("QMC2-MAME-ID-%1").arg(machineId)));
+			WId windowId = x11FindWindowId(QRegularExpression::escape(QString("MAME: %1").arg(machineItem ? machineItem->text(QMC2_MACHINELIST_COLUMN_MACHINE) : "")), QRegularExpression::escape(QString("QMC2-MAME-ID-%1").arg(machineId)));
 			if ( windowId )
 				winIdList << windowId;
 
@@ -9357,7 +9357,7 @@ void MainWindow::commonWebSearch(QString baseUrl, QTreeWidgetItem *item)
 		searchPattern = item->text(QMC2_MACHINELIST_COLUMN_MACHINE) + " " + manu;
 	else
 		searchPattern = item->text(QMC2_MACHINELIST_COLUMN_MACHINE);
-	searchPattern = searchPattern.replace(QRegExp("\\((.*)\\)"), "\\1").replace(QRegExp("[\\\\,\\.\\;\\:\\'\\/\\(\\)\\[\\]\\{\\}]"), " ").replace("&", "%26").replace(" - ", " ").simplified().trimmed();
+	searchPattern = searchPattern.replace(QRegularExpression("\\((.*)\\)"), "\\1").replace(QRegularExpression("[\\\\,\\.\\;\\:\\'\\/\\(\\)\\[\\]\\{\\}]"), " ").replace("&", "%26").replace(" - ", " ").simplified().trimmed();
 	QStringList wordList(searchPattern.split(' ', Qt::SkipEmptyParts));
 	wordList.removeAll("<unknown>");
 	wordList.removeAll("<generic>");
@@ -9547,11 +9547,11 @@ QString &MainWindow::messWikiToHtml(QString &wikiText)
 	wikiText.clear();
 	foreach (QString wikiLine, wikiLines) {
 		QString wikiLineTrimmed = wikiLine.trimmed();
-		if ( wikiLine.indexOf(QRegExp("\\s*<code>")) == 0 ) {
+		if ( wikiLine.indexOf(QRegularExpression("\\s*<code>")) == 0 ) {
 			codeOn = true;
 			continue;
 		} 
-		if ( wikiLine.indexOf(QRegExp("\\s*</code>")) == 0 )
+		if ( wikiLine.indexOf(QRegularExpression("\\s*</code>")) == 0 )
 			codeOn = false;
 		bool listDetected = ( (wikiLineTrimmed.startsWith("* ") && wikiLine[wikiLine.indexOf("*") + 2] != ' ') || wikiLineTrimmed.startsWith("- ") );
 		if ( wikiLine == "  * " || wikiLine == "  - " || wikiLine == "  *" || wikiLine == "  -" ) continue; // this is an "artifact"... ignore :)
@@ -9578,7 +9578,7 @@ QString &MainWindow::messWikiToHtml(QString &wikiText)
 			preOn = codeOn = false;
 		}
 		int listDepth = 0;
-		if ( listDetected ) listDepth = wikiLine.indexOf(QRegExp("[\\-\\*]")) / 2;
+		if ( listDetected ) listDepth = wikiLine.indexOf(QRegularExpression("[\\-\\*]")) / 2;
 		if ( !preOn ) {
 			wikiLine = wikiLineTrimmed;
 			preCounter = 0;
@@ -9591,19 +9591,19 @@ QString &MainWindow::messWikiToHtml(QString &wikiText)
 			wikiLine.replace(wikiLine.length() - 2, 2, "</i>");
 		}
 		foreach (QString snippet, wikiLine.split("//")) {
-			if ( snippet.indexOf(QRegExp("^.*(http:|https:|ftp:)$")) < 0 )
+			if ( snippet.indexOf(QRegularExpression("^.*(http:|https:|ftp:)$")) < 0 )
 				wikiLine.replace(QString("//%1//").arg(snippet), QString("<i>%1</i>").arg(snippet));
 		}
-		wikiLine.replace(QRegExp("\\*\\*(.*)\\*\\*"), "<b>\\1</b>");
-		wikiLine.replace(QRegExp("__(.*)__"), "<u>\\1</u>");
-		wikiLine.replace(QRegExp("\\[\\[wp>([^\\]]*)\\]\\]"), QLatin1String("\\1 -- http://en.wikipedia.org/wiki/\\1"));
+		wikiLine.replace(QRegularExpression("\\*\\*(.*)\\*\\*"), "<b>\\1</b>");
+		wikiLine.replace(QRegularExpression("__(.*)__"), "<u>\\1</u>");
+		wikiLine.replace(QRegularExpression("\\[\\[wp>([^\\]]*)\\]\\]"), QLatin1String("\\1 -- http://en.wikipedia.org/wiki/\\1"));
 		foreach (QString snippet, wikiLine.split("[[")) {
-			if ( snippet.indexOf(QRegExp("\\]\\]|\\|")) > 0 ) {
-				QStringList subSnippets(snippet.split(QRegExp("\\]\\]|\\|")));
+			if ( snippet.indexOf(QRegularExpression("\\]\\]|\\|")) > 0 ) {
+				QStringList subSnippets(snippet.split(QRegularExpression("\\]\\]|\\|")));
 				wikiLine.replace(QString("[[%1]]").arg(snippet), subSnippets[0]);
 			}
 		}
-		wikiLine.replace(QRegExp(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
+		wikiLine.replace(QRegularExpression(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
 		if ( wikiLine.startsWith("&lt;h2&gt;======") && wikiLine.endsWith("======&lt;/h2&gt;") ) {
 			if ( tableOpen ) { wikiText += "</table><p>"; tableOpen = false; }
 			if ( ulLevel > 0 ) { for (int i = 0; i < ulLevel; i++) wikiText += "</ul>"; ulLevel = 0; wikiText += "<p>"; }
@@ -9629,7 +9629,7 @@ QString &MainWindow::messWikiToHtml(QString &wikiText)
 			if ( ulLevel > 0 ) { for (int i = 0; i < ulLevel; i++) wikiText += "</ul>"; ulLevel = 0; wikiText += "<p>"; }
 			if ( olLevel > 0 ) { for (int i = 0; i < olLevel; i++) wikiText += "</ol>"; olLevel = 0; wikiText += "<p>"; }
 			wikiText += "<b>" + wikiLine.mid(3, wikiLine.length() - 6) + "</b>";
-		} else if ( wikiLine.indexOf(QRegExp("\\* \\S")) == 0 ) {
+		} else if ( wikiLine.indexOf(QRegularExpression("\\* \\S")) == 0 ) {
 			if ( tableOpen ) { wikiText += "</table><p>"; tableOpen = false; }
 			if ( olLevel > 0 ) { for (int i = 0; i < olLevel; i++) wikiText += "</ol>"; olLevel = 0; wikiText += "<p>"; }
 			if ( listDepth > ulLevel ) {
@@ -9640,7 +9640,7 @@ QString &MainWindow::messWikiToHtml(QString &wikiText)
 				ulLevel--;
 			}
 			wikiText += "<li>" + wikiLine.mid(2) + "</li>";
-		} else if ( wikiLine.indexOf(QRegExp("\\- \\S")) == 0 ) {
+		} else if ( wikiLine.indexOf(QRegularExpression("\\- \\S")) == 0 ) {
 			if ( tableOpen ) { wikiText += "</table><p>"; tableOpen = false; }
 			if ( ulLevel > 0 ) { for (int i = 0; i < ulLevel; i++) wikiText += "</ul>"; ulLevel = 0; wikiText += "<p>"; }
 			if ( listDepth > olLevel ) {
@@ -9656,7 +9656,7 @@ QString &MainWindow::messWikiToHtml(QString &wikiText)
 			if ( olLevel > 0 ) { for (int i = 0; i < olLevel; i++) wikiText += "</ol>"; olLevel = 0; wikiText += "<p>"; }
 			if ( !tableOpen ) { wikiText += "<p><table border=\"1\">"; tableOpen = true; }
 			wikiText += "<tr>";
-			foreach (QString cell, wikiLine.split(QRegExp("\\^|\\|"), Qt::SkipEmptyParts)) wikiText += "<td>" + cell + "</td>";
+			foreach (QString cell, wikiLine.split(QRegularExpression("\\^|\\|"), Qt::SkipEmptyParts)) wikiText += "<td>" + cell + "</td>";
 			wikiText += "</tr>";
 		} else if ( wikiLine.startsWith("^ ") && wikiLine.endsWith(" ^") ) {
 			if ( ulLevel > 0 ) { for (int i = 0; i < ulLevel; i++) wikiText += "</ul>"; ulLevel = 0; wikiText += "<p>"; }

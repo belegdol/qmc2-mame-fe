@@ -2315,7 +2315,7 @@ void MachineList::loadReadyReadStandardOutput()
 	static QString dtdBuffer;
 	static QString setXmlBuffer;
 	static QString currentSetName;
-	static QRegExp rxDescYearManu("\\<description\\>$|\\<year\\>$|\\<manufacturer\\>$");
+	static QRegularExpression rxDescYearManu("\\<description\\>$|\\<year\\>$|\\<manufacturer\\>$");
 
 	// this makes the GUI much more responsive, but is HAS to be called before loadProc->readAllStandardOutput()!
 	if ( QCoreApplication::hasPendingEvents() )
@@ -3305,7 +3305,7 @@ void MachineList::loadCategoryIni()
 		mainProgressBar->setRange(0, categoryIniFile.size());
 		QTextStream tsCategoryIni(&categoryIniFile);
 		QString categoryName;
-		QRegExp rxCategoryName("^\\[.*\\]$");
+		QRegularExpression rxCategoryName("^\\[.*\\]$");
 		QString guiLanguage(qmc2Config->value(QMC2_FRONTEND_PREFIX + "GUI/Language", "us").toString());
 		QString trStart("tr[");
 		QChar trEnd(']');

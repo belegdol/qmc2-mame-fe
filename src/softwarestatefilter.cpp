@@ -112,7 +112,7 @@ void SoftwareStateFilter::on_checkBoxStateFilter_toggled(bool checked)
 		return;
 
 	QString itemText = qmc2SoftwareList->toolBoxSoftwareList->itemText(QMC2_SWLIST_KNOWN_SW_PAGE);
-	itemText.remove(QRegExp(" \\| " + tr("filtered") + "$"));
+	itemText.remove(QRegularExpression(" \\| " + tr("filtered") + "$"));
 	if ( checked )
 		qmc2SoftwareList->toolBoxSoftwareList->setItemText(QMC2_SWLIST_KNOWN_SW_PAGE, itemText + " | " + tr("filtered"));
 	else

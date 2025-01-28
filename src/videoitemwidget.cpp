@@ -1,6 +1,6 @@
 #if defined(QMC2_YOUTUBE_ENABLED)
 
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include "macros.h"
 #include "videoitemwidget.h"
@@ -124,7 +124,7 @@ void VideoItemWidget::setTitle(QString vTitle)
 	QString htmlText = "<html><body><table cellpadding=\"0\" border=\"0\" width=\"100%\" height=\"100%\">";
 	if ( itemType == VIDEOITEM_TYPE_LOCAL_MOVIE || itemType == VIDEOITEM_TYPE_VIDEO_SNAP ) {
 		QString vidCopy = videoID;
-		vidCopy.remove(QRegExp("^\\#\\:"));
+		vidCopy.remove(QRegularExpression("^\\#\\:"));
 		htmlText += "<tr><td width=\"5%\" align=\"right\" valign=\"top\">" + tr("Path:") + "</td><td width=\"95%\" valign=\"top\"><b>" + vidCopy + "</b></td></tr>";
 	} else {
 		htmlText += "<tr><td width=\"5%\" align=\"right\" valign=\"top\">" + tr("Title:") + "</td><td width=\"95%\" valign=\"top\"><b>" + videoTitle + "</b></td></tr>";

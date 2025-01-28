@@ -9,6 +9,7 @@
 #include <QLineEdit>
 #include <QTreeWidgetItem>
 #include <QScrollBar>
+#include <QRegExp>
 
 #include <stdlib.h>
 #include <algorithm> // std::sort()
@@ -1883,7 +1884,7 @@ void EmulatorOptions::importFromIni(bool global, QString useFileName)
 			QString lineTrimmed = ts.readLine().trimmed();
 			lineCounter++;
 			if ( !lineTrimmed.isEmpty() && !lineTrimmed.startsWith("#") && !lineTrimmed.startsWith("<UNADORNED") ) {
-				QStringList words = lineTrimmed.split(QRegExp("\\s+"));
+				QStringList words = lineTrimmed.split(QRegularExpression("\\s+"));
 				if ( words.count() > 0 ) {
 					QString option = words[0];
 					// lookup option in map

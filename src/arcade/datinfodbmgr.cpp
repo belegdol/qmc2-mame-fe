@@ -9,7 +9,7 @@
 #include <QDateTime>
 #include <QTextStream>
 #include <QTextCodec>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QDir>
 #include <QUuid>
 
@@ -550,8 +550,8 @@ void DatInfoDatabaseManager::importSoftwareInfo(QStringList pathList, bool fromS
 			QTextStream ts(&swInfoDB);
 			ts.setCodec(QTextCodec::codecForName("UTF-8"));
 			quint64 recordsProcessed = 0, pendingUpdates = 0;
-			QRegExp markRegExp("^\\$\\S+\\=\\S+\\,$");
-			QRegExp reduceLinesRegExp("(<br>){2,}");
+			QRegularExpression markRegExp("^\\$\\S+\\=\\S+\\,$");
+			QRegularExpression reduceLinesRegExp("(<br>){2,}");
 			while ( !ts.atEnd() ) {
 				QString singleLineSimplified = ts.readLine().simplified();
 				bool containsMark = singleLineSimplified.contains(markRegExp);
@@ -690,7 +690,7 @@ void DatInfoDatabaseManager::importEmuInfo(QStringList pathList, bool fromScratc
 			QTextStream ts(&emuInfoDB);
 			ts.setCodec(QTextCodec::codecForName("UTF-8"));
 			quint64 recordsProcessed = 0, pendingUpdates = 0;
-			QRegExp lineBreakRx("(<br>){2,}");
+			QRegularExpression lineBreakRx("(<br>){2,}");
 			while ( !ts.atEnd() ) {
 				QString singleLineSimplified = ts.readLine().simplified();
 				bool startsWithDollarInfo = singleLineSimplified.startsWith("$info=");
@@ -823,7 +823,7 @@ void DatInfoDatabaseManager::importMachineInfo(QStringList pathList, QStringList
 			QTextStream ts(&machineInfoDB);
 			ts.setCodec(QTextCodec::codecForName("UTF-8"));
 			quint64 recordsProcessed = 0, pendingUpdates = 0;
-			QRegExp lineBreakRx("(<br>){2,}");
+			QRegularExpression lineBreakRx("(<br>){2,}");
 			while ( !ts.atEnd() ) {
 				QString singleLineSimplified = ts.readLine().simplified();
 				bool startsWithDollarInfo = singleLineSimplified.startsWith("$info=");

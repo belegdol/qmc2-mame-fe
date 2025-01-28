@@ -2,6 +2,7 @@
 #include <QtGui>
 #include <QFile>
 #include <QMap>
+#include <QRegExp>
 
 #include "settings.h"
 #include "processmanager.h"
@@ -84,7 +85,7 @@ int ProcessManager::start(QString &command, QStringList &arguments, bool autoCon
 #if defined(QMC2_OS_WIN)
 				if ( arg == "-snapname" )
 					snapnameActive = true;
-				if ( arg.contains(QRegExp("(\\s|\\\\|\\(|\\)|\\/|\\;)")) ) {
+				if ( arg.contains(QRegularExpression("(\\s|\\\\|\\(|\\)|\\/|\\;)")) ) {
 					arg = "\"" + arg + "\"";
 					if ( snapnameActive ) {
 						if ( arg.contains("/") )
@@ -93,7 +94,7 @@ int ProcessManager::start(QString &command, QStringList &arguments, bool autoCon
 					}
 				}
 #else
-				if ( arg.contains(QRegExp("(\\s|\\\\|\\(|\\)|\\;)")) )
+				if ( arg.contains(QRegularExpression("(\\s|\\\\|\\(|\\)|\\;)")) )
 					arg = "\"" + arg + "\"";
 #endif
 			}

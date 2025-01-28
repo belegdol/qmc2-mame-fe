@@ -16,7 +16,7 @@ ECMAScriptHighlighter::ECMAScriptHighlighter(QTextDocument *parent) :
 	mKeywordFormat.setFontWeight(QFont::Bold);
 	HighlightingRule rule;
 	foreach (QString keyword, keywords) {
-		rule.pattern = QRegExp("\\b" + keyword + "\\b");
+		rule.pattern = QRegularExpression("\\b" + keyword + "\\b");
 		rule.format = mKeywordFormat;
 		mHighlightingRules.append(rule);
 	}
@@ -26,27 +26,27 @@ ECMAScriptHighlighter::ECMAScriptHighlighter(QTextDocument *parent) :
 	mScriptEngineFormat.setForeground(Qt::darkMagenta);
 	mScriptEngineFormat.setFontWeight(QFont::Bold);
 	foreach (QString keyword, keywords) {
-		rule.pattern = QRegExp("\\b" + keyword + "\\b");
+		rule.pattern = QRegularExpression("\\b" + keyword + "\\b");
 		rule.format = mScriptEngineFormat;
 		mHighlightingRules.append(rule);
 	}
 
 	mQuotationFormat.setForeground(Qt::darkGreen);
-	rule.pattern = QRegExp("\"[^\"]*\"|'[^']*'");
+	rule.pattern = QRegularExpression("\"[^\"]*\"|'[^']*'");
 	rule.format = mQuotationFormat;
 	mHighlightingRules.append(rule);
 
 	mFunctionFormat.setForeground(Qt::blue);
-	rule.pattern = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
+	rule.pattern = QRegularExpression("\\b[A-Za-z0-9_]+(?=\\()");
 	rule.format = mFunctionFormat;
 	mHighlightingRules.append(rule);
 
-	mSingleLineCommentExpression = QRegExp("(?=[^\"]*)//(?=[^\"]*)|(?=[^']*)//(?=[^']*)");
+	mSingleLineCommentExpression = QRegularExpression("(?=[^\"]*)//(?=[^\"]*)|(?=[^']*)//(?=[^']*)");
 	mSingleLineCommentFormat.setForeground(Qt::darkGray);
 	mSingleLineCommentFormat.setFontItalic(true);
 
-	mMultiLineCommentStartExpression = QRegExp("(?=[^\"]*)/\\*(?=[^\"]*)|(?=[^']*)/\\*(?=[^']*)");
-	mMultiLineCommentEndExpression = QRegExp("(?=[^\"]*)\\*/(?=[^\"]*)|(?=[^']*)\\*/(?=[^']*)");
+	mMultiLineCommentStartExpression = QRegularExpression("(?=[^\"]*)/\\*(?=[^\"]*)|(?=[^']*)/\\*(?=[^']*)");
+	mMultiLineCommentEndExpression = QRegularExpression("(?=[^\"]*)\\*/(?=[^\"]*)|(?=[^']*)\\*/(?=[^']*)");
 	mMultiLineCommentFormat.setForeground(Qt::darkGray);
 	mMultiLineCommentFormat.setFontItalic(true);
 }
@@ -54,7 +54,7 @@ ECMAScriptHighlighter::ECMAScriptHighlighter(QTextDocument *parent) :
 void ECMAScriptHighlighter::highlightBlock(const QString &text)
 {
 	foreach (const HighlightingRule &rule, mHighlightingRules) {
-		QRegExp expression(rule.pattern);
+		QRegularExpression expression(rule.pattern);
 		int index = expression.indexIn(text);
 		while ( index >= 0 ) {
 			int length = expression.matchedLength();

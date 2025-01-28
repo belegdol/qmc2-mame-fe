@@ -14,6 +14,7 @@
 #include <QHash>
 #include <QLabel>
 #include <QChar>
+#include <QRegExp>
 
 #include <algorithm> // std::sort()
 
@@ -2224,7 +2225,7 @@ void SoftwareList::verifyReadyReadStandardOutput()
 	foreach (QString line, lines) {
 		line = line.simplified();
 		if ( !line.isEmpty() ) {
-			QStringList words(line.split(QRegExp("\\s+"), Qt::SkipEmptyParts));
+			QStringList words(line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts));
 			if ( line.startsWith("romset") ) {
 				progressBar->setValue(progressBar->value() + 1);
 				QStringList romsetWords(words.at(1).split(':', Qt::SkipEmptyParts));
@@ -2385,7 +2386,7 @@ void SoftwareList::on_toolButtonToggleStatenameAdjustment_clicked(bool checked)
 void SoftwareList::on_toolButtonSoftwareStates_toggled(bool checked)
 {
 	QString itemText(toolBoxSoftwareList->itemText(QMC2_SWLIST_KNOWN_SW_PAGE));
-	itemText.remove(QRegExp(" \\| " + tr("filtered") + "$"));
+	itemText.remove(QRegularExpression(" \\| " + tr("filtered") + "$"));
 	if ( checked ) {
 		toolButtonSoftwareStates->setMenu(menuSoftwareStates);
 		if ( isReady ) {
@@ -3365,7 +3366,7 @@ void SoftwareList::comboBoxSearch_editTextChanged_delayed()
 	}
 	pattern.replace(' ', ".* .*").replace(".*^", "").replace("$.*", "");
 	treeWidgetSearchResults->clear();
-	QRegExp patternRx(QRegExp(pattern, Qt::CaseInsensitive, QRegExp::RegExp2));
+	QRegularExpression patternRx(QRegularExpression(pattern, QRegularExpression::CaseInsensitiveOption));
 	if ( !patternRx.isValid() ) {
 		lastSearchText.clear();
 		lastNegatedMatch = negatedMatch;

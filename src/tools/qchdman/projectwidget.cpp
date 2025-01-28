@@ -749,7 +749,7 @@ void ProjectWidget::readyReadStandardOutput()
 	int i;
 	for (i = 0; i < sl.count(); i++) {
 		s = sl[i];
-		s.remove(QRegExp("\\s+$"));
+		s.remove(QRegularExpression("\\s+$"));
 		if ( !s.isEmpty() ) {
 			if ( globalConfig->preferencesLogChannelNames() )
 				log(tr("stdout") + ": " + s);
@@ -763,12 +763,12 @@ void ProjectWidget::readyReadStandardError()
 {
 	QString s = chdmanProc->readAllStandardError();
 	stderrOutput += s;
-	QStringList sl = s.split(QRegExp("(\\\n|\\\r)"), Qt::SkipEmptyParts);
+	QStringList sl = s.split(QRegularExpression("(\\\n|\\\r)"), Qt::SkipEmptyParts);
 	sl.removeDuplicates();
 	int percent = 0;
 	for (int i = 0; i < sl.count(); i++) {
 		s = sl[i];
-		s.remove(QRegExp("\\s+$"));
+		s.remove(QRegularExpression("\\s+$"));
 		if ( !s.isEmpty() ) {
 			if ( globalConfig->preferencesLogChannelNames() )
 				log(tr("stderr") + ": " + s);
@@ -785,8 +785,8 @@ void ProjectWidget::readyReadStandardError()
 			case QCHDMAN_PRJ_EXTRACT_HD:
 			case QCHDMAN_PRJ_EXTRACT_CD:
 			case QCHDMAN_PRJ_EXTRACT_LD:
-				if ( s.contains(QRegExp(", \\d+\\.\\d+\\%\\ complete\\.\\.\\.")) ) {
-					QRegExp rx(", (\\d+)\\.(\\d+)\\%\\ complete\\.\\.\\.");
+				if ( s.contains(QRegularExpression(", \\d+\\.\\d+\\%\\ complete\\.\\.\\.")) ) {
+					QRegularExpression rx(", (\\d+)\\.(\\d+)\\%\\ complete\\.\\.\\.");
 					int pos = rx.indexIn(s);
 					if ( pos > -1 ) {
 						int decimal = rx.cap(2).toInt();
@@ -1039,7 +1039,7 @@ void ProjectWidget::on_comboBoxCreateHDFromTemplate_currentIndexChanged(int inde
 	if ( index > 0 ) {
 		QStringList entryInfo = ui->comboBoxCreateHDFromTemplate->currentText().split(": ", Qt::SkipEmptyParts);
 		QString vendorName = entryInfo[0];
-		QString diskName = entryInfo[1].remove(QRegExp(" \\(.*\\)$"));
+		QString diskName = entryInfo[1].remove(QRegularExpression(" \\(.*\\)$"));
 		QList<DiskGeometry> geoList = MainWindow::hardDiskTemplates[vendorName];
 		bool found = false;
 		DiskGeometry geo;
@@ -1397,7 +1397,7 @@ void ProjectWidget::copyCommandToClipboard()
 	on_toolButtonRun_clicked(true);
 	QString command = globalConfig->preferencesChdmanBinary();
 	foreach (QString arg, arguments) {
-		if ( arg.contains(QRegExp("\\s")) )
+		if ( arg.contains(QRegularExpression("\\s")) )
 			command += " \"" + arg + "\"";
 		else
 			command += " " + arg;

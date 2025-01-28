@@ -200,7 +200,7 @@ void DemoModeDialog::on_pushButtonRunDemo_clicked()
 			QStringList excludedCategories = qmc2Config->value(QMC2_FRONTEND_PREFIX + "DemoMode/ExcludedCategories", QStringList()).toStringList();
 			int minDrvStatus = comboBoxDriverStatus->currentIndex();
 			QString nameFilter = lineEditNameFilter->text();
-			QRegExp nameFilterRegExp(nameFilter);
+			QRegularExpression nameFilterRegExp(nameFilter);
 			if ( !nameFilter.isEmpty() && !nameFilterRegExp.isValid() )
 				qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("WARNING: demo mode: the name filter regular expression is invalid"));
 			foreach (QString game, qmc2MachineListItemHash.keys()) {

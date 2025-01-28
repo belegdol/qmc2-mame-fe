@@ -14,6 +14,7 @@
 #include <QTimer>
 #include <QLocale>
 #include <QTest>
+#include <QRegExp>
 
 #include <time.h>
 #if defined(QMC2_OS_WIN)
@@ -793,7 +794,7 @@ class FileSystemModel : public QAbstractItemModel
 					return false;
 				else {
 					QFileInfo fileInfo(item->fileName());
-					return (fileInfo.suffix().indexOf(QRegExp("[Pp][Dd][Ff]")) >= 0);
+					return (fileInfo.suffix().indexOf(QRegularExpression("[Pp][Dd][Ff]")) >= 0);
 				}
 			} else
 				return false;
@@ -807,7 +808,7 @@ class FileSystemModel : public QAbstractItemModel
 					return false;
 				else {
 					QFileInfo fileInfo(item->fileName());
-					return (fileInfo.suffix().indexOf(QRegExp("[Hh][Tt][Mm][Ll]")) >= 0 || fileInfo.suffix().indexOf(QRegExp("[Hh][Tt][Mm]")) >= 0);
+					return (fileInfo.suffix().indexOf(QRegularExpression("[Hh][Tt][Mm][Ll]")) >= 0 || fileInfo.suffix().indexOf(QRegularExpression("[Hh][Tt][Mm]")) >= 0);
 				}
 			} else
 				return false;
@@ -821,7 +822,7 @@ class FileSystemModel : public QAbstractItemModel
 					return false;
 				else {
 					QFileInfo fileInfo(item->fileName());
-					return (fileInfo.suffix().indexOf(QRegExp("[Pp][Ss]")) >= 0);
+					return (fileInfo.suffix().indexOf(QRegularExpression("[Pp][Ss]")) >= 0);
 				}
 			} else
 				return false;

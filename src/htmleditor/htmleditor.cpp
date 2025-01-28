@@ -37,7 +37,7 @@
 #include <QDir>
 #include <QCache>
 #include <QHash>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QDesktopServices>
 #include <QScreen>
 #include <QToolButton>
@@ -1287,7 +1287,7 @@ QString HtmlEditor::systemInfo(QString id)
 	if ( sysInfo.isEmpty() )
 		sysInfo = tr("No data available");
 	else
-		sysInfo.replace(QRegExp(QString("((http|https|ftp)://%1)").arg(qmc2MainWindow->urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
+		sysInfo.replace(QRegularExpression(QString("((http|https|ftp)://%1)").arg(qmc2MainWindow->urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
 	return sysInfo;
 }
 
@@ -1297,7 +1297,7 @@ QString HtmlEditor::emuInfo(QString id)
 	if ( emulatorInfo.isEmpty() )
 		emulatorInfo = tr("No data available");
 	else
-		emulatorInfo.replace(QRegExp(QString("((http|https|ftp)://%1)").arg(qmc2MainWindow->urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
+		emulatorInfo.replace(QRegularExpression(QString("((http|https|ftp)://%1)").arg(qmc2MainWindow->urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
 	return emulatorInfo;
 }
 
@@ -1346,7 +1346,7 @@ QString HtmlEditor::softwareInfo(QString list, QString id)
 	if ( softInfo.isEmpty() )
 		softInfo = tr("No data available");
 	else
-		softInfo.replace(QRegExp(QString("((http|https|ftp)://%1)").arg(qmc2MainWindow->urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
+		softInfo.replace(QRegularExpression(QString("((http|https|ftp)://%1)").arg(qmc2MainWindow->urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
 	return softInfo;
 }
 

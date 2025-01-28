@@ -16,14 +16,14 @@ protected:
 private:
 	struct HighlightingRule
 	{
-		QRegExp pattern;
+		QRegularExpression pattern;
 		QTextCharFormat format;
 	};
 	QVector<HighlightingRule> mHighlightingRules;
 
-	QRegExp mMultiLineCommentStartExpression;
-	QRegExp mMultiLineCommentEndExpression;
-	QRegExp mSingleLineCommentExpression;
+	QRegularExpression mMultiLineCommentStartExpression;
+	QRegularExpression mMultiLineCommentEndExpression;
+	QRegularExpression mSingleLineCommentExpression;
 
 	QTextCharFormat mKeywordFormat;
 	QTextCharFormat mSingleLineCommentFormat;

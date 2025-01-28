@@ -650,7 +650,7 @@
 #define QMC2_CLI_OPT_RECONFIGURE		(qApp->arguments().indexOf("-r") >= 0)
 
 // -help/-?/-h: show usage help and exit
-#define QMC2_CLI_OPT_HELP			(qApp->arguments().indexOf(QRegExp("(-help|-\\?|-h)")) >= 0)
+#define QMC2_CLI_OPT_HELP			(qApp->arguments().indexOf(QRegularExpression("(-help|-\\?|-h)")) >= 0)
 
 // determine which type of memory infomation is available
 #if defined(_SC_PHYS_PAGES) && defined(_SC_PAGESIZE) && defined(_SC_AVPHYS_PAGES)

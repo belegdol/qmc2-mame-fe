@@ -2146,7 +2146,7 @@ bool CollectionRebuilderThread::checkSumExists(QString sha1, QString crc, quint6
 				return true;
 			else { // rare case so shouldn't hurt
 				QStringList uniqueKeys(m_hashCache.uniqueKeys());
-				return uniqueKeys.indexOf(QRegExp(QString(".*-%1-%2").arg(crc).arg(size))) >= 0;
+				return uniqueKeys.indexOf(QRegularExpression(QString(".*-%1-%2").arg(crc).arg(size))) >= 0;
 			}
 		} else {
 			if ( m_hashCache.contains(QString("%1-%2-%3").arg(sha1).arg(crc).arg(size)) )

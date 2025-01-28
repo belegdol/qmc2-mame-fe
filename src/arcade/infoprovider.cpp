@@ -46,7 +46,7 @@ QString InfoProvider::requestInfo(const QString &id, InfoClass infoClass)
 					if ( isMessGameInfo(id) )
 						infoText = messWikiToHtml(infoText);
 					else
-						infoText.replace(QRegExp(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
+						infoText.replace(QRegularExpression(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
 					break;
 				}
 			}
@@ -56,7 +56,7 @@ QString InfoProvider::requestInfo(const QString &id, InfoClass infoClass)
 		if ( datInfoDb()->existsEmuInfo(id) ) {
 			QString newEmuInfo = datInfoDb()->emuInfo(id);
 			if ( !newEmuInfo.isEmpty() )
-				infoText = newEmuInfo.replace(QRegExp(QString("(\\w+://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
+				infoText = newEmuInfo.replace(QRegularExpression(QString("(\\w+://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
 		}
 		break;
 	case InfoProvider::InfoClassSoft:
@@ -79,11 +79,11 @@ QString &InfoProvider::messWikiToHtml(QString &wikiText)
 	wikiText.clear();
 	foreach (QString wikiLine, wikiLines) {
 		QString wikiLineTrimmed = wikiLine.trimmed();
-		if ( wikiLine.indexOf(QRegExp("\\s*<code>")) == 0 ) {
+		if ( wikiLine.indexOf(QRegularExpression("\\s*<code>")) == 0 ) {
 			codeOn = true;
 			continue;
 		}
-		if ( wikiLine.indexOf(QRegExp("\\s*</code>")) == 0 )
+		if ( wikiLine.indexOf(QRegularExpression("\\s*</code>")) == 0 )
 			codeOn = false;
 		bool listDetected = ( (wikiLineTrimmed.startsWith("* ") && wikiLine[wikiLine.indexOf("*") + 2] != ' ') || wikiLineTrimmed.startsWith("- ") );
 		if ( wikiLine == "  * " || wikiLine == "  - " || wikiLine == "  *" || wikiLine == "  -" ) continue; // this is an "artifact"... ignore :)
@@ -110,7 +110,7 @@ QString &InfoProvider::messWikiToHtml(QString &wikiText)
 			preOn = codeOn = false;
 		}
 		int listDepth = 0;
-		if ( listDetected ) listDepth = wikiLine.indexOf(QRegExp("[\\-\\*]")) / 2;
+		if ( listDetected ) listDepth = wikiLine.indexOf(QRegularExpression("[\\-\\*]")) / 2;
 		if ( !preOn ) {
 			wikiLine = wikiLineTrimmed;
 			preCounter = 0;
@@ -123,19 +123,19 @@ QString &InfoProvider::messWikiToHtml(QString &wikiText)
 			wikiLine.replace(wikiLine.length() - 2, 2, "</i>");
 		}
 		foreach (QString snippet, wikiLine.split("//")) {
-			if ( snippet.indexOf(QRegExp("^.*(http:|https:|ftp:)$")) < 0 )
+			if ( snippet.indexOf(QRegularExpression("^.*(http:|https:|ftp:)$")) < 0 )
 				wikiLine.replace(QString("//%1//").arg(snippet), QString("<i>%1</i>").arg(snippet));
 		}
-		wikiLine.replace(QRegExp("\\*\\*(.*)\\*\\*"), "<b>\\1</b>");
-		wikiLine.replace(QRegExp("__(.*)__"), "<u>\\1</u>");
-		wikiLine.replace(QRegExp("\\[\\[wp>([^\\]]*)\\]\\]"), QLatin1String("\\1 -- http://en.wikipedia.org/wiki/\\1"));
+		wikiLine.replace(QRegularExpression("\\*\\*(.*)\\*\\*"), "<b>\\1</b>");
+		wikiLine.replace(QRegularExpression("__(.*)__"), "<u>\\1</u>");
+		wikiLine.replace(QRegularExpression("\\[\\[wp>([^\\]]*)\\]\\]"), QLatin1String("\\1 -- http://en.wikipedia.org/wiki/\\1"));
 		foreach (QString snippet, wikiLine.split("[[")) {
-			if ( snippet.indexOf(QRegExp("\\]\\]|\\|")) > 0 ) {
-				QStringList subSnippets = snippet.split(QRegExp("\\]\\]|\\|"));
+			if ( snippet.indexOf(QRegularExpression("\\]\\]|\\|")) > 0 ) {
+				QStringList subSnippets = snippet.split(QRegularExpression("\\]\\]|\\|"));
 				wikiLine.replace(QString("[[%1]]").arg(snippet), subSnippets[0]);
 			}
 		}
-		wikiLine.replace(QRegExp(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
+		wikiLine.replace(QRegularExpression(QString("((http|https|ftp)://%1)").arg(urlSectionRegExp)), QLatin1String("<a href=\"\\1\">\\1</a>"));
 		if ( wikiLine.startsWith("&lt;h2&gt;======") && wikiLine.endsWith("======&lt;/h2&gt;") ) {
 			if ( tableOpen ) { wikiText += "</table><p>"; tableOpen = false; }
 			if ( ulLevel > 0 ) { for (int i = 0; i < ulLevel; i++) wikiText += "</ul>"; ulLevel = 0; wikiText += "<p>"; }
@@ -162,7 +162,7 @@ QString &InfoProvider::messWikiToHtml(QString &wikiText)
 			if ( ulLevel > 0 ) { for (int i = 0; i < ulLevel; i++) wikiText += "</ul>"; ulLevel = 0; wikiText += "<p>"; }
 			if ( olLevel > 0 ) { for (int i = 0; i < olLevel; i++) wikiText += "</ol>"; olLevel = 0; wikiText += "<p>"; }
 			wikiText += "<b>" + wikiLine.mid(3, wikiLine.length() - 6) + "</b>";
-		} else if ( wikiLine.indexOf(QRegExp("\\* \\S")) == 0 ) {
+		} else if ( wikiLine.indexOf(QRegularExpression("\\* \\S")) == 0 ) {
 			if ( tableOpen ) { wikiText += "</table><p>"; tableOpen = false; }
 			if ( olLevel > 0 ) { for (int i = 0; i < olLevel; i++) wikiText += "</ol>"; olLevel = 0; wikiText += "<p>"; }
 			if ( listDepth > ulLevel ) {
@@ -173,7 +173,7 @@ QString &InfoProvider::messWikiToHtml(QString &wikiText)
 				ulLevel--;
 			}
 			wikiText += "<li>" + wikiLine.mid(2) + "</li>";
-		} else if ( wikiLine.indexOf(QRegExp("\\- \\S")) == 0 ) {
+		} else if ( wikiLine.indexOf(QRegularExpression("\\- \\S")) == 0 ) {
 			if ( tableOpen ) { wikiText += "</table><p>"; tableOpen = false; }
 			if ( ulLevel > 0 ) { for (int i = 0; i < ulLevel; i++) wikiText += "</ul>"; ulLevel = 0; wikiText += "<p>"; }
 			if ( listDepth > olLevel ) {
@@ -189,7 +189,7 @@ QString &InfoProvider::messWikiToHtml(QString &wikiText)
 			if ( olLevel > 0 ) { for (int i = 0; i < olLevel; i++) wikiText += "</ol>"; olLevel = 0; wikiText += "<p>"; }
 			if ( !tableOpen ) { wikiText += "<p><table border=\"1\">"; tableOpen = true; }
 			wikiText += "<tr>";
-			foreach (QString cell, wikiLine.split(QRegExp("\\^|\\|"), Qt::SkipEmptyParts)) wikiText += "<td>" + cell + "</td>";
+			foreach (QString cell, wikiLine.split(QRegularExpression("\\^|\\|"), Qt::SkipEmptyParts)) wikiText += "<td>" + cell + "</td>";
 			wikiText += "</tr>";
 		} else if ( wikiLine.startsWith("^ ") && wikiLine.endsWith(" ^") ) {
 			if ( ulLevel > 0 ) { for (int i = 0; i < ulLevel; i++) wikiText += "</ul>"; ulLevel = 0; wikiText += "<p>"; }

@@ -3,7 +3,7 @@
 #if defined(QMC2_OS_UNIX)
 
 #include <QX11Info>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
@@ -13,8 +13,8 @@ Window x11SearchTree(Window window, QString titlePattern, QString classHintPatte
 	unsigned int num_children;
 	if ( XQueryTree(QX11Info::display(), window, &root_win, &parent_win, &child_list, &num_children) ) {
 		char *win_name;
-		QRegExp rxTitle(titlePattern, Qt::CaseSensitive, QRegExp::RegExp2);
-		QRegExp rxClassHint(classHintPattern, Qt::CaseSensitive, QRegExp::RegExp2);
+		QRegularExpression rxTitle(titlePattern, Qt::CaseSensitive, QRegularExpression::RegExp2);
+		QRegularExpression rxClassHint(classHintPattern, Qt::CaseSensitive, QRegularExpression::RegExp2);
 		for (int i = num_children - 1; i >= 0 && !win_return; i--) {
 			if ( XFetchName(QX11Info::display(), child_list[i], &win_name) ) {
 				if ( win_name ) {
