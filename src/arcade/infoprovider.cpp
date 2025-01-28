@@ -189,14 +189,14 @@ QString &InfoProvider::messWikiToHtml(QString &wikiText)
 			if ( olLevel > 0 ) { for (int i = 0; i < olLevel; i++) wikiText += "</ol>"; olLevel = 0; wikiText += "<p>"; }
 			if ( !tableOpen ) { wikiText += "<p><table border=\"1\">"; tableOpen = true; }
 			wikiText += "<tr>";
-			foreach (QString cell, wikiLine.split(QRegExp("\\^|\\|"), QString::SkipEmptyParts)) wikiText += "<td>" + cell + "</td>";
+			foreach (QString cell, wikiLine.split(QRegExp("\\^|\\|"), Qt::SkipEmptyParts)) wikiText += "<td>" + cell + "</td>";
 			wikiText += "</tr>";
 		} else if ( wikiLine.startsWith("^ ") && wikiLine.endsWith(" ^") ) {
 			if ( ulLevel > 0 ) { for (int i = 0; i < ulLevel; i++) wikiText += "</ul>"; ulLevel = 0; wikiText += "<p>"; }
 			if ( olLevel > 0 ) { for (int i = 0; i < olLevel; i++) wikiText += "</ol>"; olLevel = 0; wikiText += "<p>"; }
 			if ( !tableOpen ) { wikiText += "<p><table border=\"1\">"; tableOpen = true; }
 			wikiText += "<tr>";
-			foreach (QString cell, wikiLine.split("^", QString::SkipEmptyParts)) wikiText += "<td><b>" + cell + "</b></td>";
+			foreach (QString cell, wikiLine.split("^", Qt::SkipEmptyParts)) wikiText += "<td><b>" + cell + "</b></td>";
 			wikiText += "</tr>";
 		} else {
 			if ( tableOpen ) { wikiText += "</table><p>"; tableOpen = false; }

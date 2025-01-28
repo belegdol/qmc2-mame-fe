@@ -359,7 +359,7 @@ void SetupWizard::importMameIni()
 				qApp->processEvents();
 			QString lineTrimmed(ts.readLine().trimmed());
 			if ( !lineTrimmed.isEmpty() && !lineTrimmed.startsWith('#') && !lineTrimmed.startsWith("<UNADORNED") ) {
-				QStringList tokens(lineTrimmed.split(QRegExp("\\s+"), QString::SkipEmptyParts));
+				QStringList tokens(lineTrimmed.split(QRegExp("\\s+"), Qt::SkipEmptyParts));
 				if ( tokens.count() > 1 ) {
 					QString option(tokens.at(0));
 					QString value(lineTrimmed.mid(lineTrimmed.indexOf(tokens.at(1), tokens.at(0).length())));
@@ -374,7 +374,7 @@ void SetupWizard::importMameIni()
 					if ( booleanOptions.contains(option) )
 						value = value == "1" ? "true" : "false";
 					else if ( floatOptions.contains(option) ) {
-						QStringList floatParts = value.split(',', QString::SkipEmptyParts);
+						QStringList floatParts = value.split(',', Qt::SkipEmptyParts);
 						QStringList newValues;
 						for (int i = 0; i < floatParts.count(); i++) {
 							double num = floatParts.at(i).toDouble();
@@ -414,7 +414,7 @@ void SetupWizard::importUiIni()
 				qApp->processEvents();
 			QString lineTrimmed(ts.readLine().trimmed());
 			if ( !lineTrimmed.isEmpty() && !lineTrimmed.startsWith('#') && !lineTrimmed.startsWith("<UNADORNED") ) {
-				QStringList tokens(lineTrimmed.split(QRegExp("\\s+"), QString::SkipEmptyParts));
+				QStringList tokens(lineTrimmed.split(QRegExp("\\s+"), Qt::SkipEmptyParts));
 				if ( tokens.count() > 1 ) {
 					QString option(tokens.at(0));
 					QString value(lineTrimmed.mid(lineTrimmed.indexOf(tokens.at(1), tokens.at(0).length())));
@@ -590,7 +590,7 @@ bool SetupWizard::findIniFiles()
 				}
 			}
 			if ( result ) {
-				QStringList iniPaths(iniPath.split(';', QString::SkipEmptyParts));
+				QStringList iniPaths(iniPath.split(';', Qt::SkipEmptyParts));
 				QFileInfo fiExec(comboBoxExecutableFile->currentText());
 				foreach (QString path, iniPaths) {
 					if ( path == "." )

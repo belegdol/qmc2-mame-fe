@@ -391,7 +391,7 @@ void SnapshotViewer::useAsImage()
 	QAction *action = (QAction *)sender();
 	Embedder *embedder = (Embedder *)(parent()->parent());
 	EmbedderOptions *embedderOptions = (EmbedderOptions *)parent();
-	QStringList dataList = action->data().toString().split("\t", QString::SkipEmptyParts);
+	QStringList dataList = action->data().toString().split("\t", Qt::SkipEmptyParts);
 	switch ( cachePrefixes.indexOf(dataList[0]) ) {
 		case QMC2_EMBEDDER_SNAP_IMGTYPE_PREVIEW:
 			if ( qmc2Preview )

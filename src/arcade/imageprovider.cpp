@@ -25,7 +25,7 @@ ImageProvider::ImageProvider(QQuickImageProvider::ImageType type, QObject *paren
 	mImageCache.setMaxCost(QMC2_ARCADE_IMGCACHE_SIZE);
 	mPixmapCache.setMaxCost(QMC2_ARCADE_IMGCACHE_SIZE);
 	foreach (QString imageType, QStringList() << mImageTypes << mCustomImageTypes) {
-		foreach (QString imagePath, imageTypeToFile(imageType).split(";", QString::SkipEmptyParts)) {
+		foreach (QString imagePath, imageTypeToFile(imageType).split(";", Qt::SkipEmptyParts)) {
 			if ( isZippedImageType(imageType) ) {
 				mFileMapZip.insert(imagePath, unzOpen(imagePath.toUtf8().constData()));
 				if ( !mFileMapZip.value(imagePath) ) {
@@ -108,7 +108,7 @@ QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &
 
 	if ( !id.isEmpty() ) {
 		cacheKey = loadImage(id, CacheClassImage);
-		cachePrefix = id.split("/", QString::SkipEmptyParts).at(0);
+		cachePrefix = id.split("/", Qt::SkipEmptyParts).at(0);
 	}
 
 	if ( !cacheKey.isEmpty() ) {
@@ -174,7 +174,7 @@ QPixmap ImageProvider::requestPixmap(const QString &id, QSize *size, const QSize
 
 	if ( !id.isEmpty() ) {
 		cacheKey = loadImage(id, CacheClassPixmap);
-		cachePrefix = id.split("/", QString::SkipEmptyParts).first();
+		cachePrefix = id.split("/", Qt::SkipEmptyParts).first();
 	}
 
 	if ( !cacheKey.isEmpty() ) {
@@ -238,7 +238,7 @@ void ImageProvider::sevenZipDataReady()
 	SevenZipFile *sevenZipFile = (SevenZipFile *)sender();
 	if ( sevenZipFile ) {
 		mAsyncMap.insert(sevenZipFile->fileName(), false);
-		emit imageDataUpdated(sevenZipFile->userData().split('/', QString::SkipEmptyParts).at(0));
+		emit imageDataUpdated(sevenZipFile->userData().split('/', Qt::SkipEmptyParts).at(0));
 	}
 }
 
@@ -260,7 +260,7 @@ QString ImageProvider::loadImage(const QString &id, const enum CacheClass cacheC
 	if ( id.isEmpty() )
 		return QString();
 	QString validCacheKey, machineId, parentId, imageType;
-	QStringList idWords(id.split("/", QString::SkipEmptyParts));
+	QStringList idWords(id.split("/", Qt::SkipEmptyParts));
 	if ( idWords.count() < 2 ) {
 		if ( idWords.count() > 0 ) {
 			if ( idWords.at(0).compare("ghost") == 0 ) // allows using "image://qmc2/ghost" to retrieve the Ghostbusters image
@@ -313,12 +313,12 @@ QString ImageProvider::loadImage(const QString &id, const enum CacheClass cacheC
 					validCacheKey = cacheKey;
 				else {
 					QImage image;
-					foreach (QString imagePath, imageTypeToFile(imageType).split(";", QString::SkipEmptyParts)) {
+					foreach (QString imagePath, imageTypeToFile(imageType).split(";", Qt::SkipEmptyParts)) {
 						if ( isZippedImageType(imageType) ) {
 							unzFile imageFile = mFileMapZip.value(imagePath);
 							foreach (int format, mActiveFormatsMap.value(imageType)) {
 								QString formatName(mFormatNames[format]);
-								foreach (QString extension, mFormatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+								foreach (QString extension, mFormatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 									QString imageFileName(machineId + "." + extension);
 									if ( imageFile && unzLocateFile(imageFile, imageFileName.toUtf8().constData(), 0) == UNZ_OK ) {
 										QByteArray imageData;
@@ -346,7 +346,7 @@ QString ImageProvider::loadImage(const QString &id, const enum CacheClass cacheC
 							SevenZipFile *sevenZipFile = mFileMap7z.value(imagePath);
 							foreach (int format, mActiveFormatsMap.value(imageType)) {
 								QString formatName(mFormatNames[format]);
-								foreach (QString extension, mFormatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+								foreach (QString extension, mFormatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 									QString imageFileName(machineId + "." + extension);
 									int index = sevenZipFile->indexOfName(imageFileName);
 									if ( index >= 0 ) {
@@ -374,7 +374,7 @@ QString ImageProvider::loadImage(const QString &id, const enum CacheClass cacheC
 							ArchiveFile *archiveFile = mArchiveMap.value(imagePath);
 							foreach (int format, mActiveFormatsMap.value(imageType)) {
 								QString formatName(mFormatNames[format]);
-								foreach (QString extension, mFormatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+								foreach (QString extension, mFormatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 									QString imageFileName(machineId + "." + extension);
 									if ( archiveFile->seekEntry(imageFileName) ) {
 										QByteArray imageData;
@@ -395,7 +395,7 @@ QString ImageProvider::loadImage(const QString &id, const enum CacheClass cacheC
 	#endif
 						else {
 							foreach (int format, mActiveFormatsMap.value(imageType)) {
-								foreach (QString extension, mFormatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+								foreach (QString extension, mFormatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 									QString fileName(QFileInfo(imagePath + "/" + machineId + "." + extension).absoluteFilePath());
 									if ( image.load(fileName) ) {
 										mImageCache.insert(cacheKey, new QImage(image));
@@ -421,12 +421,12 @@ QString ImageProvider::loadImage(const QString &id, const enum CacheClass cacheC
 					validCacheKey = cacheKey;
 				else {
 					QPixmap image;
-					foreach (QString imagePath, imageTypeToFile(imageType).split(";", QString::SkipEmptyParts)) {
+					foreach (QString imagePath, imageTypeToFile(imageType).split(";", Qt::SkipEmptyParts)) {
 						if ( isZippedImageType(imageType) ) {
 							unzFile imageFile = mFileMapZip.value(imagePath);
 							foreach (int format, mActiveFormatsMap.value(imageType)) {
 								QString formatName(mFormatNames[format]);
-								foreach (QString extension, mFormatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+								foreach (QString extension, mFormatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 									QString imageFileName(machineId + "." + extension);
 									if ( imageFile && unzLocateFile(imageFile, imageFileName.toUtf8().constData(), 0) == UNZ_OK ) {
 										QByteArray imageData;
@@ -454,7 +454,7 @@ QString ImageProvider::loadImage(const QString &id, const enum CacheClass cacheC
 							SevenZipFile *sevenZipFile = mFileMap7z.value(imageType);
 							foreach (int format, mActiveFormatsMap.value(imageType)) {
 								QString formatName(mFormatNames[format]);
-								foreach (QString extension, mFormatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+								foreach (QString extension, mFormatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 									QString imageFileName(machineId + "." + extension);
 									int index = sevenZipFile->indexOfName(imageFileName);
 									if ( index >= 0 ) {
@@ -482,7 +482,7 @@ QString ImageProvider::loadImage(const QString &id, const enum CacheClass cacheC
 							ArchiveFile *archiveFile = mArchiveMap.value(imagePath);
 							foreach (int format, mActiveFormatsMap.value(imageType)) {
 								QString formatName(mFormatNames[format]);
-								foreach (QString extension, mFormatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+								foreach (QString extension, mFormatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 									QString imageFileName(machineId + "." + extension);
 									if ( archiveFile->seekEntry(imageFileName) ) {
 										QByteArray imageData;
@@ -503,7 +503,7 @@ QString ImageProvider::loadImage(const QString &id, const enum CacheClass cacheC
 	#endif
 						else {
 							foreach (int format, mActiveFormatsMap.value(imageType)) {
-								foreach (QString extension, mFormatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+								foreach (QString extension, mFormatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 									QString fileName(QFileInfo(imagePath + "/" + machineId + "." + extension).absoluteFilePath());
 									if ( image.load(fileName) ) {
 										mPixmapCache.insert(cacheKey, new QPixmap(image));

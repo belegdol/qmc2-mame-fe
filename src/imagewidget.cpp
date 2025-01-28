@@ -117,7 +117,7 @@ void ImageWidget::reloadArtworkFormats()
 void ImageWidget::openSource()
 {
 	if ( useZip() ) {
-		foreach (QString filePath, imageZip().split(';', QString::SkipEmptyParts)) {
+		foreach (QString filePath, imageZip().split(';', Qt::SkipEmptyParts)) {
 			unzFile imageFile = unzOpen(filePath.toUtf8().constData());
 			if ( imageFile == 0 )
 				qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open %1 file, please check access permissions for %2").arg(imageType()).arg(imageZip()));
@@ -125,7 +125,7 @@ void ImageWidget::openSource()
 				imageFileMap.insert(filePath, imageFile);
 		}
 	} else if ( useSevenZip() ) {
-		foreach (QString filePath, imageZip().split(';', QString::SkipEmptyParts)) {
+		foreach (QString filePath, imageZip().split(';', Qt::SkipEmptyParts)) {
 			SevenZipFile *imageFile = new SevenZipFile(filePath);
 			if ( !imageFile->open() )
 				qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open %1 file, please check access permissions for %2").arg(imageType()).arg(imageZip()));
@@ -137,7 +137,7 @@ void ImageWidget::openSource()
 	}
 #if defined(QMC2_LIBARCHIVE_ENABLED)
 	else if ( useArchive() ) {
-		foreach (QString filePath, imageZip().split(';', QString::SkipEmptyParts)) {
+		foreach (QString filePath, imageZip().split(';', Qt::SkipEmptyParts)) {
 			ArchiveFile *imageFile = new ArchiveFile(filePath);
 			if ( !imageFile->open() )
 				qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open %1 file, please check access permissions for %2").arg(imageType()).arg(imageZip()));
@@ -197,7 +197,7 @@ void ImageWidget::reloadActiveFormats()
 QString ImageWidget::cleanDir(QString dirs)
 {
 	QStringList dirList;
-	foreach (QString dir, dirs.split(';', QString::SkipEmptyParts)) {
+	foreach (QString dir, dirs.split(';', Qt::SkipEmptyParts)) {
 		if ( !dir.endsWith('/') )
 			dir += '/';
 		dirList << dir;
@@ -319,7 +319,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 		int len;
 		foreach (int format, activeFormats) {
 			QString formatName(formatNames.value(format));
-			foreach (QString extension, formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+			foreach (QString extension, formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 				QString machineFile(machineName + '.' + extension);
 				if ( fileName )
 					*fileName = machineFile;
@@ -374,7 +374,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 		QByteArray imageData;
 		foreach (int format, activeFormats) {
 			QString formatName(formatNames.value(format));
-			foreach (QString extension, formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+			foreach (QString extension, formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 				QString machineFile(machineName + '.' + extension);
 				if ( fileName )
 					*fileName = machineFile;
@@ -457,7 +457,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 		QByteArray imageData;
 		foreach (int format, activeFormats) {
 			QString formatName(formatNames.value(format));
-			foreach (QString extension, formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+			foreach (QString extension, formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 				QString machineFile(machineName + '.' + extension);
 				if ( fileName )
 					*fileName = machineFile;
@@ -502,11 +502,11 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 #endif
 	else {
 		// try loading image from (semicolon-separated) folder(s)
-		foreach (QString baseDirectory, imageDir().split(';', QString::SkipEmptyParts)) {
+		foreach (QString baseDirectory, imageDir().split(';', Qt::SkipEmptyParts)) {
 			QString imgDir(QDir::cleanPath(baseDirectory + '/' + machineName));
 			foreach (int format, activeFormats) {
 				QString formatName(formatNames.value(format));
-				foreach (QString extension, formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+				foreach (QString extension, formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 					QString imagePath(imgDir + '.' + extension);
 					if ( fileName )
 						*fileName = imagePath;
@@ -576,7 +576,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 QString ImageWidget::primaryPathFor(QString machineName)
 {
 	if ( !useZip() && !useSevenZip() ) {
-		QStringList fl(imageDir().split(';', QString::SkipEmptyParts));
+		QStringList fl(imageDir().split(';', Qt::SkipEmptyParts));
 		QString baseDirectory;
 		if ( !fl.isEmpty() )
 			baseDirectory = fl.first();
@@ -642,7 +642,7 @@ bool ImageWidget::checkImage(QString machineName, unzFile zip, SevenZipFile *sev
 		int len;
 		foreach (int format, activeFormats) {
 			QString formatName(formatNames.value(format));
-			foreach (QString extension, formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+			foreach (QString extension, formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 				QString machineFile(machineName + '.' + extension);
 				if ( fileName )
 					*fileName = machineFile;
@@ -698,7 +698,7 @@ bool ImageWidget::checkImage(QString machineName, unzFile zip, SevenZipFile *sev
 		QByteArray imageData;
 		foreach (int format, activeFormats) {
 			QString formatName(formatNames.value(format));
-			foreach (QString extension, formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+			foreach (QString extension, formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 				QString machineFile(machineName + '.' + extension);
 				if ( fileName )
 					*fileName = machineFile;
@@ -766,7 +766,7 @@ bool ImageWidget::checkImage(QString machineName, unzFile zip, SevenZipFile *sev
 		QByteArray imageData;
 		foreach (int format, activeFormats) {
 			QString formatName(formatNames.value(format));
-			foreach (QString extension, formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+			foreach (QString extension, formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 				QString machineFile(machineName + '.' + extension);
 				if ( fileName )
 					*fileName = machineFile;
@@ -807,11 +807,11 @@ bool ImageWidget::checkImage(QString machineName, unzFile zip, SevenZipFile *sev
 #endif
 	else {
 		// try loading image from (semicolon-separated) folder(s)
-		foreach (QString baseDirectory, imageDir().split(';', QString::SkipEmptyParts)) {
+		foreach (QString baseDirectory, imageDir().split(';', Qt::SkipEmptyParts)) {
 			QString imgDir(baseDirectory + machineName);
 			foreach (int format, activeFormats) {
 				QString formatName(formatNames.value(format));
-				foreach (QString extension, formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+				foreach (QString extension, formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 					QString localImagePath(imgDir + '.' + extension);
 					if ( fileName )
 						*fileName = QDir::toNativeSeparators(localImagePath);

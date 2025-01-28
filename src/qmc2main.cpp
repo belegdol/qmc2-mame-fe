@@ -1839,7 +1839,7 @@ void MainWindow::on_actionPlay_triggered(bool)
 	}
 
 	foreach (QString extraOpt, extraOpts) {
-		QStringList optParams(extraOpt.split('-', QString::SkipEmptyParts));
+		QStringList optParams(extraOpt.split('-', Qt::SkipEmptyParts));
 		QString negOpt("-no" + optParams.at(1));
 		QString posOpt("-" + optParams.at(1));
 		if ( optParams.first() == "enable" ) {
@@ -1900,7 +1900,7 @@ void MainWindow::on_actionPlay_triggered(bool)
 								QString biosChoice;
 								QComboBox *cbBIOS = (QComboBox *)qmc2DeviceConfigurator->treeWidgetSlotOptions->itemWidget(item, QMC2_SLOTCONFIG_COLUMN_BIOS);
 								if ( cbBIOS ) {
-									QStringList biosInfoList(cbBIOS->currentText().split(' ', QString::SkipEmptyParts));
+									QStringList biosInfoList(cbBIOS->currentText().split(' ', Qt::SkipEmptyParts));
 									if ( biosInfoList.count() == 3 && biosInfoList[2] == tr("default") )
 										biosChoice = tr("N/A");
 									else
@@ -1914,7 +1914,7 @@ void MainWindow::on_actionPlay_triggered(bool)
 									defaultIndex = qmc2DeviceConfigurator->slotPreselectionMap.value(cb);
 								else if ( qmc2DeviceConfigurator->nestedSlotPreselectionMap.contains(cb) )
 									defaultIndex = qmc2DeviceConfigurator->nestedSlotPreselectionMap.value(cb);
-								QString slotDeviceString(QString("%1%2").arg(cb->currentText().split(' ', QString::SkipEmptyParts).first()).arg(biosChoice));
+								QString slotDeviceString(QString("%1%2").arg(cb->currentText().split(' ', Qt::SkipEmptyParts).first()).arg(biosChoice));
 								if ( cb->currentIndex() > 0 && defaultIndex == 0 )
 									args << QString("-%1").arg(slotName) << slotDeviceString;
 								else if ( cb->currentIndex() == 0 && defaultIndex > 0 )
@@ -1977,7 +1977,7 @@ void MainWindow::on_actionPlay_triggered(bool)
 								if ( item ) {
 									QComboBox *cbBIOS = (QComboBox *)qmc2DeviceConfigurator->treeWidgetSlotOptions->itemWidget(item, QMC2_SLOTCONFIG_COLUMN_BIOS);
 									if ( cbBIOS ) {
-										QStringList biosInfoList(cbBIOS->currentText().split(' ', QString::SkipEmptyParts));
+										QStringList biosInfoList(cbBIOS->currentText().split(' ', Qt::SkipEmptyParts));
 										if ( biosInfoList.count() == 3 && biosInfoList.at(2) == tr("default") )
 											biosChoice = tr("N/A");
 										else
@@ -1992,7 +1992,7 @@ void MainWindow::on_actionPlay_triggered(bool)
 									defaultIndex = qmc2DeviceConfigurator->slotPreselectionMap.value(cb);
 								else if ( qmc2DeviceConfigurator->nestedSlotPreselectionMap.contains(cb) )
 									defaultIndex = qmc2DeviceConfigurator->nestedSlotPreselectionMap.value(cb);
-								QString slotDeviceString(QString("%1%2").arg(cb->currentText().split(' ', QString::SkipEmptyParts).first()).arg(biosChoice));
+								QString slotDeviceString(QString("%1%2").arg(cb->currentText().split(' ', Qt::SkipEmptyParts).first()).arg(biosChoice));
 								if ( cb->currentIndex() > 0 && defaultIndex == 0 )
 									args << QString("-%1").arg(slotName) << slotDeviceString;
 								else if ( cb->currentIndex() == 0 && defaultIndex > 0 )
@@ -2028,7 +2028,7 @@ void MainWindow::on_actionPlay_triggered(bool)
 								QString biosChoice;
 								QComboBox *cbBIOS = (QComboBox *)qmc2DeviceConfigurator->treeWidgetSlotOptions->itemWidget(item, QMC2_SLOTCONFIG_COLUMN_BIOS);
 								if ( cbBIOS ) {
-									QStringList biosInfoList(cbBIOS->currentText().split(' ', QString::SkipEmptyParts));
+									QStringList biosInfoList(cbBIOS->currentText().split(' ', Qt::SkipEmptyParts));
 									if ( biosInfoList.count() == 3 && biosInfoList.at(2) == tr("default") )
 										biosChoice = tr("N/A");
 									else
@@ -2042,7 +2042,7 @@ void MainWindow::on_actionPlay_triggered(bool)
 									defaultIndex = qmc2DeviceConfigurator->slotPreselectionMap.value(cb);
 								else if ( qmc2DeviceConfigurator->nestedSlotPreselectionMap.contains(cb) )
 									defaultIndex = qmc2DeviceConfigurator->nestedSlotPreselectionMap.value(cb);
-								QString slotDeviceString(QString("%1%2").arg(cb->currentText().split(' ', QString::SkipEmptyParts).first()).arg(biosChoice));
+								QString slotDeviceString(QString("%1%2").arg(cb->currentText().split(' ', Qt::SkipEmptyParts).first()).arg(biosChoice));
 								if ( cb->currentIndex() > 0 && defaultIndex == 0 )
 									args << QString("-%1").arg(slotName) << slotDeviceString;
 								else if ( cb->currentIndex() == 0 && defaultIndex > 0 )
@@ -4495,7 +4495,7 @@ void MainWindow::on_tabWidgetMachineDetail_currentChanged(int currentIndex)
 					qmc2SystemNotesEditor->templateMap["$EMU_INFO_STATUS$"] = "NO_DATA";
 				}
 				QString videoSnapUrl;
-				foreach (QString videoSnapFolder, qmc2Config->value("MAME/FilesAndDirectories/VideoSnapFolder", QMC2_DEFAULT_DATA_PATH + "/vdo/").toString().split(";", QString::SkipEmptyParts)) {
+				foreach (QString videoSnapFolder, qmc2Config->value("MAME/FilesAndDirectories/VideoSnapFolder", QMC2_DEFAULT_DATA_PATH + "/vdo/").toString().split(";", Qt::SkipEmptyParts)) {
 					foreach (QString formatExtension, videoSnapAllowedFormatExtensions) {
 						QFileInfo fi(QDir::cleanPath(videoSnapFolder + "/" + machineName + formatExtension));
 						if ( fi.exists() && fi.isReadable() ) {
@@ -5579,7 +5579,7 @@ void MainWindow::pushButtonGlobalEmulatorOptionsImportFromFile_clicked(QString u
 
 void MainWindow::pushButtonCurrentEmulatorOptionsSelectExportFile_clicked()
 {
-	QStringList iniPaths(qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/inipath", QDir::homePath()).toString().split(';', QString::SkipEmptyParts));
+	QStringList iniPaths(qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/inipath", QDir::homePath()).toString().split(';', Qt::SkipEmptyParts));
 	QString iniPath;
 	if ( iniPaths.count() > 0 )
 		iniPath = iniPaths[0].replace("~", QDir::homePath());
@@ -5602,7 +5602,7 @@ void MainWindow::pushButtonCurrentEmulatorOptionsSelectImportFile_clicked()
 	if ( !qmc2CurrentItem )
 		return;
 
-	QStringList iniPaths(qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/inipath", QDir::homePath()).toString().split(';', QString::SkipEmptyParts));
+	QStringList iniPaths(qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/inipath", QDir::homePath()).toString().split(';', Qt::SkipEmptyParts));
 	QString iniPath;
 	if ( iniPaths.count() > 0 ) {
 		iniPath = iniPaths[0].replace("~", QDir::homePath());
@@ -9358,7 +9358,7 @@ void MainWindow::commonWebSearch(QString baseUrl, QTreeWidgetItem *item)
 	else
 		searchPattern = item->text(QMC2_MACHINELIST_COLUMN_MACHINE);
 	searchPattern = searchPattern.replace(QRegExp("\\((.*)\\)"), "\\1").replace(QRegExp("[\\\\,\\.\\;\\:\\'\\/\\(\\)\\[\\]\\{\\}]"), " ").replace("&", "%26").replace(" - ", " ").simplified().trimmed();
-	QStringList wordList(searchPattern.split(' ', QString::SkipEmptyParts));
+	QStringList wordList(searchPattern.split(' ', Qt::SkipEmptyParts));
 	wordList.removeAll("<unknown>");
 	wordList.removeAll("<generic>");
 	wordList.removeDuplicates();
@@ -9656,14 +9656,14 @@ QString &MainWindow::messWikiToHtml(QString &wikiText)
 			if ( olLevel > 0 ) { for (int i = 0; i < olLevel; i++) wikiText += "</ol>"; olLevel = 0; wikiText += "<p>"; }
 			if ( !tableOpen ) { wikiText += "<p><table border=\"1\">"; tableOpen = true; }
 			wikiText += "<tr>";
-			foreach (QString cell, wikiLine.split(QRegExp("\\^|\\|"), QString::SkipEmptyParts)) wikiText += "<td>" + cell + "</td>";
+			foreach (QString cell, wikiLine.split(QRegExp("\\^|\\|"), Qt::SkipEmptyParts)) wikiText += "<td>" + cell + "</td>";
 			wikiText += "</tr>";
 		} else if ( wikiLine.startsWith("^ ") && wikiLine.endsWith(" ^") ) {
 			if ( ulLevel > 0 ) { for (int i = 0; i < ulLevel; i++) wikiText += "</ul>"; ulLevel = 0; wikiText += "<p>"; }
 			if ( olLevel > 0 ) { for (int i = 0; i < olLevel; i++) wikiText += "</ol>"; olLevel = 0; wikiText += "<p>"; }
 			if ( !tableOpen ) { wikiText += "<p><table border=\"1\">"; tableOpen = true; }
 			wikiText += "<tr>";
-			foreach (QString cell, wikiLine.split("^", QString::SkipEmptyParts)) wikiText += "<td><b>" + cell + "</b></td>";
+			foreach (QString cell, wikiLine.split("^", Qt::SkipEmptyParts)) wikiText += "<td><b>" + cell + "</b></td>";
 			wikiText += "</tr>";
 		} else {
 			if ( tableOpen ) { wikiText += "</table><p>"; tableOpen = false; }
@@ -10492,7 +10492,7 @@ void MainWindow::checkRomPath()
 
 	if ( qmc2Config->contains(QMC2_EMULATOR_PREFIX + "Configuration/Global/rompath") ) {
 		QStringList romPaths;
-		foreach (QString romPath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/rompath").toString().split(";", QString::SkipEmptyParts)) {
+		foreach (QString romPath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/rompath").toString().split(";", Qt::SkipEmptyParts)) {
 			QDir romDir(romPath);
 			if ( romDir.isRelative() ) {
 				if ( qmc2Config->contains(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/WorkingDirectory") ) {
@@ -10514,7 +10514,7 @@ void MainWindow::checkRomPath()
 	bool allRomPathsOk = true;
 	QStringList pathsToCheck;
 
-	foreach (QString romPath, myRomPath.split(";", QString::SkipEmptyParts)) {
+	foreach (QString romPath, myRomPath.split(";", Qt::SkipEmptyParts)) {
 		QDir romDir(romPath);
 		if ( !romDir.exists() ) {
 			log(QMC2_LOG_FRONTEND, tr("WARNING: ROM path '%1' doesn't exist").arg(romPath));

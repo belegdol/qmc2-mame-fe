@@ -147,7 +147,7 @@ void showHelp()
 void upgradeSettings()
 {
 	/*
-	QStringList verList = globalConfig->value("Version").toString().split(".", QString::SkipEmptyParts);
+	QStringList verList = globalConfig->value("Version").toString().split(".", Qt::SkipEmptyParts);
 	if ( verList.count() > 1 ) {
 		int omv = verList[1].toInt();
 		int osr = globalConfig->value("GIT_Revision").toInt();

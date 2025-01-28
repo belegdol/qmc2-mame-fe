@@ -821,7 +821,7 @@ void YouTubeVideoPlayer::init()
 	toolButtonPlayPause->setEnabled(false);
 
 	int videoSnapCounter = 0;
-	foreach (QString videoSnapFolder, qmc2Config->value("MAME/FilesAndDirectories/VideoSnapFolder", QMC2_DEFAULT_DATA_PATH + "/vdo/").toString().split(";", QString::SkipEmptyParts)) {
+	foreach (QString videoSnapFolder, qmc2Config->value("MAME/FilesAndDirectories/VideoSnapFolder", QMC2_DEFAULT_DATA_PATH + "/vdo/").toString().split(";", Qt::SkipEmptyParts)) {
 		foreach (QString formatExtension, qmc2MainWindow->videoSnapAllowedFormatExtensions) {
 			QFileInfo fi(QDir::cleanPath(videoSnapFolder + "/" + mySetID + formatExtension));
 			if ( fi.exists() && fi.isReadable() ) {
@@ -1058,7 +1058,7 @@ QUrl YouTubeVideoPlayer::getVideoStreamUrl(QString videoID, QStringList *videoIn
 	}
 
 	if ( viFinished && !viError && !timeoutOccurred ) {
-		QStringList videoInfoList(videoInfoBuffer.split('&', QString::SkipEmptyParts));
+		QStringList videoInfoList(videoInfoBuffer.split('&', Qt::SkipEmptyParts));
 #ifdef QMC2_DEBUG
 		printf("\nFull info for video ID '%s':\n>>>>\n", (const char *)videoID.toLatin1());
 #endif
@@ -1131,16 +1131,16 @@ QUrl YouTubeVideoPlayer::getVideoStreamUrl(QString videoID, QStringList *videoIn
 			if ( forcedExit )
 				break;
 			if ( videoInfo.startsWith("url_encoded_fmt_stream_map=") ) {
-				QStringList fmtUrlMap(videoInfo.replace(QRegExp("^url_encoded_fmt_stream_map="), "").split("%2C", QString::SkipEmptyParts));
+				QStringList fmtUrlMap(videoInfo.replace(QRegExp("^url_encoded_fmt_stream_map="), "").split("%2C", Qt::SkipEmptyParts));
 				foreach (QString fmtUrl, fmtUrlMap) {
 					if ( forcedExit )
 						break;
 					QString sig, itag, url;
-					foreach (QString urlPart, QUrl::fromEncoded(fmtUrl.toLatin1()).toString().split('&', QString::SkipEmptyParts)) {
+					foreach (QString urlPart, QUrl::fromEncoded(fmtUrl.toLatin1()).toString().split('&', Qt::SkipEmptyParts)) {
 						if ( urlPart.startsWith("url=") ) {
 							url = urlPart.split("=")[1];
 						} else {
-							foreach (QString subPart, urlPart.split(',', QString::SkipEmptyParts)) {
+							foreach (QString subPart, urlPart.split(',', Qt::SkipEmptyParts)) {
 								if ( subPart.startsWith("sig=") )
 									sig = subPart.split('=')[1];
 								if ( subPart.startsWith("itag=") )
@@ -1619,7 +1619,7 @@ void YouTubeVideoPlayer::updateAttachedVideoInfoImages()
 			}
 		}
 		if ( !forcedExit && vimgFinished && !vimgError ) {
-			QStringList videoInfoList = videoImageBuffer.split("&", QString::SkipEmptyParts);
+			QStringList videoInfoList = videoImageBuffer.split("&", Qt::SkipEmptyParts);
 			QString thumbnail_url;
 			foreach (QString vInfo, videoInfoList) {
 				if ( forcedExit )

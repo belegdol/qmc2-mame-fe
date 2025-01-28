@@ -1732,7 +1732,7 @@ void Options::on_pushButtonApply_clicked()
 #endif
 		switch ( iconFileType() ) {
 			case QMC2_ICON_FILETYPE_ZIP:
-				foreach (QString filePath, config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", QString::SkipEmptyParts)) {
+				foreach (QString filePath, config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", Qt::SkipEmptyParts)) {
 					unzFile iconFile = unzOpen(filePath.toUtf8().constData());
 					if ( iconFile == 0 )
 						qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open icon file, please check access permissions for %1").arg(filePath));
@@ -1741,7 +1741,7 @@ void Options::on_pushButtonApply_clicked()
 				}
 				break;
 			case QMC2_ICON_FILETYPE_7Z:
-				foreach (QString filePath, config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", QString::SkipEmptyParts)) {
+				foreach (QString filePath, config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", Qt::SkipEmptyParts)) {
 					SevenZipFile *iconFile = new SevenZipFile(filePath);
 					if ( !iconFile->open() ) {
 						qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open icon file %1").arg(filePath) + " - " + tr("7z error") + ": " + iconFile->lastError());
@@ -1752,7 +1752,7 @@ void Options::on_pushButtonApply_clicked()
 				break;
 #if defined(QMC2_LIBARCHIVE_ENABLED)
 			case QMC2_ICON_FILETYPE_ARCHIVE:
-				foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", QString::SkipEmptyParts)) {
+				foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", Qt::SkipEmptyParts)) {
 					ArchiveFile *archiveFile = new ArchiveFile(filePath, true);
 					if ( !archiveFile->open() ) {
 						qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open icon file %1").arg(filePath) + " - " + tr("libarchive error") + ": " + archiveFile->errorString());

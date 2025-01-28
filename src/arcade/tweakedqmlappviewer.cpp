@@ -522,7 +522,7 @@ QString TweakedQmlApplicationViewer::videoSnapUrl(const QString &id)
 {
 	if ( m_videoSnapUrlCache.contains(id) )
 		return m_videoSnapUrlCache[id];
-	foreach (QString videoSnapFolder, globalConfig->videoSnapFolder().split(";", QString::SkipEmptyParts)) {
+	foreach (QString videoSnapFolder, globalConfig->videoSnapFolder().split(";", Qt::SkipEmptyParts)) {
 		foreach (QString formatExtension, videoSnapAllowedFormatExtensions) {
 			QFileInfo fi(QDir::cleanPath(videoSnapFolder + "/" + id + formatExtension));
 			if ( fi.exists() && fi.isReadable() ) {

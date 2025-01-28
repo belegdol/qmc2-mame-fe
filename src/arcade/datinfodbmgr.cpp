@@ -562,10 +562,10 @@ void DatInfoDatabaseManager::importSoftwareInfo(QStringList pathList, bool fromS
 					containsMark = singleLineSimplified.contains(markRegExp);
 				}
 				if ( containsMark && !singleLineSimplified.startsWith("$info=") ) {
-					QStringList infoWords = singleLineSimplified.mid(1).split("=", QString::SkipEmptyParts);
+					QStringList infoWords = singleLineSimplified.mid(1).split("=", Qt::SkipEmptyParts);
 					if ( infoWords.count() == 2 ) {
-						QStringList systemNames = infoWords[0].split(",", QString::SkipEmptyParts);
-						QStringList gameNames = infoWords[1].split(",", QString::SkipEmptyParts);
+						QStringList systemNames = infoWords[0].split(",", Qt::SkipEmptyParts);
+						QStringList gameNames = infoWords[1].split(",", Qt::SkipEmptyParts);
 						bool startsWithDollarBio = false;
 						while ( !startsWithDollarBio && !ts.atEnd() ) {
 							singleLineSimplified = ts.readLine().simplified();
@@ -701,7 +701,7 @@ void DatInfoDatabaseManager::importEmuInfo(QStringList pathList, bool fromScratc
 					startsWithDollarInfo = singleLineSimplified.startsWith("$info=");
 				}
 				if ( startsWithDollarInfo ) {
-					QStringList gameNames = singleLineSimplified.mid(6).split(",", QString::SkipEmptyParts);
+					QStringList gameNames = singleLineSimplified.mid(6).split(",", Qt::SkipEmptyParts);
 					bool startsWithDollarMame = false;
 					while ( !startsWithDollarMame && !ts.atEnd() ) {
 						singleLineSimplified = ts.readLine().simplified();
@@ -834,7 +834,7 @@ void DatInfoDatabaseManager::importMachineInfo(QStringList pathList, QStringList
 					startsWithDollarInfo = singleLineSimplified.startsWith("$info=");
 				}
 				if ( startsWithDollarInfo ) {
-					QStringList gameNames = singleLineSimplified.mid(6).split(",", QString::SkipEmptyParts);
+					QStringList gameNames = singleLineSimplified.mid(6).split(",", Qt::SkipEmptyParts);
 					bool startsWithDollarBio = false;
 					while ( !startsWithDollarBio && !ts.atEnd() ) {
 						singleLineSimplified = ts.readLine().simplified();

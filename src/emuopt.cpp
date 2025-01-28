@@ -1502,8 +1502,8 @@ void EmulatorOptions::checkTemplateMap()
 						break;
 					case QMC2_EMUOPT_TYPE_FLOAT2:
 						assumedType = "float2";
-						floatParts = emuOptions[option.name].split(",", QString::SkipEmptyParts);
-						floatPartsDefault = option.dvalue.split(",", QString::SkipEmptyParts);
+						floatParts = emuOptions[option.name].split(",", Qt::SkipEmptyParts);
+						floatPartsDefault = option.dvalue.split(",", Qt::SkipEmptyParts);
 						isDifferent = false;
 						for (int i = 0; i < floatPartsDefault.count() && !isDifferent; i++)
 							if ( floatParts[i].toDouble() != floatPartsDefault[i].toDouble() )
@@ -1519,8 +1519,8 @@ void EmulatorOptions::checkTemplateMap()
 						break;
 					case QMC2_EMUOPT_TYPE_FLOAT3:
 						assumedType = "float3";
-						floatParts = emuOptions[option.name].split(",", QString::SkipEmptyParts);
-						floatPartsDefault = option.dvalue.split(",", QString::SkipEmptyParts);
+						floatParts = emuOptions[option.name].split(",", Qt::SkipEmptyParts);
+						floatPartsDefault = option.dvalue.split(",", Qt::SkipEmptyParts);
 						isDifferent = false;
 						for (int i = 0; i < floatPartsDefault.count() && !isDifferent; i++)
 							if ( floatParts[i].toDouble() != floatPartsDefault[i].toDouble() )
@@ -1668,12 +1668,12 @@ void EmulatorOptions::exportToIni(bool global, QString useFileName)
 	static QBrush redBrush(QColor(255, 0, 0));
 	static QBrush greenBrush(QColor(0, 255, 0));
 	// lookup default value for inipath
-	QStringList iniPaths = qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/inipath").toString().split(";", QString::SkipEmptyParts);
+	QStringList iniPaths = qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/inipath").toString().split(";", Qt::SkipEmptyParts);
 	if ( iniPaths.isEmpty() ) {
 		foreach (QString sectionTitle, qmc2GlobalEmulatorOptions->optionsMap.keys() ) {
 			for (int optionPos = 0; optionPos < qmc2GlobalEmulatorOptions->optionsMap[sectionTitle].count() && iniPaths.isEmpty(); optionPos++) {
 				if ( qmc2GlobalEmulatorOptions->optionsMap[sectionTitle][optionPos].name == "inipath" )
-					iniPaths = qmc2GlobalEmulatorOptions->optionsMap[sectionTitle][optionPos].dvalue.split(";", QString::SkipEmptyParts);
+					iniPaths = qmc2GlobalEmulatorOptions->optionsMap[sectionTitle][optionPos].dvalue.split(";", Qt::SkipEmptyParts);
 			}
 		}
 	}
@@ -1798,12 +1798,12 @@ void EmulatorOptions::importFromIni(bool global, QString useFileName)
 	static QBrush redBrush(QColor(255, 0, 0));
 	static QBrush greenBrush(QColor(0, 255, 0));
 	// lookup default value for inipath
-	QStringList iniPaths = qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/inipath").toString().split(";", QString::SkipEmptyParts);
+	QStringList iniPaths = qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/inipath").toString().split(";", Qt::SkipEmptyParts);
 	if ( iniPaths.isEmpty() ) {
 		foreach (QString sectionTitle, qmc2GlobalEmulatorOptions->optionsMap.keys() ) {
 			for (int optionPos = 0; optionPos < qmc2GlobalEmulatorOptions->optionsMap[sectionTitle].count() && iniPaths.isEmpty(); optionPos++) {
 				if ( qmc2GlobalEmulatorOptions->optionsMap[sectionTitle][optionPos].name == "inipath" )
-					iniPaths = qmc2GlobalEmulatorOptions->optionsMap[sectionTitle][optionPos].dvalue.split(";", QString::SkipEmptyParts);
+					iniPaths = qmc2GlobalEmulatorOptions->optionsMap[sectionTitle][optionPos].dvalue.split(";", Qt::SkipEmptyParts);
 			}
 		}
 	}

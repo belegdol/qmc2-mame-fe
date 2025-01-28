@@ -90,7 +90,7 @@ bool CatverIniOptimizer::loadCatverIni()
 			QString catverLine(tsCatverIni.readLine());
 			if ( catverLine.isEmpty() )
 				continue;
-			QStringList tokens(catverLine.split(splitChar, QString::SkipEmptyParts));
+			QStringList tokens(catverLine.split(splitChar, Qt::SkipEmptyParts));
 			if ( tokens.count() > 1 ) {
 				QString token1(tokens.at(1).trimmed());
 				switch ( catVerSwitch ) {

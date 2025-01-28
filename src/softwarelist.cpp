@@ -1009,7 +1009,7 @@ QString &SoftwareList::lookupMountDevice(QString device, QString deviceInterface
 	QHash<QString, QStringList> deviceInstanceHash;
 	softwareListDeviceName.clear();
 
-	QStringList xmlLines(qmc2MachineList->xmlDb()->xml(systemName).split('\n', QString::SkipEmptyParts));
+	QStringList xmlLines(qmc2MachineList->xmlDb()->xml(systemName).split('\n', Qt::SkipEmptyParts));
 	QStringList *xmlData = &xmlLines;
 	QStringList dynamicXmlData;
 	QXmlStreamReader xmlMachineEntry(qmc2MachineList->xmlDb()->xml(systemName));
@@ -1037,7 +1037,7 @@ QString &SoftwareList::lookupMountDevice(QString device, QString deviceInterface
 			swlArgs << QString("-%1").arg(instances.at(j)) << files[j].replace("~", "$HOME");
 #endif
 		}
-		foreach (QString line, getXmlDataWithEnabledSlots(swlArgs).split('\n', QString::SkipEmptyParts))
+		foreach (QString line, getXmlDataWithEnabledSlots(swlArgs).split('\n', Qt::SkipEmptyParts))
 			dynamicXmlData << line.trimmed();
 		xmlData = &dynamicXmlData;
 #ifdef QMC2_DEBUG
@@ -1054,7 +1054,7 @@ QString &SoftwareList::lookupMountDevice(QString device, QString deviceInterface
 				if ( xmlMachineEntry.name() == "device" && xmlMachineEntry.attributes().hasAttribute("type") ) {
 					QString devName;
 					if ( xmlMachineEntry.attributes().hasAttribute("interface") ) {
-						QStringList devInterfaces(xmlMachineEntry.attributes().value("interface").toString().split(',', QString::SkipEmptyParts));
+						QStringList devInterfaces(xmlMachineEntry.attributes().value("interface").toString().split(',', Qt::SkipEmptyParts));
 						while ( xmlMachineEntry.readNextStartElement() ) {
 							if ( xmlMachineEntry.name() == "instance" && xmlMachineEntry.attributes().hasAttribute("briefname") ) {
 								devName = xmlMachineEntry.attributes().value("briefname").toString();
@@ -1136,7 +1136,7 @@ void SoftwareList::getXmlData()
 #endif
 
 		if ( !filter.isEmpty() )
-			systemSoftwareFilterHash.insert(systemName, filter.split(',', QString::SkipEmptyParts));
+			systemSoftwareFilterHash.insert(systemName, filter.split(',', Qt::SkipEmptyParts));
 	}
 #ifdef QMC2_DEBUG
 	else
@@ -1437,7 +1437,7 @@ bool SoftwareList::load()
 				if ( softwareListHidden )
 					showItem = false;
 				else if ( toolButtonCompatFilterToggle->isChecked() ) {
-					QStringList compatList(item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(",", QString::SkipEmptyParts));
+					QStringList compatList(item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(",", Qt::SkipEmptyParts));
 					showItem = compatList.isEmpty() || compatFilters.isEmpty();
 					for (int i = 0; i < compatList.count() && !showItem; i++)
 						for (int j = 0; j < compatFilters.count() && !showItem; j++)
@@ -1708,7 +1708,7 @@ void SoftwareList::on_toolButtonManualOpenInViewer_clicked()
 	if ( manualPaths.isEmpty() ) {
 		QString parentKey(softwareParentHash.value(currentItem->text(QMC2_SWLIST_COLUMN_LIST) + ':' + currentItem->text(QMC2_SWLIST_COLUMN_NAME)));
 		if ( !parentKey.isEmpty() && parentKey != "<np>" ) {
-			QStringList parentWords(parentKey.split(':', QString::SkipEmptyParts));
+			QStringList parentWords(parentKey.split(':', Qt::SkipEmptyParts));
 			manualPaths = userDataDb->softwareManualPaths(parentWords.at(0), parentWords.at(1));
 		}
 	}
@@ -1747,7 +1747,7 @@ void SoftwareList::checkSoftwareManualAvailability()
 	if ( !enable ) {
 		QString parentKey(softwareParentHash.value(currentItem->text(QMC2_SWLIST_COLUMN_LIST) + ':' + currentItem->text(QMC2_SWLIST_COLUMN_NAME)));
 		if ( !parentKey.isEmpty() && parentKey != "<np>" ) {
-			QStringList parentWords(parentKey.split(':', QString::SkipEmptyParts));
+			QStringList parentWords(parentKey.split(':', Qt::SkipEmptyParts));
 			enable = !userDataDb->softwareManualPaths(parentWords.at(0), parentWords.at(1)).isEmpty();
 		}
 	}
@@ -2224,10 +2224,10 @@ void SoftwareList::verifyReadyReadStandardOutput()
 	foreach (QString line, lines) {
 		line = line.simplified();
 		if ( !line.isEmpty() ) {
-			QStringList words(line.split(QRegExp("\\s+"), QString::SkipEmptyParts));
+			QStringList words(line.split(QRegExp("\\s+"), Qt::SkipEmptyParts));
 			if ( line.startsWith("romset") ) {
 				progressBar->setValue(progressBar->value() + 1);
-				QStringList romsetWords(words.at(1).split(':', QString::SkipEmptyParts));
+				QStringList romsetWords(words.at(1).split(':', Qt::SkipEmptyParts));
 				QString listName(romsetWords.at(0));
 				QString softwareName(romsetWords.at(1));
 				QString status(words.last());
@@ -2510,7 +2510,7 @@ void SoftwareList::on_toolButtonCompatFilterToggle_clicked(bool checked)
 	QStringList hiddenLists(userDataDb->hiddenLists(systemName));
 	for (int count = 0; count < treeWidgetKnownSoftware->topLevelItemCount(); count++) {
 		QTreeWidgetItem *item = treeWidgetKnownSoftware->topLevelItem(count);
-		QStringList compatList(item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(',', QString::SkipEmptyParts));
+		QStringList compatList(item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(',', Qt::SkipEmptyParts));
 		bool softwareListHidden = hiddenLists.contains(item->text(QMC2_SWLIST_COLUMN_LIST));
 		bool showItem = true;
 		if ( softwareListHidden )
@@ -2553,7 +2553,7 @@ void SoftwareList::on_toolButtonCompatFilterToggle_clicked(bool checked)
 	}
 	for (int count = 0; count < treeWidgetFavoriteSoftware->topLevelItemCount(); count++) {
 		QTreeWidgetItem *item = treeWidgetFavoriteSoftware->topLevelItem(count);
-		QStringList compatList(item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(',', QString::SkipEmptyParts));
+		QStringList compatList(item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(',', Qt::SkipEmptyParts));
 		bool softwareListHidden = hiddenLists.contains(item->text(QMC2_SWLIST_COLUMN_LIST));
 		bool showItem = true;
 		if ( softwareListHidden )
@@ -2573,7 +2573,7 @@ void SoftwareList::on_toolButtonCompatFilterToggle_clicked(bool checked)
 	}
 	for (int count = 0; count < treeWidgetSearchResults->topLevelItemCount(); count++) {
 		QTreeWidgetItem *item = treeWidgetSearchResults->topLevelItem(count);
-		QStringList compatList(item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(',', QString::SkipEmptyParts));
+		QStringList compatList(item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(',', Qt::SkipEmptyParts));
 		bool softwareListHidden = hiddenLists.contains(item->text(QMC2_SWLIST_COLUMN_LIST));
 		bool showItem = true;
 		if ( softwareListHidden )
@@ -2670,7 +2670,7 @@ void SoftwareList::on_toolButtonAddToFavorites_clicked(bool)
 			item->setWhatsThis(QMC2_SWLIST_COLUMN_TITLE, si->whatsThis(QMC2_SWLIST_COLUMN_TITLE));
 			item->setWhatsThis(QMC2_SWLIST_COLUMN_NAME, si->whatsThis(QMC2_SWLIST_COLUMN_NAME));
 			item->setWhatsThis(QMC2_SWLIST_COLUMN_PART, si->whatsThis(QMC2_SWLIST_COLUMN_PART));
-			QStringList compatList = item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(",", QString::SkipEmptyParts);
+			QStringList compatList = item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(",", Qt::SkipEmptyParts);
 			bool softwareListHidden = hiddenLists.contains(item->text(QMC2_SWLIST_COLUMN_LIST));
 			bool showItem = true;
 			if ( softwareListHidden )
@@ -3410,7 +3410,7 @@ void SoftwareList::comboBoxSearch_editTextChanged_delayed()
 			if ( softwareListHidden )
 				showItem = false;
 			else if ( qmc2SoftwareList->toolButtonCompatFilterToggle->isChecked() ) {
-				QStringList compatList(newItem->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(",", QString::SkipEmptyParts));
+				QStringList compatList(newItem->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(",", Qt::SkipEmptyParts));
 				showItem = compatList.isEmpty() || compatFilters.isEmpty();
 				for (int j = 0; j < compatList.count() && !showItem; j++)
 					for (int k = 0; k < compatFilters.count() && !showItem; k++)
@@ -3569,8 +3569,8 @@ QStringList &SoftwareList::arguments(QStringList *softwareLists, QStringList *so
 			}
 			snapnameList = item->text(QMC2_SWLIST_COLUMN_LIST);
 			snapnameSoftware = item->text(QMC2_SWLIST_COLUMN_NAME);
-			QStringList interfaces(item->text(QMC2_SWLIST_COLUMN_INTERFACE).split(',', QString::SkipEmptyParts));
-			QStringList parts(item->text(QMC2_SWLIST_COLUMN_PART).split(',', QString::SkipEmptyParts));
+			QStringList interfaces(item->text(QMC2_SWLIST_COLUMN_INTERFACE).split(',', Qt::SkipEmptyParts));
+			QStringList parts(item->text(QMC2_SWLIST_COLUMN_PART).split(',', Qt::SkipEmptyParts));
 			successfulLookups.clear();
 			for (int i = 0; i < parts.count(); i++) {
 				QString mountDev(lookupMountDevice(parts.at(i), interfaces.at(i)));
@@ -3881,7 +3881,7 @@ void SoftwareList::loadFavoritesFromFile()
 								if ( softwareListHidden )
 									showItem = false;
 								else if ( toolButtonCompatFilterToggle->isChecked() ) {
-									QStringList compatList = item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(",", QString::SkipEmptyParts);
+									QStringList compatList = item->whatsThis(QMC2_SWLIST_COLUMN_TITLE).split(",", Qt::SkipEmptyParts);
 									showItem = compatList.isEmpty() || compatFilters.isEmpty();
 									for (int i = 0; i < compatList.count() && !showItem; i++)
 										for (int j = 0; j < compatFilters.count() && !showItem; j++)
@@ -4167,7 +4167,7 @@ void SoftwareListXmlHandler::loadSoftwareStates(QString listName)
 		ts.readLine(); // comment line
 		QChar splitChar(' ');
 		while ( !ts.atEnd() && !qmc2SoftwareList->interruptLoad ) {
-			QStringList words = ts.readLine().trimmed().split(splitChar, QString::SkipEmptyParts);
+			QStringList words = ts.readLine().trimmed().split(splitChar, Qt::SkipEmptyParts);
 			if ( words.count() > 1 ) {
 				switch ( words[1][0].toLatin1() ) {
 					case 'C':
@@ -4334,7 +4334,7 @@ bool SoftwareListXmlHandler::startElement(const QString &/*namespaceURI*/, const
 			if ( !partCompat.isEmpty() ) {
 				softwareItem->setWhatsThis(QMC2_SWLIST_COLUMN_TITLE, partCompat);
 				if ( qmc2SoftwareList->toolButtonCompatFilterToggle->isChecked() ) {
-					QStringList compatList = partCompat.split(",", QString::SkipEmptyParts);
+					QStringList compatList = partCompat.split(",", Qt::SkipEmptyParts);
 					bool showItem = compatList.isEmpty() || compatFilters.isEmpty();
 					if ( softwareListHidden )
 						showItem = false;
@@ -4352,7 +4352,7 @@ bool SoftwareListXmlHandler::startElement(const QString &/*namespaceURI*/, const
 			// we use the invisible whatsThis data of the part column to store the requirements
 			QString requirement = attributes.value("value");
 			if ( !requirement.isEmpty() ) {
-				QStringList currentRequirements = softwareItem->whatsThis(QMC2_SWLIST_COLUMN_PART).split("\t", QString::SkipEmptyParts);
+				QStringList currentRequirements = softwareItem->whatsThis(QMC2_SWLIST_COLUMN_PART).split("\t", Qt::SkipEmptyParts);
 				currentRequirements << requirement;
 				currentRequirements.removeDuplicates();
 				softwareItem->setWhatsThis(QMC2_SWLIST_COLUMN_PART, currentRequirements.join("\t"));
@@ -4478,13 +4478,13 @@ SoftwareSnap::~SoftwareSnap()
 void SoftwareSnap::openSource()
 {
 	if ( useZip() ) {
-		foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapFile").toString().split(";", QString::SkipEmptyParts)) {
+		foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapFile").toString().split(";", Qt::SkipEmptyParts)) {
 			snapFileMap[filePath] = unzOpen(filePath.toUtf8().constData());
 			if ( snapFileMap[filePath] == 0 )
 				qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open software snap-shot file, please check access permissions for %1").arg(filePath));
 		}
 	} else if ( useSevenZip() ) {
-		foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapFile").toString().split(";", QString::SkipEmptyParts)) {
+		foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapFile").toString().split(";", Qt::SkipEmptyParts)) {
 			SevenZipFile *snapFile = new SevenZipFile(filePath);
 			if ( !snapFile->open() ) {
 				  qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open software snap-shot file %1").arg(filePath) + " - " + tr("7z error") + ": " + snapFile->lastError());
@@ -4497,7 +4497,7 @@ void SoftwareSnap::openSource()
 	}
 #if defined(QMC2_LIBARCHIVE_ENABLED)
 	else if ( useArchive() ) {
-		foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapFile").toString().split(";", QString::SkipEmptyParts)) {
+		foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapFile").toString().split(";", Qt::SkipEmptyParts)) {
 			ArchiveFile *snapFile = new ArchiveFile(filePath);
 			if ( !snapFile->open() )
 				qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open software snap-shot file %1").arg(filePath) + " - " + tr("libarchive error") + ": " + snapFile->errorString());
@@ -4538,7 +4538,7 @@ void SoftwareSnap::closeSource()
 QString SoftwareSnap::primaryPathFor(QString list, QString name)
 {
 	if ( !qmc2UseSoftwareSnapFile ) {
-		QStringList fl = qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapDirectory").toString().split(";", QString::SkipEmptyParts);
+		QStringList fl = qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapDirectory").toString().split(";", Qt::SkipEmptyParts);
 		QString baseDirectory;
 		if ( fl.count() > 0 )
 			baseDirectory = fl[0];
@@ -4800,7 +4800,7 @@ void SoftwareSnap::loadImage(bool fromParent)
 	if ( fromParent ) {
 		QString parentKey(softwareParentHash.value(listName + ':' + entryName));
 		if ( !parentKey.isEmpty() && parentKey != "<np>" ) {
-			QString parentName(parentKey.split(':', QString::SkipEmptyParts).at(1));
+			QString parentName(parentKey.split(':', Qt::SkipEmptyParts).at(1));
 			myCacheKey = "sws_" + listName + "_" + parentName;
 		}
 	}
@@ -4819,7 +4819,7 @@ void SoftwareSnap::loadImage(bool fromParent)
 			if ( useZip() ) {
 				// try loading image from (semicolon-separated) ZIP archive(s)
 				if ( snapFileMap.isEmpty() ) {
-					foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapFile").toString().split(";", QString::SkipEmptyParts)) {
+					foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapFile").toString().split(";", Qt::SkipEmptyParts)) {
 						snapFileMap[filePath] = unzOpen(filePath.toUtf8().constData());
 						if ( snapFileMap[filePath] == 0 )
 							qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open software snap-shot file, please check access permissions for %1").arg(filePath));
@@ -4831,7 +4831,7 @@ void SoftwareSnap::loadImage(bool fromParent)
 						QByteArray imageData;
 						foreach (int format, activeFormats) {
 							QString formatName = ImageWidget::formatNames[format];
-							foreach (QString extension, ImageWidget::formatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+							foreach (QString extension, ImageWidget::formatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 								QString pathInZip = listName + "/" + entryName + "." + extension;
 								if ( unzLocateFile(snapFile, pathInZip.toUtf8().constData(), 0) == UNZ_OK ) {
 									if ( unzOpenCurrentFile(snapFile) == UNZ_OK ) {
@@ -4866,7 +4866,7 @@ void SoftwareSnap::loadImage(bool fromParent)
 			} else if ( useSevenZip() ) {
 				// try loading image from (semicolon-separated) 7z archive(s)
 				if ( snapFileMap7z.isEmpty() ) {
-					foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapFile").toString().split(";", QString::SkipEmptyParts)) {
+					foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapFile").toString().split(";", Qt::SkipEmptyParts)) {
 						SevenZipFile *snapFile = new SevenZipFile(filePath);
 						if ( !snapFile->open() ) {
 							  qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open software snap-shot file %1").arg(filePath) + " - " + tr("7z error") + ": " + snapFile->lastError());
@@ -4883,7 +4883,7 @@ void SoftwareSnap::loadImage(bool fromParent)
 						QByteArray imageData;
 						foreach (int format, activeFormats) {
 							QString formatName = ImageWidget::formatNames[format];
-							foreach (QString extension, ImageWidget::formatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+							foreach (QString extension, ImageWidget::formatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 								bool isFillingDictionary = false;
 								QString pathIn7z = listName + "/" + entryName + "." + extension;
 								int index = snapFile->indexOfName(pathIn7z);
@@ -4943,10 +4943,10 @@ void SoftwareSnap::loadImage(bool fromParent)
 		} else {
 			// try loading image from (semicolon-separated) software-snapshot folder(s)
 			pmLoaded = false;
-			foreach (QString baseDirectory, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapDirectory").toString().split(";", QString::SkipEmptyParts)) {
+			foreach (QString baseDirectory, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareSnapDirectory").toString().split(";", Qt::SkipEmptyParts)) {
 				QDir snapDir(baseDirectory + "/" + listName);
 				foreach (int format, activeFormats) {
-					foreach (QString extension, ImageWidget::formatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+					foreach (QString extension, ImageWidget::formatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 						QString fullEntryName = entryName + "." + extension;
 						if ( snapDir.exists(fullEntryName) ) {
 							QString filePath = snapDir.absoluteFilePath(fullEntryName);

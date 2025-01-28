@@ -278,7 +278,7 @@ void ProcessManager::started()
 	procItem->setIcon(QMC2_EMUCONTROL_COLUMN_LED2, QIcon(QString::fromUtf8(":/data/img/led_off.png")));
 	if ( launchForeignID ) {
 		if ( !qmc2MainWindow->foreignID.isEmpty() ) 
-			procItem->setText(QMC2_EMUCONTROL_COLUMN_MACHINE, qmc2MainWindow->foreignID.split(" ", QString::SkipEmptyParts)[0]);
+			procItem->setText(QMC2_EMUCONTROL_COLUMN_MACHINE, qmc2MainWindow->foreignID.split(" ", Qt::SkipEmptyParts)[0]);
 	} else
 		procItem->setText(QMC2_EMUCONTROL_COLUMN_MACHINE, qmc2DriverName);
 #if defined(QMC2_OS_WIN)

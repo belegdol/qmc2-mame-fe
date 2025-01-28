@@ -105,10 +105,10 @@ void ManualScanner::scan()
 	QStringList pathList;
 	switch ( m_mode ) {
 		case QMC2_MANUALSCANNER_MODE_SYSTEMS:
-			pathList = qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SystemManualFolder").toString().split(';', QString::SkipEmptyParts);
+			pathList = qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SystemManualFolder").toString().split(';', Qt::SkipEmptyParts);
 			break;
 		case QMC2_MANUALSCANNER_MODE_SOFTWARE:
-			pathList = qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareManualFolder").toString().split(';', QString::SkipEmptyParts);
+			pathList = qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/SoftwareManualFolder").toString().split(';', Qt::SkipEmptyParts);
 			break;
 	}
 	QHash<QString, QStringList> pdfManualHash;
@@ -176,7 +176,7 @@ void ManualScanner::scan()
 				userDataDb->setSystemManualPath(pdfManualHashIterator.key(), pdfManualHashIterator.value().join(";"));
 				break;
 			case QMC2_MANUALSCANNER_MODE_SOFTWARE:
-				keyWords = pdfManualHashIterator.key().split(':', QString::SkipEmptyParts);
+				keyWords = pdfManualHashIterator.key().split(':', Qt::SkipEmptyParts);
 				userDataDb->setSoftwareManualPath(keyWords.at(0), keyWords.at(1), pdfManualHashIterator.value().join(";"));
 				break;
 		}

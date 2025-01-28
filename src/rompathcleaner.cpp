@@ -170,7 +170,7 @@ void RomPathCleaner::on_pushButtonStartStop_clicked()
 			default:
 			case QMC2_RPC_PATH_INDEX_ROMPATH:
 				if ( qmc2Config->contains(QMC2_EMULATOR_PREFIX + "Configuration/Global/rompath") )
-					cleanerThread()->setCheckedPaths(qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/rompath", QString()).toString().split(';', QString::SkipEmptyParts));
+					cleanerThread()->setCheckedPaths(qmc2Config->value(QMC2_EMULATOR_PREFIX + "Configuration/Global/rompath", QString()).toString().split(';', Qt::SkipEmptyParts));
 				else if ( qmc2Config->contains(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/WorkingDirectory") )
 					cleanerThread()->setCheckedPaths(QStringList() << qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/WorkingDirectory", QString()).toString() + "/roms");
 				else

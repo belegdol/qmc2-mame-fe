@@ -1304,7 +1304,7 @@ QString HtmlEditor::emuInfo(QString id)
 QStringList HtmlEditor::videoSnapUrls(QString id)
 {
 	QStringList vsUrls;
-	foreach (QString videoSnapFolder, qmc2Config->value("MAME/FilesAndDirectories/VideoSnapFolder", QMC2_DEFAULT_DATA_PATH + "/vdo/").toString().split(";", QString::SkipEmptyParts)) {
+	foreach (QString videoSnapFolder, qmc2Config->value("MAME/FilesAndDirectories/VideoSnapFolder", QMC2_DEFAULT_DATA_PATH + "/vdo/").toString().split(";", Qt::SkipEmptyParts)) {
 		foreach (QString formatExtension, qmc2MainWindow->videoSnapAllowedFormatExtensions) {
 			QFileInfo fi(QDir::cleanPath(videoSnapFolder + "/" + id + formatExtension));
 			if ( fi.exists() && fi.isReadable() ) {
@@ -1568,7 +1568,7 @@ bool HtmlEditor::softwareManualExists(const QString &list, const QString &id)
 	if ( !exists ) {
 		QString parentKey(softwareParentHash.value(list + ':' + id));
 		if ( !parentKey.isEmpty() && parentKey != "<np>" ) {
-			QStringList parentWords(parentKey.split(':', QString::SkipEmptyParts));
+			QStringList parentWords(parentKey.split(':', Qt::SkipEmptyParts));
 			exists = !userDataDb->softwareManualPaths(parentWords.at(0), parentWords.at(1)).isEmpty();
 		}
 	}
@@ -1581,7 +1581,7 @@ QStringList HtmlEditor::softwareManualPaths(const QString &list, const QString &
 	if ( manualPaths.isEmpty() ) {
 		QString parentKey(softwareParentHash.value(list + ':' + id));
 		if ( !parentKey.isEmpty() && parentKey != "<np>" ) {
-			QStringList parentWords(parentKey.split(':', QString::SkipEmptyParts));
+			QStringList parentWords(parentKey.split(':', Qt::SkipEmptyParts));
 			manualPaths = userDataDb->softwareManualPaths(parentWords.at(0), parentWords.at(1));
 		}
 	}

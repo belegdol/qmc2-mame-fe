@@ -303,7 +303,7 @@ bool Welcome::checkConfig()
 	}
 	startupConfig->endGroup();
 
-	QStringList verList(startupConfig->value("Version").toString().split('.', QString::SkipEmptyParts));
+	QStringList verList(startupConfig->value("Version").toString().split('.', Qt::SkipEmptyParts));
 	if ( verList.count() > 1 ) {
 		int omv = verList.at(1).toInt();
 		if ( omv < 245 ) {

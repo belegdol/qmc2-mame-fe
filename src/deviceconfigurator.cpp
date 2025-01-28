@@ -51,7 +51,7 @@ DeviceItemDelegate::DeviceItemDelegate(QObject *parent) :
 QWidget *DeviceItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &index) const
 {
 	QModelIndex sibling = index.sibling(index.row(), QMC2_DEVCONFIG_COLUMN_EXT);
-	QStringList extensions(sibling.data(Qt::EditRole).toString().split('/', QString::SkipEmptyParts));
+	QStringList extensions(sibling.data(Qt::EditRole).toString().split('/', Qt::SkipEmptyParts));
 	QString filterString(tr("All files") + " (*)");
 	if ( extensions.count() > 0 ) {
 #if defined(QMC2_OS_WIN)
@@ -174,7 +174,7 @@ void DeviceItemDelegate::loadMidiInterfaces()
 			buffer.replace("\r\n", "\n"); // convert WinDOS's "0x0D 0x0A" to just "0x0A" 
 #endif
 			if ( !buffer.isEmpty() ) {
-				QStringList lines(buffer.split('\n', QString::SkipEmptyParts));
+				QStringList lines(buffer.split('\n', Qt::SkipEmptyParts));
 				QStringList midiInOutMarks(QStringList() << "MIDI input ports:" << "MIDI output ports:");
 				bool midiIn = false;
 				bool midiOut = false;
@@ -983,7 +983,7 @@ void DeviceConfigurator::on_toolButtonSaveConfiguration_clicked()
 					slotNames << slotName;
 					slotOptions << cb->currentText().split(splitChar).at(0);
 					if ( cbBIOS ) {
-						QString biosChoice(cbBIOS->currentText().split(splitChar, QString::SkipEmptyParts).at(0));
+						QString biosChoice(cbBIOS->currentText().split(splitChar, Qt::SkipEmptyParts).at(0));
 						if ( biosChoice == tr("N/A") )
 							biosChoice.clear();
 						slotBIOSs << biosChoice;
@@ -997,7 +997,7 @@ void DeviceConfigurator::on_toolButtonSaveConfiguration_clicked()
 					slotNames << slotName;
 					slotOptions << cb->currentText().split(splitChar).at(0);
 					if ( cbBIOS ) {
-						QString biosChoice(cbBIOS->currentText().split(splitChar, QString::SkipEmptyParts).at(0));
+						QString biosChoice(cbBIOS->currentText().split(splitChar, Qt::SkipEmptyParts).at(0));
 						if ( biosChoice == tr("N/A") )
 							biosChoice.clear();
 						slotBIOSs << biosChoice;
@@ -1007,7 +1007,7 @@ void DeviceConfigurator::on_toolButtonSaveConfiguration_clicked()
 					slotNames << slotName;
 					if ( cbBIOS ) {
 						bool isDefaultBiosChoice = cbBIOS->currentText().endsWith(" / " + tr("default"));
-						QString biosChoice(cbBIOS->currentText().split(splitChar, QString::SkipEmptyParts).at(0));
+						QString biosChoice(cbBIOS->currentText().split(splitChar, Qt::SkipEmptyParts).at(0));
 						if ( biosChoice == tr("N/A") )
 							biosChoice.clear();
 						slotBIOSs << biosChoice;
@@ -1538,7 +1538,7 @@ void DeviceConfigurator::on_toolButtonChooserFilter_toggled(bool enabled)
 {
 	if ( enabled ) {
 		QList<QTreeWidgetItem *> items = treeWidgetDeviceSetup->findItems(comboBoxDeviceInstanceChooser->currentText(), Qt::MatchExactly);
-		QStringList extensions = items.first()->text(QMC2_DEVCONFIG_COLUMN_EXT).split("/", QString::SkipEmptyParts);
+		QStringList extensions = items.first()->text(QMC2_DEVCONFIG_COLUMN_EXT).split("/", Qt::SkipEmptyParts);
 		extensions << "zip";
 		for (int i = 0; i < extensions.count(); i++) {
 			QString ext = extensions[i];
@@ -1887,7 +1887,7 @@ void DeviceConfigurator::on_toolButtonChooserSaveConfiguration_clicked()
 									defaultIndex = nestedSlotPreselectionMap.value(cb);
 								QComboBox *cbBIOS = (QComboBox *)treeWidgetSlotOptions->itemWidget(item, QMC2_SLOTCONFIG_COLUMN_BIOS);
 								if ( cbBIOS ) {
-									QString biosChoice = cbBIOS->currentText().split(" ", QString::SkipEmptyParts)[0];
+									QString biosChoice = cbBIOS->currentText().split(" ", Qt::SkipEmptyParts)[0];
 									if ( biosChoice == tr("N/A") )
 										biosChoice.clear();
 									slotBIOSs << biosChoice;

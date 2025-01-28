@@ -593,7 +593,7 @@ QStringList UserDataDatabaseManager::systemManualPaths(const QString &id)
 	query.bindValue(":id", id);
 	if ( query.exec() ) {
 		if ( query.first() )
-			paths = query.value(0).toString().split(';', QString::SkipEmptyParts);
+			paths = query.value(0).toString().split(';', Qt::SkipEmptyParts);
 		query.finish();
 	} else
 		qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("WARNING: failed to fetch '%1' from user data database: query = '%2', error = '%3'").arg("pdf_manual_paths").arg(query.lastQuery()).arg(query.lastError().text()));
@@ -647,7 +647,7 @@ QStringList UserDataDatabaseManager::softwareManualPaths(const QString &list, co
 	query.bindValue(":id", id);
 	if ( query.exec() ) {
 		if ( query.first() )
-			paths = query.value(0).toString().split(';', QString::SkipEmptyParts);
+			paths = query.value(0).toString().split(';', Qt::SkipEmptyParts);
 		query.finish();
 	} else
 		qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("WARNING: failed to fetch '%1' from user data database: query = '%2', error = '%3'").arg("pdf_manual_paths").arg(query.lastQuery()).arg(query.lastError().text()));
@@ -691,7 +691,7 @@ QStringList UserDataDatabaseManager::hiddenLists(QString id)
 	query.bindValue(":id", id);
 	if ( query.exec() ) {
 		if ( query.first() )
-			hidden_lists = query.value(0).toString().split(',', QString::SkipEmptyParts);
+			hidden_lists = query.value(0).toString().split(',', Qt::SkipEmptyParts);
 		query.finish();
 	} else
 		qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("WARNING: failed to fetch '%1' from user data database: query = '%2', error = '%3'").arg("hidden_lists").arg(query.lastQuery()).arg(query.lastError().text()));
@@ -744,7 +744,7 @@ QStringList UserDataDatabaseManager::listFavorites(QString id)
 	query.bindValue(":id", id);
 	if ( query.exec() ) {
 		if ( query.first() )
-			favorites = query.value(0).toString().split(',', QString::SkipEmptyParts);
+			favorites = query.value(0).toString().split(',', Qt::SkipEmptyParts);
 		query.finish();
 	} else
 		qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("WARNING: failed to fetch '%1' from user data database: query = '%2', error = '%3'").arg("favorites").arg(query.lastQuery()).arg(query.lastError().text()));

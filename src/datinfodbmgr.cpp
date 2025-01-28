@@ -138,7 +138,7 @@ QString DatInfoDatabaseManager::softwareInfo(QString list, QString id, bool from
 	if ( fromParent ) {
 		QString parentKey(softwareParentHash.value(list + ':' + id));
 		if ( !parentKey.isEmpty() && parentKey != "<np>" )
-			id = parentKey.split(":", QString::SkipEmptyParts)[1];
+			id = parentKey.split(":", Qt::SkipEmptyParts)[1];
 	}
 	QString infotext;
 	QSqlQuery query(m_db);
@@ -749,7 +749,7 @@ void DatInfoDatabaseManager::importEmuInfo(QStringList pathList, bool fromScratc
 					startsWithDollarInfo = singleLineSimplified.startsWith("$info=");
 				}
 				if ( startsWithDollarInfo ) {
-					QStringList gameNames = singleLineSimplified.mid(6).split(",", QString::SkipEmptyParts);
+					QStringList gameNames = singleLineSimplified.mid(6).split(",", Qt::SkipEmptyParts);
 					bool startsWithDollarMame = false;
 					while ( !startsWithDollarMame && !ts.atEnd() ) {
 						singleLineSimplified = ts.readLine().simplified();

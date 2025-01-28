@@ -239,7 +239,7 @@ QString SoftwareListXmlDatabaseManager::xml(QString list, QString id)
 
 QString SoftwareListXmlDatabaseManager::xml(QString setKey)
 {
-	QStringList setKeyTokens = setKey.split(":", QString::SkipEmptyParts);
+	QStringList setKeyTokens = setKey.split(":", Qt::SkipEmptyParts);
 	if ( setKeyTokens.count() < 2 )
 		return QString();
 	return xml(setKeyTokens[0], setKeyTokens[1]);

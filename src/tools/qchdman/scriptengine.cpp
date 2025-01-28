@@ -115,7 +115,7 @@ void ScriptEngine::dirStartEntryList(QString path, QString filter, bool subDirs)
 	if ( filter.isEmpty() )
 		nameFilters << "*";
 	else
-		nameFilters = filter.split(QRegExp(",.*"), QString::SkipEmptyParts);
+		nameFilters = filter.split(QRegExp(",.*"), Qt::SkipEmptyParts);
 
 	if ( subDirs )
 		mEntryListIterator = new QDirIterator(path, nameFilters, QDir::Dirs | QDir::NoDotAndDotDot | QDir::Readable | QDir::CaseSensitive);
@@ -149,7 +149,7 @@ QStringList ScriptEngine::dirEntryList(QString path, QString filter, bool sort, 
 	if ( filter.isEmpty() )
 		nameFilters << "*";
 	else
-		nameFilters = filter.split(QRegExp(",.*"), QString::SkipEmptyParts);
+		nameFilters = filter.split(QRegExp(",.*"), Qt::SkipEmptyParts);
 
 	mEntryListDir.setPath(path);
 	mEntryListDir.setFilter(QDir::Files | QDir::NoDotAndDotDot | QDir::Readable | QDir::CaseSensitive);
@@ -175,7 +175,7 @@ QStringList ScriptEngine::dirSubDirList(QString path, QString filter, bool sort,
 	if ( filter.isEmpty() )
 		nameFilters << "*";
 	else
-		nameFilters = filter.split(QRegExp(",.*"), QString::SkipEmptyParts);
+		nameFilters = filter.split(QRegExp(",.*"), Qt::SkipEmptyParts);
 
 	mEntryListDir.setPath(path);
 	mEntryListDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot | QDir::Readable | QDir::CaseSensitive);
@@ -764,7 +764,7 @@ void ScriptEngine::projectSetCopyCompressors(QString id, QString compressors)
 	QCHDMAN_SCRIPT_ENGINE_DEBUG(log(QString("DEBUG: ScriptEngine::projectSetCopyCompressors(QString id = %1, QString compressors = %2)").arg(id).arg(compressors)));
 
 	if ( mProjectMap.contains(id) )
-		mProjectMap[id]->copyCompressors = compressors.split(",", QString::SkipEmptyParts);
+		mProjectMap[id]->copyCompressors = compressors.split(",", Qt::SkipEmptyParts);
 	else
 		log(tr("warning") + ": ScriptEngine::projectSetCopyCompressors(): " + tr("project '%1' doesn't exists").arg(id));
 }
@@ -1030,7 +1030,7 @@ void ScriptEngine::projectSetCreateRawCompressors(QString id, QString compressor
 	QCHDMAN_SCRIPT_ENGINE_DEBUG(log(QString("DEBUG: ScriptEngine::projectSetCreateRawCompressors(QString id = %1, QString compressors = %2)").arg(id).arg(compressors)));
 
 	if ( mProjectMap.contains(id) )
-		mProjectMap[id]->createRawCompressors = compressors.split(",", QString::SkipEmptyParts);
+		mProjectMap[id]->createRawCompressors = compressors.split(",", Qt::SkipEmptyParts);
 	else
 		log(tr("warning") + ": ScriptEngine::projectSetCreateRawCompressors(): " + tr("project '%1' doesn't exists").arg(id));
 }
@@ -1274,7 +1274,7 @@ void ScriptEngine::projectSetCreateHDCompressors(QString id, QString compressors
 	QCHDMAN_SCRIPT_ENGINE_DEBUG(log(QString("DEBUG: ScriptEngine::projectSetCreateHDCompressors(QString id = %1, QString compressors = %2)").arg(id).arg(compressors)));
 
 	if ( mProjectMap.contains(id) )
-		mProjectMap[id]->createHDCompressors = compressors.split(",", QString::SkipEmptyParts);
+		mProjectMap[id]->createHDCompressors = compressors.split(",", Qt::SkipEmptyParts);
 	else
 		log(tr("warning") + ": ScriptEngine::projectSetCreateHDCompressors(): " + tr("project '%1' doesn't exists").arg(id));
 }
@@ -1547,7 +1547,7 @@ void ScriptEngine::projectSetCreateCDCompressors(QString id, QString compressors
 	QCHDMAN_SCRIPT_ENGINE_DEBUG(log(QString("DEBUG: ScriptEngine::projectSetCreateCDCompressors(QString id = %1, QString compressors = %2)").arg(id).arg(compressors)));
 
 	if ( mProjectMap.contains(id) )
-		mProjectMap[id]->createCDCompressors = compressors.split(",", QString::SkipEmptyParts);
+		mProjectMap[id]->createCDCompressors = compressors.split(",", Qt::SkipEmptyParts);
 	else
 		log(tr("warning") + ": ScriptEngine::projectSetCreateCDCompressors(): " + tr("project '%1' doesn't exists").arg(id));
 }
@@ -1747,7 +1747,7 @@ void ScriptEngine::projectSetCreateLDCompressors(QString id, QString compressors
 	QCHDMAN_SCRIPT_ENGINE_DEBUG(log(QString("DEBUG: ScriptEngine::projectSetCreateLDCompressors(QString id = %1, QString compressors = %2)").arg(id).arg(compressors)));
 
 	if ( mProjectMap.contains(id) )
-		mProjectMap[id]->createLDCompressors = compressors.split(",", QString::SkipEmptyParts);
+		mProjectMap[id]->createLDCompressors = compressors.split(",", Qt::SkipEmptyParts);
 	else
 		log(tr("warning") + ": ScriptEngine::projectSetCreateLDCompressors(): " + tr("project '%1' doesn't exists").arg(id));
 }
@@ -2713,7 +2713,7 @@ void ScriptEngine::runProjects(QString idList)
 		idList = projectIds.join(",");
 	}
 
-	foreach (QString id, idList.split(",", QString::SkipEmptyParts)) {
+	foreach (QString id, idList.split(",", Qt::SkipEmptyParts)) {
 		if ( externalStop )
 			break;
 
@@ -2751,7 +2751,7 @@ void ScriptEngine::stopProjects(QString idList)
 		idList = projectIds.join(",");
 	}
 
-	foreach (QString id, idList.split(",", QString::SkipEmptyParts)) {
+	foreach (QString id, idList.split(",", Qt::SkipEmptyParts)) {
 		id = id.trimmed();
 		if ( mProjectMap.contains(id) ) {
 			if ( mProjectMap[id]->status == QCHDMAN_PRJSTAT_RUNNING ) {
@@ -2778,7 +2778,7 @@ void ScriptEngine::syncProjects(QString idList)
 		idList = projectIds.join(",");
 	}
 
-	foreach (QString id, idList.split(",", QString::SkipEmptyParts)) {
+	foreach (QString id, idList.split(",", Qt::SkipEmptyParts)) {
 		if ( externalStop )
 			break;
 
@@ -2807,7 +2807,7 @@ void ScriptEngine::destroyProjects(QString idList)
 		idList = projectIds.join(",");
 	}
 
-	foreach (QString id, idList.split(",", QString::SkipEmptyParts)) {
+	foreach (QString id, idList.split(",", Qt::SkipEmptyParts)) {
 		id = id.trimmed();
 		if ( mProjectMap.contains(id) )
 			projectDestroy(id);

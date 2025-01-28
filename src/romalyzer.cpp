@@ -623,11 +623,11 @@ void ROMAlyzer::analyze()
 
 	myRomPath.replace("~", QDir::homePath());
 	myRomPath.replace("$HOME", QDir::homePath());
-	romPaths = myRomPath.split(";", QString::SkipEmptyParts);
+	romPaths = myRomPath.split(";", Qt::SkipEmptyParts);
 
 	QStringList analyzerList;
-	QStringList softwareListPatternList = lineEditSoftwareLists->text().simplified().split(" ", QString::SkipEmptyParts);
-	QStringList setPatternList = lineEditSets->text().simplified().split(" ", QString::SkipEmptyParts);
+	QStringList softwareListPatternList = lineEditSoftwareLists->text().simplified().split(" ", Qt::SkipEmptyParts);
+	QStringList setPatternList = lineEditSets->text().simplified().split(" ", Qt::SkipEmptyParts);
 
 	if ( !checkBoxAppendReport->isChecked() ) {
 		treeWidgetChecksums->clear();
@@ -785,7 +785,7 @@ void ROMAlyzer::analyze()
 			QStringList setKeyTokens;
 			switch ( mode() ) {
 				case QMC2_ROMALYZER_MODE_SOFTWARE:
-					setKeyTokens = setKey.split(":", QString::SkipEmptyParts);
+					setKeyTokens = setKey.split(":", Qt::SkipEmptyParts);
 					if ( setKeyTokens.count() < 2 )
 						continue;
 					softListName = setKeyTokens[0];
@@ -825,7 +825,7 @@ void ROMAlyzer::analyze()
 					for (int j = 0; j < setsToBeRemoved; j++) {
 						QTreeWidgetItem *ti = treeWidgetChecksums->topLevelItem(0);
 						if ( ti ) {
-							analyzerBadSets.removeAll(ti->text(QMC2_ROMALYZER_COLUMN_SET).split(splitChar, QString::SkipEmptyParts)[0]);
+							analyzerBadSets.removeAll(ti->text(QMC2_ROMALYZER_COLUMN_SET).split(splitChar, Qt::SkipEmptyParts)[0]);
 							if ( ti->isSelected() )
 								treeWidgetChecksums->selectionModel()->clear();
 							delete treeWidgetChecksums->takeTopLevelItem(0);
@@ -944,7 +944,7 @@ void ROMAlyzer::analyze()
 					QString fileStatus;
 					bool somethingsWrong = false;
 					bool goodDump = false;
-					bool isCHD = childItem->text(QMC2_ROMALYZER_COLUMN_TYPE).split(" ", QString::SkipEmptyParts)[0] == QObject::tr("CHD");
+					bool isCHD = childItem->text(QMC2_ROMALYZER_COLUMN_TYPE).split(" ", Qt::SkipEmptyParts)[0] == QObject::tr("CHD");
 					bool isROM = childItem->text(QMC2_ROMALYZER_COLUMN_TYPE).startsWith(tr("ROM"));
 					bool hasDump = childItem->text(QMC2_ROMALYZER_COLUMN_EMUSTATUS) != QObject::tr("no dump");
 					QTreeWidgetItem *fileItem = 0;
@@ -1423,7 +1423,7 @@ QString &ROMAlyzer::getEffectiveFile(QTreeWidgetItem *myItem, QString listName, 
 
 	bool calcMD5 = checkBoxCalculateMD5->isChecked();
 	bool calcSHA1 = checkBoxCalculateSHA1->isChecked();
-	bool isCHD = type.split(" ", QString::SkipEmptyParts)[0] == tr("CHD");
+	bool isCHD = type.split(" ", Qt::SkipEmptyParts)[0] == tr("CHD");
 	bool sizeLimited = spinBoxMaxFileSize->value() > 0;
 	bool chdManagerVerifyCHDs = checkBoxVerifyCHDs->isChecked();
 	bool chdManagerUpdateCHDs = checkBoxUpdateCHDs->isChecked();
@@ -2376,7 +2376,7 @@ void ROMAlyzer::on_treeWidgetChecksums_itemSelectionChanged()
 			QTreeWidgetItem *item = items[0];
 			while ( (void*)item->parent() != (void *)treeWidgetChecksums && item->parent() != 0 )
 				item = item->parent();
-			QStringList words = item->text(QMC2_ROMALYZER_COLUMN_SET).split(" ", QString::SkipEmptyParts);
+			QStringList words = item->text(QMC2_ROMALYZER_COLUMN_SET).split(" ", Qt::SkipEmptyParts);
 			selectItem(words[0]);
 		}
 	}
@@ -2886,7 +2886,7 @@ void ROMAlyzer::runSetRewriter()
 					groupBoxSetRewriter->setEnabled(false);
 					bool savedSRWA = checkBoxSetRewriterWhileAnalyzing->isChecked();
 					checkBoxSetRewriterWhileAnalyzing->setChecked(false);
-					QStringList setKeyTokens = item->text(QMC2_ROMALYZER_COLUMN_SET).split(" ", QString::SkipEmptyParts)[0].split(":", QString::SkipEmptyParts);
+					QStringList setKeyTokens = item->text(QMC2_ROMALYZER_COLUMN_SET).split(" ", Qt::SkipEmptyParts)[0].split(":", Qt::SkipEmptyParts);
 					switch ( mode() ) {
 						case QMC2_ROMALYZER_MODE_SOFTWARE:
 							lineEditSoftwareLists->setText(setKeyTokens[0]);
@@ -2938,7 +2938,7 @@ void ROMAlyzer::runSetRewriter()
 	QStringList setKeyTokens;
 	switch ( mode() ) {
 		case QMC2_ROMALYZER_MODE_SOFTWARE:
-			setKeyTokens = setRewriterSetName.split(":", QString::SkipEmptyParts);
+			setKeyTokens = setRewriterSetName.split(":", Qt::SkipEmptyParts);
 			if ( setKeyTokens.count() > 1 ) {
 				listName = setKeyTokens[0];
 				setName = setKeyTokens[1];
@@ -3123,7 +3123,7 @@ void ROMAlyzer::analyzeDeviceRefs()
 {
 	QList<QTreeWidgetItem *> il = treeWidgetChecksums->selectedItems();
 	if ( !il.isEmpty() ) {
-		QStringList deviceRefs = il[0]->whatsThis(QMC2_ROMALYZER_COLUMN_SET).split(",", QString::SkipEmptyParts);
+		QStringList deviceRefs = il[0]->whatsThis(QMC2_ROMALYZER_COLUMN_SET).split(",", Qt::SkipEmptyParts);
 		deviceRefs.removeDuplicates();
 		if ( !deviceRefs.isEmpty() ) {
 			lineEditSets->setText(deviceRefs.join(" "));
@@ -3199,7 +3199,7 @@ void ROMAlyzer::exportToDataFile()
 					qApp->processEvents();
 				}
 				QTreeWidgetItem *item = treeWidgetChecksums->topLevelItem(i);
-				QString name = item->text(QMC2_ROMALYZER_COLUMN_SET).split(" ", QString::SkipEmptyParts)[0];
+				QString name = item->text(QMC2_ROMALYZER_COLUMN_SET).split(" ", Qt::SkipEmptyParts)[0];
 				if ( analyzerBadSets.contains(name) ) {
 					QString sourcefile, isbios, cloneof, romof, sampleof;
 					QByteArray xmlDocument(ROMAlyzer::getXmlData(name, true).toUtf8());
@@ -3315,7 +3315,7 @@ void ROMAlyzer::copyToClipboard(bool onlyBadOrMissing)
 				QString t = item->text(header->logicalIndex(i));
 				if ( i == 0 )
 					if ( onlyBadOrMissing )
-						t = t.split(" ", QString::SkipEmptyParts)[0];
+						t = t.split(" ", Qt::SkipEmptyParts)[0];
 				firstRow << t;
 				columnWidths.append(QMC2_MAX(t.length(), h.length()));
 			}
@@ -3414,7 +3414,7 @@ void ROMAlyzer::on_pushButtonChecksumWizardAnalyzeSelectedSets_clicked()
 		case QMC2_ROMALYZER_MODE_SOFTWARE: {
 				QStringList lists, sets;
 				foreach (QString setKey, wizardSelectedSets) {
-					QStringList setKeyTokens = setKey.split(":", QString::SkipEmptyParts);
+					QStringList setKeyTokens = setKey.split(":", Qt::SkipEmptyParts);
 					if ( setKeyTokens.count() < 2 )
 						continue;
 					lists << setKeyTokens[0];
@@ -3760,12 +3760,12 @@ void ROMAlyzer::on_treeWidgetChecksums_customContextMenuRequested(const QPoint &
 				romFileContextMenu->show();
 			}
 		} else {
-			bool hasBadOrMissingDumps = analyzerBadSets.contains(item->text(QMC2_ROMALYZER_COLUMN_SET).split(" ", QString::SkipEmptyParts)[0]);
+			bool hasBadOrMissingDumps = analyzerBadSets.contains(item->text(QMC2_ROMALYZER_COLUMN_SET).split(" ", Qt::SkipEmptyParts)[0]);
 			actionCopyBadToClipboard->setVisible(hasBadOrMissingDumps);
 			actionCopyBadToClipboard->setEnabled(hasBadOrMissingDumps);
 			actionRewriteSet->setVisible(groupBoxSetRewriter->isChecked());
 			actionRewriteSet->setEnabled(groupBoxSetRewriter->isChecked());
-			QStringList deviceRefs = item->whatsThis(QMC2_ROMALYZER_COLUMN_SET).split(",", QString::SkipEmptyParts);
+			QStringList deviceRefs = item->whatsThis(QMC2_ROMALYZER_COLUMN_SET).split(",", Qt::SkipEmptyParts);
 			deviceRefs.removeDuplicates();
 			actionAnalyzeDeviceRefs->setText(tr("Analyse referenced devices") + QString(" [%1]").arg(deviceRefs.count()));
 			actionAnalyzeDeviceRefs->setVisible(!deviceRefs.isEmpty());

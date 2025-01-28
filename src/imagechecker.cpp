@@ -111,7 +111,7 @@ void ImageCheckerThread::runSystemArtworkCheck()
 {
 	m_isFillingDictionary = false;
 	if ( imageWidget->useZip() ) {
-		foreach (QString zipFileName, imageWidget->imageZip().split(";", QString::SkipEmptyParts)) {
+		foreach (QString zipFileName, imageWidget->imageZip().split(";", Qt::SkipEmptyParts)) {
 			zipMap[zipFileName] = unzOpen(zipFileName.toUtf8().constData());
 			if ( zipMap[zipFileName] ) {
 				emit log(tr("Thread[%1]: ZIP file '%2' successfully opened").arg(threadNumber).arg(zipFileName));
@@ -121,7 +121,7 @@ void ImageCheckerThread::runSystemArtworkCheck()
 			}
 		}
 	} else if ( imageWidget->useSevenZip() ) {
-		foreach (QString sevenZipFileName, imageWidget->imageZip().split(";", QString::SkipEmptyParts)) {
+		foreach (QString sevenZipFileName, imageWidget->imageZip().split(";", Qt::SkipEmptyParts)) {
 			SevenZipFile *sevenZipFile = new SevenZipFile(sevenZipFileName);
 			if ( !sevenZipFile->open() ) {
 				emit log(tr("Thread[%1]: failed opening 7z file '%2'").arg(threadNumber).arg(sevenZipFileName));
@@ -137,7 +137,7 @@ void ImageCheckerThread::runSystemArtworkCheck()
 	}
 #if defined(QMC2_LIBARCHIVE_ENABLED)
 	else if ( imageWidget->useArchive() ) {
-		foreach (QString archiveFileName, imageWidget->imageZip().split(";", QString::SkipEmptyParts)) {
+		foreach (QString archiveFileName, imageWidget->imageZip().split(";", Qt::SkipEmptyParts)) {
 			ArchiveFile *archiveFile = new ArchiveFile(archiveFileName);
 			if ( !archiveFile->open() ) {
 				emit log(tr("Thread[%1]: failed opening archive file '%2'").arg(threadNumber).arg(archiveFileName));
@@ -988,14 +988,14 @@ void ImageChecker::on_toolButtonRemoveBad_clicked()
 			QListWidgetItem *item = listWidgetMissing->item(i);
 			if ( !item->icon().isNull() ) {
 				badImageRows << i;
-				pathsToRemove << item->whatsThis().split("\t", QString::SkipEmptyParts);
+				pathsToRemove << item->whatsThis().split("\t", Qt::SkipEmptyParts);
 			}
 		}
 
 		int itemCount = 0;
 		if ( imageWidget->useZip() ) {
 			// zipped images
-			foreach (QString filePath, imageWidget->imageZip().split(";", QString::SkipEmptyParts)) {
+			foreach (QString filePath, imageWidget->imageZip().split(";", Qt::SkipEmptyParts)) {
 				labelStatus->setText(tr("Executing ZIP tool"));
 				progressBar->setRange(0, 0);
 				progressBar->setValue(-1);
@@ -1003,10 +1003,10 @@ void ImageChecker::on_toolButtonRemoveBad_clicked()
 				QString command = "cmd.exe";
 				QStringList args;
 				args << "/c" << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipTool").toString().replace('/', '\\')
-				     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+				     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #else
 				QString command = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipTool").toString();
-				QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+				QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #endif
 				QString fullCommandString = command;
 				QStringList pathsToRemoveLocal;
@@ -1068,7 +1068,7 @@ void ImageChecker::on_toolButtonRemoveBad_clicked()
 			}
 		} else if ( imageWidget->useSevenZip() ) {
 			// 7-zipped images
-			foreach (QString filePath, imageWidget->imageZip().split(";", QString::SkipEmptyParts)) {
+			foreach (QString filePath, imageWidget->imageZip().split(";", Qt::SkipEmptyParts)) {
 				labelStatus->setText(tr("Executing 7z tool"));
 				progressBar->setRange(0, 0);
 				progressBar->setValue(-1);
@@ -1076,10 +1076,10 @@ void ImageChecker::on_toolButtonRemoveBad_clicked()
 				QString command = "cmd.exe";
 				QStringList args;
 				args << "/c" << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipTool").toString().replace('/', '\\')
-				     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+				     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #else
 				QString command = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipTool").toString();
-				QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+				QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #endif
 				QString fullCommandString = command;
 				QStringList pathsToRemoveLocal;
@@ -1204,7 +1204,7 @@ void ImageChecker::on_toolButtonRemoveObsolete_clicked()
 		// images
 		if ( imageWidget->useZip() ) {
 			// zipped images
-			foreach (QString filePath, imageWidget->imageZip().split(";", QString::SkipEmptyParts)) {
+			foreach (QString filePath, imageWidget->imageZip().split(";", Qt::SkipEmptyParts)) {
 				labelStatus->setText(tr("Executing ZIP tool"));
 				progressBar->setRange(0, 0);
 				progressBar->setValue(-1);
@@ -1212,10 +1212,10 @@ void ImageChecker::on_toolButtonRemoveObsolete_clicked()
 				QString command = "cmd.exe";
 				QStringList args;
 				args << "/c" << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipTool").toString().replace('/', '\\')
-				     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+				     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #else
 				QString command = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipTool").toString();
-				QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+				QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #endif
 				QString fullCommandString = command;
 				int i, j;
@@ -1266,7 +1266,7 @@ void ImageChecker::on_toolButtonRemoveObsolete_clicked()
 			listWidgetObsolete->setUpdatesEnabled(true);
 		} else if ( imageWidget->useSevenZip() ) {
 			// 7-zipped images
-			foreach (QString filePath, imageWidget->imageZip().split(";", QString::SkipEmptyParts)) {
+			foreach (QString filePath, imageWidget->imageZip().split(";", Qt::SkipEmptyParts)) {
 				labelStatus->setText(tr("Executing 7z tool"));
 				progressBar->setRange(0, 0);
 				progressBar->setValue(-1);
@@ -1274,10 +1274,10 @@ void ImageChecker::on_toolButtonRemoveObsolete_clicked()
 				QString command = "cmd.exe";
 				QStringList args;
 				args << "/c" << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipTool").toString().replace('/', '\\')
-				     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+				     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #else
 				QString command = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipTool").toString();
-				QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+				QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #endif
 				QString fullCommandString = command;
 				int i, j;
@@ -1377,10 +1377,10 @@ void ImageChecker::on_toolButtonRemoveObsolete_clicked()
 					QString command = "cmd.exe";
 					QStringList args;
 					args << "/c" << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipTool").toString().replace('/', '\\')
-					     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+					     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #else
 					QString command = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipTool").toString();
-					QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+					QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #endif
 					QString fullCommandString = command;
 					int i, j;
@@ -1440,10 +1440,10 @@ void ImageChecker::on_toolButtonRemoveObsolete_clicked()
 					QString command = "cmd.exe";
 					QStringList args;
 					args << "/c" << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipTool").toString().replace('/', '\\')
-					     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+					     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #else
 					QString command = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipTool").toString();
-					QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+					QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #endif
 					QString fullCommandString = command;
 					int i, j;
@@ -1505,10 +1505,10 @@ void ImageChecker::on_toolButtonRemoveObsolete_clicked()
 						QString command = "cmd.exe";
 						QStringList args;
 						args << "/c" << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipTool").toString().replace('/', '\\')
-						     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+						     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #else
 						QString command = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipTool").toString();
-						QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+						QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/SevenZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #endif
 						QString fullCommandString = command;
 						int i, j;
@@ -1560,10 +1560,10 @@ void ImageChecker::on_toolButtonRemoveObsolete_clicked()
 						QString command = "cmd.exe";
 						QStringList args;
 						args << "/c" << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipTool").toString().replace('/', '\\')
-						     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+						     << qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #else
 						QString command = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipTool").toString();
-						QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", QString::SkipEmptyParts);
+						QStringList args = qmc2Config->value(QMC2_FRONTEND_PREFIX + "Tools/ZipToolRemovalArguments").toString().split(" ", Qt::SkipEmptyParts);
 #endif
 						QString fullCommandString = command;
 						int i, j;
@@ -1743,7 +1743,7 @@ void ImageChecker::checkObsoleteFiles()
 		}
 #endif
 		else {
-			dirList = imageWidget->imageDir().split(";", QString::SkipEmptyParts);
+			dirList = imageWidget->imageDir().split(";", Qt::SkipEmptyParts);
 			foreach (QString path, dirList) {
 				log(tr("Reading image directory '%1' recursively").arg(QDir::toNativeSeparators(path)));
 				recursiveFileList(path, &fileList);
@@ -1771,7 +1771,7 @@ void ImageChecker::checkObsoleteFiles()
 #endif
 			case QMC2_ICON_FILETYPE_NONE:
 			default:
-				dirList = qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconDirectory").toString().split(";", QString::SkipEmptyParts);
+				dirList = qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconDirectory").toString().split(";", Qt::SkipEmptyParts);
 				foreach (QString path, dirList) {
 					log(tr("Reading icon directory '%1' recursively").arg(QDir::toNativeSeparators(path)));
 					recursiveFileList(path, &fileList);
@@ -1800,7 +1800,7 @@ void ImageChecker::checkObsoleteFiles()
 				pathCopy.remove(rxColonSepStr);
 				fi.setFile(pathCopy);
 				foreach (int format, imageWidget->activeFormats) {
-					foreach (QString extension, ImageWidget::formatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+					foreach (QString extension, ImageWidget::formatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 #if defined(Q_OS_WIN)
 						if ( pathCopy == fi.filePath() && fi.completeSuffix().toLower() == extension )
 							if ( qmc2MachineListItemHash.contains(fi.baseName().toLower()) )
@@ -1847,7 +1847,7 @@ void ImageChecker::checkObsoleteFiles()
 					pathCopy.remove(dirPath);
 					fi.setFile(pathCopy);
 					foreach (int format, imageWidget->activeFormats) {
-						foreach (QString extension, ImageWidget::formatExtensions[format].split(", ", QString::SkipEmptyParts)) {
+						foreach (QString extension, ImageWidget::formatExtensions[format].split(", ", Qt::SkipEmptyParts)) {
 							if ( pathCopy.endsWith(QDir::separator()) ) {
 								pathCopy.remove(pathCopy.length() - 1, 1);
 #if defined(Q_OS_WIN)

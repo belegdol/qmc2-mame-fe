@@ -1245,7 +1245,7 @@ bool CollectionRebuilderThread::rewriteSet(QString *setKey, QStringList *romName
 {
 	QString set, baseDir = rebuilderDialog()->romAlyzer()->lineEditSetRewriterOutputPath->text();
 	if ( rebuilderDialog()->romAlyzer()->mode() == QMC2_ROMALYZER_MODE_SOFTWARE ) {
-		QStringList setKeyTokens(setKey->split(':', QString::SkipEmptyParts));
+		QStringList setKeyTokens(setKey->split(':', Qt::SkipEmptyParts));
 		if ( setKeyTokens.count() < 2 )
 			return false;
 		else {
@@ -2068,7 +2068,7 @@ bool CollectionRebuilderThread::evaluateFilters(QString &setKey)
 
 	switch ( rebuilderDialog()->romAlyzer()->mode() ) {
 		case QMC2_ROMALYZER_MODE_SOFTWARE: {
-				QStringList setKeyTokens(setKey.split(':', QString::SkipEmptyParts));
+				QStringList setKeyTokens(setKey.split(':', Qt::SkipEmptyParts));
 				if ( setKeyTokens.count() < 2 )
 					return false;
 				list = setKeyTokens.at(0);

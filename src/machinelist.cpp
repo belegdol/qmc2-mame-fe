@@ -220,7 +220,7 @@ MachineList::MachineList(QObject *parent) :
 
 	switch ( qmc2Options->iconFileType() ) {
 		case QMC2_ICON_FILETYPE_ZIP:
-			foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", QString::SkipEmptyParts)) {
+			foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", Qt::SkipEmptyParts)) {
 				unzFile iconFile = unzOpen(filePath.toUtf8().constData());
 				if ( iconFile == 0 )
 					qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open icon file, please check access permissions for %1").arg(filePath));
@@ -229,7 +229,7 @@ MachineList::MachineList(QObject *parent) :
 			}
 			break;
 		case QMC2_ICON_FILETYPE_7Z:
-			foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", QString::SkipEmptyParts)) {
+			foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", Qt::SkipEmptyParts)) {
 				SevenZipFile *iconFile = new SevenZipFile(filePath);
 				if ( !iconFile->open() ) {
 					qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open icon file %1").arg(filePath) + " - " + tr("7z error") + ": " + iconFile->lastError());
@@ -240,7 +240,7 @@ MachineList::MachineList(QObject *parent) :
 			break;
 #if defined(QMC2_LIBARCHIVE_ENABLED)
 		case QMC2_ICON_FILETYPE_ARCHIVE:
-			foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", QString::SkipEmptyParts)) {
+			foreach (QString filePath, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconFile").toString().split(";", Qt::SkipEmptyParts)) {
 				ArchiveFile *archiveFile = new ArchiveFile(filePath, true);
 				if ( !archiveFile->open() ) {
 					qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open icon file %1").arg(filePath) + " - " + tr("libarchive error") + ": " + archiveFile->errorString());
@@ -1232,7 +1232,7 @@ void MachineList::parse()
 		tsRomCache.readLine(); // ignore the first line
 		QChar splitChar(' ');
 		while ( !tsRomCache.atEnd() ) {
-			QStringList words(tsRomCache.readLine().split(splitChar, QString::SkipEmptyParts));
+			QStringList words(tsRomCache.readLine().split(splitChar, Qt::SkipEmptyParts));
 			machineStatusHash.insert(words.at(QMC2_RSC_INDEX_NAME), words.at(QMC2_RSC_INDEX_STATE).at(0).toLatin1());
 		}
 		numCorrectMachines = numMostlyCorrectMachines = numIncorrectMachines = numNotFoundMachines = 0;
@@ -1305,7 +1305,7 @@ void MachineList::parse()
 			while ( (!tsMachineListCache.atEnd() || !readBuffer.isEmpty()) && !qmc2LoadingInterrupted ) {
 				readBuffer.append(tsMachineListCache.read(QMC2_FILE_BUFFER_SIZE));
 				bool endsWithNewLine = readBuffer.endsWith(lineSplitChar);
-				QStringList lines(readBuffer.split(lineSplitChar, QString::SkipEmptyParts));
+				QStringList lines(readBuffer.split(lineSplitChar, Qt::SkipEmptyParts));
 				int lc = endsWithNewLine ? lines.count() : lines.count() - 1;
 				for (int l = 0; l < lc; l++) {
 					QStringList machineData(lines.at(l).split(columnSplitChar));
@@ -3052,7 +3052,7 @@ bool MachineList::loadIcon(const QString &machineName, QTreeWidgetItem *item)
 #endif
 		case QMC2_ICON_FILETYPE_NONE:
 		default:
-			importPaths = qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconDirectory").toString().split(';', QString::SkipEmptyParts);
+			importPaths = qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconDirectory").toString().split(';', Qt::SkipEmptyParts);
 			break;
 	}
 	if ( useIconCacheDb )
@@ -3204,7 +3204,7 @@ bool MachineList::loadIcon(const QString &machineName, QTreeWidgetItem *item)
 			default:
 				qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("pre-caching icons from directory"));
 				preloadTimer.start();
-				foreach(QString icoDir, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconDirectory").toString().split(';', QString::SkipEmptyParts)) {
+				foreach(QString icoDir, qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/IconDirectory").toString().split(';', Qt::SkipEmptyParts)) {
 					mainProgressBar->setRange(0, 0);
 					mainProgressBar->reset();
 					QDirIterator icoDirIter(icoDir);
@@ -3569,7 +3569,7 @@ void MachineList::loadCatverIni()
 			}
 			if ( catverLine.isEmpty() )
 				continue;
-			QStringList tokens(catverLine.split(splitChar, QString::SkipEmptyParts));
+			QStringList tokens(catverLine.split(splitChar, Qt::SkipEmptyParts));
 			if ( tokens.count() > 1 ) {
 				QString token1(tokens.at(1).trimmed());
 				switch ( catVerSwitch ) {

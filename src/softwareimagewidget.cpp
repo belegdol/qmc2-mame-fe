@@ -99,7 +99,7 @@ void SoftwareImageWidget::reloadArtworkFormats()
 void SoftwareImageWidget::openSource()
 {
 	if ( useZip() ) {
-		foreach (QString filePath, imageZip().split(";", QString::SkipEmptyParts)) {
+		foreach (QString filePath, imageZip().split(";", Qt::SkipEmptyParts)) {
 			unzFile imageFile = unzOpen(filePath.toUtf8().constData());
 			if ( imageFile == 0 )
 				qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open %1 file, please check access permissions for %2").arg(imageType()).arg(imageZip()));
@@ -107,7 +107,7 @@ void SoftwareImageWidget::openSource()
 				imageFileMap.insert(filePath, imageFile);
 		}
 	} else if ( useSevenZip() ) {
-		foreach (QString filePath, imageZip().split(";", QString::SkipEmptyParts)) {
+		foreach (QString filePath, imageZip().split(";", Qt::SkipEmptyParts)) {
 			SevenZipFile *imageFile = new SevenZipFile(filePath);
 			if ( !imageFile->open() )
 				qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open %1 file, please check access permissions for %2").arg(imageType()).arg(imageZip()));
@@ -119,7 +119,7 @@ void SoftwareImageWidget::openSource()
 	}
 #if defined(QMC2_LIBARCHIVE_ENABLED)
 	else if ( useArchive() ) {
-		foreach (QString filePath, imageZip().split(";", QString::SkipEmptyParts)) {
+		foreach (QString filePath, imageZip().split(";", Qt::SkipEmptyParts)) {
 			ArchiveFile *imageFile = new ArchiveFile(filePath);
 			if ( !imageFile->open() )
 				qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("FATAL: can't open %1 file, please check access permissions for %2").arg(imageType()).arg(imageZip()));
@@ -235,7 +235,7 @@ bool SoftwareImageWidget::loadImage(const QString &listName, const QString &eN, 
 	if ( fromParent ) {
 		QString parentKey(softwareParentHash.value(listName + ':' + entryName));
 		if ( !parentKey.isEmpty() && parentKey != "<np>" ) {
-			QString parentName(parentKey.split(':', QString::SkipEmptyParts).at(1));
+			QString parentName(parentKey.split(':', Qt::SkipEmptyParts).at(1));
 			entryName = parentName;
 		}
 	}
@@ -245,7 +245,7 @@ bool SoftwareImageWidget::loadImage(const QString &listName, const QString &eN, 
 			if ( snapFile ) {
 				foreach (int format, activeFormats) {
 					QString formatName(ImageWidget::formatNames.value(format));
-					foreach (QString extension, ImageWidget::formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+					foreach (QString extension, ImageWidget::formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 						QByteArray imageData;
 						QString pathInZip(listName + '/' + entryName + '.' + extension);
 						if ( unzLocateFile(snapFile, pathInZip.toUtf8().constData(), 0) == UNZ_OK ) {
@@ -284,7 +284,7 @@ bool SoftwareImageWidget::loadImage(const QString &listName, const QString &eN, 
 				QByteArray imageData;
 				foreach (int format, activeFormats) {
 					QString formatName(ImageWidget::formatNames.value(format));
-					foreach (QString extension, ImageWidget::formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+					foreach (QString extension, ImageWidget::formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 						bool isFillingDictionary = false;
 						QString pathIn7z(listName + '/' + entryName + '.' + extension);
 						int index = snapFile->indexOfName(pathIn7z);
@@ -343,7 +343,7 @@ bool SoftwareImageWidget::loadImage(const QString &listName, const QString &eN, 
 				QByteArray imageData;
 				foreach (int format, activeFormats) {
 					QString formatName(ImageWidget::formatNames.value(format));
-					foreach (QString extension, ImageWidget::formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+					foreach (QString extension, ImageWidget::formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 						QString pathInArchive(listName + '/' + entryName + '.' + extension);
 						if ( snapFile->seekEntry(pathInArchive) )
 							fileOk = snapFile->readEntry(imageData) > 0;
@@ -371,10 +371,10 @@ bool SoftwareImageWidget::loadImage(const QString &listName, const QString &eN, 
 	else {
 		// try loading image from (semicolon-separated) software-snapshot folder(s)
 		fileOk = false;
-		foreach (QString baseDirectory, imageDir().split(';', QString::SkipEmptyParts)) {
+		foreach (QString baseDirectory, imageDir().split(';', Qt::SkipEmptyParts)) {
 			QDir imgDir(QDir::cleanPath(baseDirectory + '/' + listName));
 			foreach (int format, activeFormats) {
-				foreach (QString extension, ImageWidget::formatExtensions.value(format).split(", ", QString::SkipEmptyParts)) {
+				foreach (QString extension, ImageWidget::formatExtensions.value(format).split(", ", Qt::SkipEmptyParts)) {
 					QString filePath(imgDir.absoluteFilePath(entryName + '.' + extension));
 					QFile f(filePath);
 					if ( !f.exists() ) {
@@ -530,7 +530,7 @@ void SoftwareImageWidget::reloadActiveFormats()
 QString SoftwareImageWidget::cleanDir(QString dirs)
 {
 	QStringList dirList;
-	foreach (QString dir, dirs.split(';', QString::SkipEmptyParts)) {
+	foreach (QString dir, dirs.split(';', Qt::SkipEmptyParts)) {
 		if ( !dir.endsWith('/') )
 			dir += '/';
 		dirList << dir;
