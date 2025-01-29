@@ -3068,7 +3068,7 @@ void SoftwareList::on_treeWidgetKnownSoftware_customContextMenuRequested(const Q
 	QTreeWidgetItem *item = treeWidgetKnownSoftware->itemAt(p);
 	if ( !item )
 		return;
-	treeWidgetKnownSoftware->setItemSelected(item, true);
+	item->setSelected(true);
 	actionAddToFavorites->setVisible(true);
 	actionRemoveFromFavorites->setVisible(false);
 	updateRebuildSoftwareMenuVisibility();
@@ -3082,7 +3082,7 @@ void SoftwareList::on_treeWidgetKnownSoftwareTree_customContextMenuRequested(con
 	QTreeWidgetItem *item = treeWidgetKnownSoftwareTree->itemAt(p);
 	if ( !item )
 		return;
-	treeWidgetKnownSoftwareTree->setItemSelected(item, true);
+	item->setSelected(true);
 	actionAddToFavorites->setVisible(true);
 	actionRemoveFromFavorites->setVisible(false);
 	updateRebuildSoftwareMenuVisibility();
@@ -3096,7 +3096,7 @@ void SoftwareList::on_treeWidgetFavoriteSoftware_customContextMenuRequested(cons
 	QTreeWidgetItem *item = treeWidgetFavoriteSoftware->itemAt(p);
 	if ( !item )
 		return;
-	treeWidgetFavoriteSoftware->setItemSelected(item, true);
+	item->setSelected(true);
 	actionAddToFavorites->setVisible(false);
 	actionRemoveFromFavorites->setVisible(true);
 	updateRebuildSoftwareMenuVisibility();
@@ -3110,7 +3110,7 @@ void SoftwareList::on_treeWidgetSearchResults_customContextMenuRequested(const Q
 	QTreeWidgetItem *item = treeWidgetSearchResults->itemAt(p);
 	if ( !item )
 		return;
-	treeWidgetSearchResults->setItemSelected(item, true);
+	item->setSelected(true);
 	actionAddToFavorites->setVisible(true);
 	actionRemoveFromFavorites->setVisible(false);
 	updateRebuildSoftwareMenuVisibility();

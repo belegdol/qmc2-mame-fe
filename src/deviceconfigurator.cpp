@@ -1303,7 +1303,7 @@ void DeviceConfigurator::on_listWidgetDeviceConfigurations_customContextMenuRequ
 			actionRemoveConfiguration->setVisible(true);
 		}
 		listWidgetDeviceConfigurations->setCurrentItem(item);
-		listWidgetDeviceConfigurations->setItemSelected(item, true);
+		item->setSelected(true);
 		deviceConfigurationListMenu->move(listWidgetDeviceConfigurations->viewport()->mapToGlobal(point));
 		deviceConfigurationListMenu->show();
 	}

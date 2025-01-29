@@ -3756,7 +3756,7 @@ void ROMAlyzer::on_treeWidgetChecksums_customContextMenuRequested(const QPoint &
 			currentFilesCrcChecksum = item->text(QMC2_ROMALYZER_COLUMN_CRC);
 			currentFilesSize = item->text(QMC2_ROMALYZER_COLUMN_SIZE).toULongLong();
 			if ( !currentFilesSHA1Checksum.isEmpty() || !currentFilesCrcChecksum.isEmpty() ) {
-				treeWidgetChecksums->setItemSelected(item, true);
+				item->setSelected(true);
 				romFileContextMenu->move(qmc2MainWindow->adjustedWidgetPosition(treeWidgetChecksums->viewport()->mapToGlobal(p), romFileContextMenu));
 				romFileContextMenu->show();
 			}
@@ -3771,7 +3771,7 @@ void ROMAlyzer::on_treeWidgetChecksums_customContextMenuRequested(const QPoint &
 			actionAnalyzeDeviceRefs->setText(tr("Analyse referenced devices") + QString(" [%1]").arg(deviceRefs.count()));
 			actionAnalyzeDeviceRefs->setVisible(!deviceRefs.isEmpty());
 			actionAnalyzeDeviceRefs->setEnabled(!deviceRefs.isEmpty());
-			treeWidgetChecksums->setItemSelected(item, true);
+			item->setSelected(true);
 			setRewriterItem = 0;
 			romSetContextMenu->move(qmc2MainWindow->adjustedWidgetPosition(treeWidgetChecksums->viewport()->mapToGlobal(p), romSetContextMenu));
 			romSetContextMenu->show();

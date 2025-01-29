@@ -4798,7 +4798,7 @@ void MainWindow::on_treeWidgetForeignIDs_customContextMenuRequested(const QPoint
 {
 	QTreeWidgetItem *item = treeWidgetForeignIDs->itemAt(p);
 	if ( item ) {
-		treeWidgetForeignIDs->setItemSelected(item, true);
+		item->setSelected(true);
 		qmc2ForeignIDsMenu->move(adjustedWidgetPosition(treeWidgetForeignIDs->viewport()->mapToGlobal(p), qmc2ForeignIDsMenu));
 		qmc2ForeignIDsMenu->show();
 	}
@@ -4947,7 +4947,7 @@ void MainWindow::on_treeWidgetEmulators_customContextMenuRequested(const QPoint 
 {
 	QTreeWidgetItem *item = treeWidgetEmulators->itemAt(p);
 	if ( item ) {
-		treeWidgetEmulators->setItemSelected(item, true);
+		item->setSelected(true);
 		qmc2EmulatorMenu->move(adjustedWidgetPosition(treeWidgetEmulators->viewport()->mapToGlobal(p), qmc2EmulatorMenu));
 		qmc2EmulatorMenu->show();
 	}
@@ -5399,7 +5399,7 @@ void MainWindow::on_listWidgetSearch_customContextMenuRequested(const QPoint &p)
 {
 	QListWidgetItem *item = listWidgetSearch->itemAt(p);
 	if ( item ) {
-		listWidgetSearch->setItemSelected(item, true);
+		item->setSelected(true);
 		qmc2SearchMenu->move(adjustedWidgetPosition(listWidgetSearch->viewport()->mapToGlobal(p), qmc2SearchMenu));
 		qmc2SearchMenu->show();
 	}
@@ -5409,7 +5409,7 @@ void MainWindow::on_listWidgetFavorites_customContextMenuRequested(const QPoint 
 {
 	QListWidgetItem *item = listWidgetFavorites->itemAt(p);
 	if ( item ) {
-		listWidgetFavorites->setItemSelected(item, true);
+		item->setSelected(true);
 		qmc2FavoritesMenu->move(adjustedWidgetPosition(listWidgetFavorites->viewport()->mapToGlobal(p), qmc2FavoritesMenu));
 		qmc2FavoritesMenu->show();
 	}
@@ -5419,7 +5419,7 @@ void MainWindow::on_listWidgetPlayed_customContextMenuRequested(const QPoint &p)
 {
 	QListWidgetItem *item = listWidgetPlayed->itemAt(p);
 	if ( item ) {
-		listWidgetPlayed->setItemSelected(item, true);
+		item->setSelected(true);
 		qmc2PlayedMenu->move(adjustedWidgetPosition(listWidgetPlayed->viewport()->mapToGlobal(p), qmc2PlayedMenu));
 		qmc2PlayedMenu->show();
 	}
@@ -5432,7 +5432,7 @@ void MainWindow::on_treeWidgetMachineList_customContextMenuRequested(const QPoin
 		return;
 	if ( item->text(QMC2_MACHINELIST_COLUMN_MACHINE) == MachineList::trWaitingForData )
 		return;
-	treeWidgetMachineList->setItemSelected(item, true);
+	item->setSelected(true);
 	qmc2MachineMenu->move(adjustedWidgetPosition(treeWidgetMachineList->viewport()->mapToGlobal(p), qmc2MachineMenu));
 	qmc2MachineMenu->show();
 }
@@ -5445,7 +5445,7 @@ void MainWindow::on_treeWidgetHierarchy_customContextMenuRequested(const QPoint 
 	if ( item->text(QMC2_MACHINELIST_COLUMN_MACHINE) == MachineList::trWaitingForData )
 		return;
 	if ( item ) {
-		treeWidgetHierarchy->setItemSelected(item, true);
+		item->setSelected(true);
 		qmc2MachineMenu->move(adjustedWidgetPosition(treeWidgetHierarchy->viewport()->mapToGlobal(p), qmc2MachineMenu));
 		qmc2MachineMenu->show();
 	}
@@ -7981,7 +7981,7 @@ void MainWindow::on_treeWidgetCategoryView_customContextMenuRequested(const QPoi
 		return;
 	if ( item->text(QMC2_MACHINELIST_COLUMN_MACHINE) == MachineList::trWaitingForData || item->text(QMC2_MACHINELIST_COLUMN_NAME).isEmpty() )
 		return;
-	treeWidgetCategoryView->setItemSelected(item, true);
+	item->setSelected(true);
 	qmc2MachineMenu->move(adjustedWidgetPosition(treeWidgetCategoryView->viewport()->mapToGlobal(p), qmc2MachineMenu));
 	qmc2MachineMenu->show();
 }
@@ -8061,7 +8061,7 @@ void MainWindow::on_treeWidgetVersionView_customContextMenuRequested(const QPoin
 		return;
 	if ( item->text(QMC2_MACHINELIST_COLUMN_MACHINE) == MachineList::trWaitingForData || item->text(QMC2_MACHINELIST_COLUMN_NAME).isEmpty() )
 		return;
-	treeWidgetVersionView->setItemSelected(item, true);
+	item->setSelected(true);
 	qmc2MachineMenu->move(adjustedWidgetPosition(treeWidgetVersionView->viewport()->mapToGlobal(p), qmc2MachineMenu));
 	qmc2MachineMenu->show();
 }
