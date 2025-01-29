@@ -98,7 +98,7 @@ void CookieJar::saveCookies()
 	QSqlQuery query(db);
 	QDateTime now = QDateTime::currentDateTime();
 
-	QMapIterator<QString, QNetworkCookie> it(cookieMap);
+	QMultiMapIterator<QString, QNetworkCookie> it(cookieMap);
 	QStringList cookieKeysProcessed;
 	db.driver()->beginTransaction();
 	while ( it.hasNext() ) {

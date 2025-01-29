@@ -341,7 +341,7 @@ void ROMStatusExporter::exportToASCII()
 		<< QString("-").leftJustified(maxDriverStatusColumnWidth, '-', true)
 		<< "\n";
 
-	QMapIterator<QString, QTreeWidgetItem *> itExport(exportMap);
+	QMultiMapIterator<QString, QTreeWidgetItem *> itExport(exportMap);
 	int i = 0;
 	bool ascendingOrder = (comboBoxSortOrder->currentIndex() == 0);
 	bool showMoreChars = ( spinBoxASCIIColumnWidth->value() > 3 );
@@ -576,7 +576,7 @@ void ROMStatusExporter::exportToCSV()
 		<< del << tr("Players") << del << sep
 		<< del << tr("Driver status") << del << "\n" << del << del << "\n";
 
-	QMapIterator<QString, QTreeWidgetItem *> itExport(exportMap);
+	QMultiMapIterator<QString, QTreeWidgetItem *> itExport(exportMap);
 	int i = 0;
 	bool ascendingOrder = (comboBoxSortOrder->currentIndex() == 0);
 	if ( !ascendingOrder )
@@ -837,7 +837,7 @@ void ROMStatusExporter::exportToHTML()
 	   	<< "<td nowrap><b>" << tr("Name") << "</b></td><td nowrap><b>" << tr("ROM status") << "</b></td><td nowrap><b>" << tr("Description") << "</b></td><td nowrap><b>" << tr("Year") << "</b></td><td nowrap><b>" << tr("Manufacturer") << "</b></td><td nowrap><b>" << tr("ROM types") << "</b></td><td nowrap><b>" << tr("Players") << "</b></td><td nowrap><b>" << tr("Driver status") << "</td></b>\n"
 	   	<< "</tr>\n";
 
-      	QMapIterator<QString, QTreeWidgetItem *> itExport(exportMap);
+      	QMultiMapIterator<QString, QTreeWidgetItem *> itExport(exportMap);
       	int i = 0;
       	bool ascendingOrder = (comboBoxSortOrder->currentIndex() == 0);
       	if ( !ascendingOrder )

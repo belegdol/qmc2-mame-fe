@@ -223,7 +223,7 @@ void SoftwareListExporter::exportToASCII()
 		ts << "\n";
 	}
 
-	QMapIterator<QString, QTreeWidgetItem *> itExport(exportMap);
+	QMultiMapIterator<QString, QTreeWidgetItem *> itExport(exportMap);
 	bool ascendingOrder = qmc2Config->value(QMC2_FRONTEND_PREFIX + "SoftwareListExporter/SortOrder", 0).toInt() == 0;
 	bool showMoreChars = maxLength > 3;
 	while ( ascendingOrder ? itExport.hasNext() : itExport.hasPrevious() ) {
@@ -342,7 +342,7 @@ void SoftwareListExporter::exportToCSV()
 		ts << "\n" << del << del << "\n";
 	}
 
-	QMapIterator<QString, QTreeWidgetItem *> itExport(exportMap);
+	QMultiMapIterator<QString, QTreeWidgetItem *> itExport(exportMap);
 	bool ascendingOrder = qmc2Config->value(QMC2_FRONTEND_PREFIX + "SoftwareListExporter/SortOrder", 0).toInt() == 0;
 	while ( ascendingOrder ? itExport.hasNext() : itExport.hasPrevious() ) {
 		if  ( ascendingOrder )

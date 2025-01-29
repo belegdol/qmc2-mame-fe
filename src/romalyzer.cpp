@@ -2984,7 +2984,7 @@ void ROMAlyzer::runSetRewriter()
 
 	bool loadOkay = true;
 	bool ignoreErrors = !checkBoxSetRewriterAbortOnError->isChecked();
-	QMapIterator<QString, QStringList> it(setRewriterFileMap);
+	QMultiMapIterator<QString, QStringList> it(setRewriterFileMap);
 	QMap<QString, QByteArray> outputDataMap;
 	int count = 0;
 	QStringList uniqueCRCs;
