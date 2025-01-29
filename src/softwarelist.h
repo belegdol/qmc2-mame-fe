@@ -2,7 +2,7 @@
 #define SOFTWARELIST_H
 
 #include <QProcess>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QTimer>
 #include <QFile>
 #include <QList>
@@ -240,7 +240,7 @@ class SoftwareList : public QWidget, public Ui::SoftwareList
 		QStringList mountedSoftware;
 		QStringList swlLines;
 		QTextStream softwareStateStream;
-		QTime loadTimer;
+		QElapsedTimer loadTimer;
 		QTimer snapTimer;
 		QTimer searchTimer;
 		QTimer detailUpdateTimer;

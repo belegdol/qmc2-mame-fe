@@ -281,7 +281,7 @@ bool qmc2CategoryInfoUsed = false;
 bool qmc2VersionInfoUsed = false;
 bool qmc2TemplateCheck = false;
 QMap<QWidget *, Qt::WindowStates> qmc2AutoMinimizedWidgets;
-QTime qmc2StartupTimer;
+QElapsedTimer qmc2StartupTimer;
 
 // game status colors 
 QColor MainWindow::qmc2StatusColorGreen = QColor("#00cc00");

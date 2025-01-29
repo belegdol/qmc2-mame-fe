@@ -1044,7 +1044,7 @@ QUrl YouTubeVideoPlayer::getVideoStreamUrl(QString videoID, QStringList *videoIn
 	connect(videoInfoReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(videoInfoError(QNetworkReply::NetworkError)));
 	connect(videoInfoReply, SIGNAL(finished()), this, SLOT(videoInfoFinished()));
 
-	QTime timer(0, 0, 0, 0);
+	QElapsedTimer timer;
 	bool timeoutOccurred = false;
 	timer.start();
 	while ( !viFinished && !viError && !timeoutOccurred ) {

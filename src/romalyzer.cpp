@@ -657,7 +657,8 @@ void ROMAlyzer::analyze()
 	toolButtonToolsMenu->setEnabled(false);
 	if ( checkBoxCalculateSHA1->isChecked() )
 		tabChecksumWizard->setEnabled(false);
-	QTime analysisTimer, elapsedTime(0, 0, 0, 0);
+	QElapsedTimer analysisTimer;
+	QTime elapsedTime(0, 0, 0, 0);
 	analysisTimer.start();
 	log(tr("analysis started"));
 	log(tr("determining list of sets to analyze"));

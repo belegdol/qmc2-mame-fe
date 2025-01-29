@@ -8,7 +8,7 @@
 #include <QMap>
 #include <QHash>
 #include <QTimer>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QKeyEvent>
 #include <QXmlStreamReader>
 
@@ -113,7 +113,7 @@ class EmulatorOptions : public QTreeWidget
 
 	public:
 		QTimer searchTimer;
-		QTime miscTimer;
+		QElapsedTimer miscTimer;
 		IconLineEdit *lineEditSearch;
 		EmulatorOptionDelegate *delegate;
 		QString settingsGroup;

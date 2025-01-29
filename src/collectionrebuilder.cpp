@@ -2216,7 +2216,8 @@ void CollectionRebuilderThread::run()
 				emit log(tr("rebuilding started"));
 			emit statusUpdated(0, 0, 0);
 			emit rebuildStarted();
-			QTime rebuildTimer, elapsedTime(0, 0, 0, 0);
+			QElapsedTimer rebuildTimer;
+			QTime elapsedTime(0, 0, 0, 0);
 			rebuildTimer.start();
 			if ( useHashCache )
 				updateHashCache();

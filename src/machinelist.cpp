@@ -118,7 +118,7 @@ extern QList<QTreeWidgetItem *> qmc2ExpandedMachineListItems;
 extern MachineList *qmc2MachineList;
 extern bool qmc2TemplateCheck;
 extern bool qmc2ParentImageFallback;
-extern QTime qmc2StartupTimer;
+extern QElapsedTimer qmc2StartupTimer;
 extern QSplashScreen *qmc2SplashScreen;
 
 QStringList MachineList::phraseTranslatorList;
@@ -3028,7 +3028,8 @@ bool MachineList::loadIcon(const QString &machineName, QTreeWidgetItem *item)
 			qmc2MainWindow->treeWidgetMachineList->setUpdatesEnabled(true);
 		return false;
 	}
-	QTime preloadTimer, elapsedTime(0, 0, 0, 0);
+	QElapsedTimer preloadTimer;
+	QTime elapsedTime(0, 0, 0, 0);
 	int currentMax = mainProgressBar->maximum();
 	QString oldFormat(mainProgressBar->format());
 	if ( qmc2Config->value(QMC2_FRONTEND_PREFIX + "GUI/ProgressTexts").toBool() )
@@ -3289,7 +3290,8 @@ void MachineList::loadCategoryIni()
 		clearCategoryNames();
 		categoryHash.clear();
 	}
-	QTime loadTimer, elapsedTime(0, 0, 0, 0);
+	QElapsedTimer loadTimer;
+	QTime elapsedTime(0, 0, 0, 0);
 	loadTimer.start();
 	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("loading category.ini"));
 	int currentMax = mainProgressBar->maximum();
@@ -3544,7 +3546,8 @@ void MachineList::loadCatverIni()
 	categoryHash.clear();
 	clearVersionNames();
 	versionHash.clear();
-	QTime loadTimer, elapsedTime(0, 0, 0, 0);
+	QElapsedTimer loadTimer;
+	QTime elapsedTime(0, 0, 0, 0);
 	loadTimer.start();
 	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("loading catver.ini"));
 	int currentMax = mainProgressBar->maximum();

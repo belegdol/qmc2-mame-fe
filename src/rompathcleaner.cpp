@@ -244,7 +244,8 @@ void RomPathCleanerThread::run()
 			emit statusUpdated(m_filesProcessed, m_renamedFiles, m_obsoleteROMs, m_obsoleteDisks, m_invalidFiles);
 			emit log(tr("check started"));
 			emit checkStarted();
-			QTime checkTimer, elapsedTime(0, 0, 0, 0);
+			QElapsedTimer checkTimer;
+			QTime elapsedTime(0, 0, 0, 0);
 			checkTimer.start();
 			int pathCount = 1;
 			foreach (QString path, m_checkedPaths) {
