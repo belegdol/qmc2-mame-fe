@@ -12,6 +12,7 @@
 #include <QHash>
 #include <QPixmap>
 #include <QStringList>
+#include <QXmlAttributes>
 
 #include "macros.h"
 #include "checksumdbmgr.h"

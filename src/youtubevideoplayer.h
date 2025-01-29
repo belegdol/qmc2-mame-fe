@@ -12,6 +12,7 @@
 #include <QPainterPath>
 #include <QMediaPlayer>
 #include <QVideoWidget>
+#include <QXmlAttributes>
 
 #include "ui_youtubevideoplayer.h"
 #include "videoitemwidget.h"
