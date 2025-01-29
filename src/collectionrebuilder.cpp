@@ -1467,7 +1467,7 @@ bool CollectionRebuilderThread::writeAllZipData(QString baseDir, QString id, QSt
 			}
 		}
 		if ( rebuilderDialog()->romAlyzer()->checkBoxSetRewriterAddZipComment->isChecked() )
-			zipClose(zip, tr("Created by QMC2 v%1 (%2)").arg(XSTR(QMC2_VERSION)).arg(cDT.toString(Qt::SystemLocaleShortDate)).toUtf8().constData());
+			zipClose(zip, tr("Created by QMC2 v%1 (%2)").arg(XSTR(QMC2_VERSION)).arg(QLocale().toString(cDT, QLocale::ShortFormat)).toUtf8().constData());
 		else
 			zipClose(zip, "");
 		if ( reproducedDumps == 0 )

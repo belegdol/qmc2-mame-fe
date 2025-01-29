@@ -528,7 +528,7 @@ class FileSystemModel : public QAbstractItemModel
 					data = humanReadable(item->fileSize());
 					break;
 				case DATE:
-					data = item->fileDate().toString(Qt::LocalDate);
+					data = QLocale().toString(item->fileDate(), QLocale::ShortFormat);
 					break;
 				default:
 					break;
