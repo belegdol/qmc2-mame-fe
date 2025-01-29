@@ -124,7 +124,7 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
 		bool audioFastForwarding;
 		bool audioFastBackwarding;
 		bool audioSkippingTracks;
-		QMediaPlayer::State audioState;
+		QMediaPlayer::PlaybackState audioState;
 #endif
 #if defined(QMC2_EMBEDDER_SUPPORTED)
 		QWidget *widgetEmbeddedEmus;

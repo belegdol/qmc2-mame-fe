@@ -54,7 +54,7 @@ YouTubeVideoPlayer::YouTubeVideoPlayer(QString sID, QString sName, QWidget *pare
 	connect(mediaObject(), SIGNAL(seekableChanged(bool)), seekSlider, SLOT(setEnabled(bool)));
 	connect(mediaObject(), SIGNAL(durationChanged(qint64)), this, SLOT(videoPlayer_durationChanged(qint64)));
 	connect(mediaObject(), SIGNAL(positionChanged(qint64)), this, SLOT(videoTick(qint64)));
-	connect(mediaObject(), SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(videoStateChanged(QMediaPlayer::State)));
+	connect(mediaObject(), SIGNAL(stateChanged(QMediaPlayer::PlaybackState)), this, SLOT(videoStateChanged(QMediaPlayer::PlaybackState)));
 	connect(mediaObject(), SIGNAL(bufferStatusChanged(int)), this, SLOT(videoBufferStatus(int)));
 
 	videoEventFilter = new VideoEventFilter(this, 0);
@@ -936,7 +936,7 @@ void YouTubeVideoPlayer::videoBufferStatus(int percentFilled)
 	showMessage(tr("Buffering: %1%").arg(percentFilled));
 }
 
-void YouTubeVideoPlayer::videoStateChanged(QMediaPlayer::State state)
+void YouTubeVideoPlayer::videoStateChanged(QMediaPlayer::PlaybackState state)
 {
 	QTime hrTime(0, 0, 0, 0);
 

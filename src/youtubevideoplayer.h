@@ -220,8 +220,8 @@ class YouTubeVideoPlayer : public QWidget, public Ui::YouTubeVideoPlayer
 		QUrl getVideoStreamUrl(QString, QStringList *videoInfoStringList = 0, bool videoInfoOnly = false);
 		QString indexToFormat(int);
 
-		bool isPlaying() { return videoPlayer()->state() == QMediaPlayer::PlayingState; }
-		bool isPaused() { return videoPlayer()->state() == QMediaPlayer::PausedState; }
+		bool isPlaying() { return videoPlayer()->playbackState() == QMediaPlayer::PlayingState; }
+		bool isPaused() { return videoPlayer()->playbackState() == QMediaPlayer::PausedState; }
 		bool hasVideo() { return videoPlayer()->isVideoAvailable(); }
 		QMediaPlayer *videoPlayer() { return mVideoPlayer; }
 		QVideoWidget *videoWidget() { if ( mFullscreenVideoWidget ) return mFullscreenVideoWidget; else return mVideoWidget; }
@@ -249,7 +249,7 @@ class YouTubeVideoPlayer : public QWidget, public Ui::YouTubeVideoPlayer
 		void playNextVideo();
 		void videoTick(qint64);
 		void videoFinished();
-		void videoStateChanged(QMediaPlayer::State);
+		void videoStateChanged(QMediaPlayer::PlaybackState);
 		void videoBufferStatus(int);
 
 		void videoInfoReadyRead();
