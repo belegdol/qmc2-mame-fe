@@ -770,7 +770,7 @@ void YouTubeVideoPlayer::attachVideo(QString id, QString title, QString author, 
 				if ( pixmapFound ) {
 					imagePixmap = new ImagePixmap(pm);
 					imagePixmap->imagePath = youTubeCacheDir.filePath(imageFile);
-					qmc2ImagePixmapCache.insert("yt_" + id, imagePixmap, pm.toImage().byteCount());
+					qmc2ImagePixmapCache.insert("yt_" + id, imagePixmap, pm.toImage().sizeInBytes());
 				}
 			}
 		}
@@ -1577,7 +1577,7 @@ void YouTubeVideoPlayer::updateAttachedVideoInfoImages()
 					if ( pixmapFound ) {
 						ImagePixmap ipm = pm;
 						ipm.imagePath = youTubeCacheDir.filePath(imageFile);
-						qmc2ImagePixmapCache.insert("yt_" + viw->videoID, new ImagePixmap(ipm), pm.toImage().byteCount());
+						qmc2ImagePixmapCache.insert("yt_" + viw->videoID, new ImagePixmap(ipm), pm.toImage().sizeInBytes());
 						viw->setImage(&ipm);
 						continue;
 					}
@@ -1747,7 +1747,7 @@ void YouTubeVideoPlayer::imageDownloadFinished(QNetworkReply *reply)
 		QImageReader imageReader(reply);
 		ImagePixmap pm = QPixmap::fromImageReader(&imageReader);
 		if ( !pm.isNull() ) {
-			qmc2ImagePixmapCache.insert("yt_" + videoID, new ImagePixmap(pm), pm.toImage().byteCount());
+			qmc2ImagePixmapCache.insert("yt_" + videoID, new ImagePixmap(pm), pm.toImage().sizeInBytes());
 			viw->setImage(pm, true);
 			QDir youTubeCacheDir(qmc2Config->value(QMC2_FRONTEND_PREFIX + "YouTubeWidget/CacheDirectory").toString());
 			if ( youTubeCacheDir.exists() ) {

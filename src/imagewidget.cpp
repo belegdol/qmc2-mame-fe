@@ -347,7 +347,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 #if defined(QMC2_DEBUG)
 						QMC2_PRINT_STRTXT(QString("ZIP: Image loaded for %1").arg(cacheKey));
 #endif
-						qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(pm), pm.toImage().byteCount());
+						qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(pm), pm.toImage().sizeInBytes());
 						currentPixmap = pm;
 					} else {
 						QString parentName(qmc2ParentHash.value(machineName));
@@ -356,7 +356,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 						} else {
 							currentPixmap = qmc2MainWindow->qmc2GhostImagePixmap;
 							if ( !qmc2RetryLoadingImages )
-								qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().byteCount()); 
+								qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().sizeInBytes()); 
 #if defined(QMC2_DEBUG)
 							QMC2_PRINT_STRTXT(QString("ZIP: Using ghost image for %1").arg(cacheKey));
 #endif
@@ -406,7 +406,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 #if defined(QMC2_DEBUG)
 						QMC2_PRINT_STRTXT(QString("7z: Image loaded for %1").arg(cacheKey));
 #endif
-						qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(pm), pm.toImage().byteCount());
+						qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(pm), pm.toImage().sizeInBytes());
 						currentPixmap = pm;
 					} else {
 						QString parentName = qmc2ParentHash.value(machineName);
@@ -415,7 +415,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 						} else {
 							currentPixmap = qmc2MainWindow->qmc2GhostImagePixmap;
 							if ( !qmc2RetryLoadingImages && !isFillingDictionary )
-								qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().byteCount()); 
+								qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().sizeInBytes()); 
 							else {
 								QPainter p;
 								QString message = tr("Decompressing archive, please wait...");
@@ -476,7 +476,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 #if defined(QMC2_DEBUG)
 						QMC2_PRINT_STRTXT(QString("Archive: Image loaded for %1").arg(cacheKey));
 #endif
-						qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(pm), pm.toImage().byteCount());
+						qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(pm), pm.toImage().sizeInBytes());
 						currentPixmap = pm;
 					} else {
 						QString parentName(qmc2ParentHash.value(machineName));
@@ -485,7 +485,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 						} else {
 							currentPixmap = qmc2MainWindow->qmc2GhostImagePixmap;
 							if ( !qmc2RetryLoadingImages )
-								qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().byteCount()); 
+								qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().sizeInBytes()); 
 #if defined(QMC2_DEBUG)
 							QMC2_PRINT_STRTXT(QString("Archive: Using ghost image for %1").arg(cacheKey));
 #endif
@@ -542,7 +542,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 #if defined(QMC2_DEBUG)
 							QMC2_PRINT_STRTXT(QString("Folder: Image loaded for %1").arg(cacheKey));
 #endif
-							qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(pm), pm.toImage().byteCount());
+							qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(pm), pm.toImage().sizeInBytes());
 							currentPixmap = pm;
 							fileOk = true;
 						} else {
@@ -552,7 +552,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 							} else {
 								currentPixmap = qmc2MainWindow->qmc2GhostImagePixmap;
 								if ( !qmc2RetryLoadingImages )
-									qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().byteCount()); 
+									qmc2ImagePixmapCache.insert(cacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().sizeInBytes()); 
 #if defined(QMC2_DEBUG)
 								QMC2_PRINT_STRTXT(QString("Folder: Using ghost image for %1").arg(cacheKey));
 #endif
@@ -683,7 +683,7 @@ bool ImageWidget::checkImage(QString machineName, unzFile zip, SevenZipFile *sev
 						if ( sizeReturn )
 							*sizeReturn = image.size();
 						if ( bytesUsed )
-							*bytesUsed = image.byteCount();
+							*bytesUsed = image.sizeInBytes();
 					} else if ( readerError != 0 && imageReader.error() != QImageReader::FileNotFoundError )
 						*readerError = imageReader.errorString();
 				}
@@ -749,7 +749,7 @@ bool ImageWidget::checkImage(QString machineName, unzFile zip, SevenZipFile *sev
 						if ( sizeReturn )
 							*sizeReturn = image.size();
 						if ( bytesUsed )
-							*bytesUsed = image.byteCount();
+							*bytesUsed = image.sizeInBytes();
 					} else if ( readerError != 0 && imageReader.error() != QImageReader::FileNotFoundError )
 						*readerError = imageReader.errorString();
 				}
@@ -793,7 +793,7 @@ bool ImageWidget::checkImage(QString machineName, unzFile zip, SevenZipFile *sev
 						if ( sizeReturn )
 							*sizeReturn = image.size();
 						if ( bytesUsed )
-							*bytesUsed = image.byteCount();
+							*bytesUsed = image.sizeInBytes();
 					} else if ( readerError != 0 && imageReader.error() != QImageReader::FileNotFoundError )
 						*readerError = imageReader.errorString();
 				}
@@ -821,7 +821,7 @@ bool ImageWidget::checkImage(QString machineName, unzFile zip, SevenZipFile *sev
 						if ( sizeReturn )
 							*sizeReturn = image.size();
 						if ( bytesUsed )
-							*bytesUsed = image.byteCount();
+							*bytesUsed = image.sizeInBytes();
 						break;
 					} else if ( readerError != 0 && imageReader.error() != QImageReader::FileNotFoundError )
 						*readerError = imageReader.errorString();

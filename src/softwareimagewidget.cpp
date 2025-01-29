@@ -262,7 +262,7 @@ bool SoftwareImageWidget::loadImage(const QString &listName, const QString &eN, 
 							fileOk = false;
 						if ( fileOk ) {
 							if ( pm.loadFromData(imageData, formatName.toUtf8().constData()) ) {
-								qmc2ImagePixmapCache.insert(myCacheKey, new ImagePixmap(pm), pm.toImage().byteCount());
+								qmc2ImagePixmapCache.insert(myCacheKey, new ImagePixmap(pm), pm.toImage().sizeInBytes());
 								break;
 							} else
 								fileOk = false;
@@ -321,7 +321,7 @@ bool SoftwareImageWidget::loadImage(const QString &listName, const QString &eN, 
 								p.end();
 								enableWidgets(false);
 							} else if ( pm.loadFromData(imageData, formatName.toUtf8().constData()) ) {
-								qmc2ImagePixmapCache.insert(myCacheKey, new ImagePixmap(pm), pm.toImage().byteCount());
+								qmc2ImagePixmapCache.insert(myCacheKey, new ImagePixmap(pm), pm.toImage().sizeInBytes());
 								break;
 							} else
 								fileOk = false;
@@ -351,7 +351,7 @@ bool SoftwareImageWidget::loadImage(const QString &listName, const QString &eN, 
 							fileOk = false;
 						if ( fileOk ) {
 							if ( pm.loadFromData(imageData, formatName.toUtf8().constData()) ) {
-								qmc2ImagePixmapCache.insert(myCacheKey, new ImagePixmap(pm), pm.toImage().byteCount());
+								qmc2ImagePixmapCache.insert(myCacheKey, new ImagePixmap(pm), pm.toImage().sizeInBytes());
 								break;
 							} else
 								fileOk = false;
@@ -391,7 +391,7 @@ bool SoftwareImageWidget::loadImage(const QString &listName, const QString &eN, 
 						fileOk = true;
 						currentPixmap = pm;
 						currentPixmap.imagePath = filePath;
-						qmc2ImagePixmapCache.insert(myCacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().byteCount()); 
+						qmc2ImagePixmapCache.insert(myCacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().sizeInBytes()); 
 					} else
 						fileOk = false;
 					if ( fileOk )
@@ -409,7 +409,7 @@ bool SoftwareImageWidget::loadImage(const QString &listName, const QString &eN, 
 			return loadImage(listName, entryName, true);
 		currentPixmap = qmc2MainWindow->qmc2GhostImagePixmap;
 		if ( !qmc2RetryLoadingImages )
-			qmc2ImagePixmapCache.insert(myCacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().byteCount());
+			qmc2ImagePixmapCache.insert(myCacheKey, new ImagePixmap(currentPixmap), currentPixmap.toImage().sizeInBytes());
         }
 	return fileOk;
 }

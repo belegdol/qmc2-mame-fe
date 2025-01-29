@@ -4850,7 +4850,7 @@ void SoftwareSnap::loadImage(bool fromParent)
 								if ( fileOk ) {
 									if ( pm.loadFromData(imageData, formatName.toUtf8().constData()) ) {
 										pmLoaded = true;
-										qmc2ImagePixmapCache.insert(onBehalfOf, new ImagePixmap(pm), pm.toImage().byteCount());
+										qmc2ImagePixmapCache.insert(onBehalfOf, new ImagePixmap(pm), pm.toImage().sizeInBytes());
 										break;
 									}
 								}
@@ -4926,7 +4926,7 @@ void SoftwareSnap::loadImage(bool fromParent)
 										enableWidgets(false);
 									} else if ( pm.loadFromData(imageData, formatName.toUtf8().constData()) ) {
 										pmLoaded = true;
-										qmc2ImagePixmapCache.insert(onBehalfOf, new ImagePixmap(pm), pm.toImage().byteCount());
+										qmc2ImagePixmapCache.insert(onBehalfOf, new ImagePixmap(pm), pm.toImage().sizeInBytes());
 										break;
 									}
 								}
@@ -4954,7 +4954,7 @@ void SoftwareSnap::loadImage(bool fromParent)
 							if ( pm.load(filePath) ) {
 								pmLoaded = true;
 								pm.imagePath = filePath;
-								qmc2ImagePixmapCache.insert(onBehalfOf, new ImagePixmap(pm), pm.toImage().byteCount()); 
+								qmc2ImagePixmapCache.insert(onBehalfOf, new ImagePixmap(pm), pm.toImage().sizeInBytes()); 
 							}
 						}
 						if ( pmLoaded )
