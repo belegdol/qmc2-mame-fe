@@ -133,7 +133,7 @@ void CookieJar::saveCookies()
 					query.finish();
 					cookieKeysProcessed << cookieKey;
 				} else if ( !cookie.isSessionCookie() ) {
-					query.prepare("UPDATE qmc2_cookies SET value=:value, expiry=" + QString::number(cookie.expirationDate().toTime_t()) + " WHERE domain=:domain AND path=:path AND name=:name");
+					query.prepare("UPDATE qmc2_cookies SET value=:value, expiry=" + QString::number(cookie.expirationDate().toSecsSinceEpoch()) + " WHERE domain=:domain AND path=:path AND name=:name");
 					query.bindValue(":value", cookie.value());
 					query.bindValue(":domain", cookie.domain());
 					query.bindValue(":path", cookie.path());
@@ -146,7 +146,7 @@ void CookieJar::saveCookies()
 			} else {
 				query.finish();
 				if ( cookie.expirationDate() > now && !cookie.isSessionCookie() ) {
-					query.prepare("INSERT INTO qmc2_cookies (domain, name, value, path, expiry, secure, http_only) VALUES (:domain, :name, :value, :path, " + QString::number(cookie.expirationDate().toTime_t()) + ", " + QString(cookie.isSecure() ? "1" : "0") + ", " + QString(cookie.isHttpOnly() ? "1" : "0") + ")");
+					query.prepare("INSERT INTO qmc2_cookies (domain, name, value, path, expiry, secure, http_only) VALUES (:domain, :name, :value, :path, " + QString::number(cookie.expirationDate().toSecsSinceEpoch()) + ", " + QString(cookie.isSecure() ? "1" : "0") + ", " + QString(cookie.isHttpOnly() ? "1" : "0") + ")");
 					query.bindValue(":value", cookie.value());
 					query.bindValue(":domain", cookie.domain());
 					query.bindValue(":path", cookie.path());
@@ -192,7 +192,7 @@ bool CookieJar::loadCookies(QList<QNetworkCookie> &cookieList, QString domain, Q
 		cookie.setName(query.value(1).toByteArray());
 		cookie.setValue(query.value(2).toByteArray());
 		cookie.setPath(query.value(3).toString());
-		dt.setTime_t((uint) query.value(4).toULongLong());
+		dt.setSecsSinceEpoch((uint) query.value(4).toULongLong());
 		cookie.setExpirationDate(dt);
 		cookie.setSecure(query.value(5).toBool());
 		cookie.setHttpOnly(query.value(6).toBool());

@@ -193,7 +193,7 @@ int main(int argc, char *argv[])
 	}
 #endif
 
-	qsrand(QDateTime::currentDateTime().toTime_t());
+	qsrand(QDateTime::currentDateTime().toSecsSinceEpoch());
 	qInstallMessageHandler(qtMessageHandler);
 
 	// available emulator-modes, themes, console-modes and graphics-systems

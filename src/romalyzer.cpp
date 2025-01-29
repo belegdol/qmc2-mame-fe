@@ -4002,7 +4002,7 @@ void ROMAlyzer::updateCheckSumDbStatus()
 		lastRowCount = 0;
 	}
 	statusString += "<tr><td nowrap width=\"50%\" valign=\"top\" align=\"right\"><b>" + tr("Database size") + "</b></td><td nowrap width=\"50%\" valign=\"top\">" + humanReadable(checkSumDb()->databaseSize()) + "</td></tr>";
-	QDateTime scanTime = QDateTime::fromTime_t(checkSumDb()->scanTime());
+	QDateTime scanTime = QDateTime::fromSecsSinceEpoch(checkSumDb()->scanTime());
 	QString ageString;
 	int days = scanTime.daysTo(now);
 	if ( days > 0 )
@@ -4315,7 +4315,7 @@ void CheckSumScannerThread::prepareIncrementalScan(QStringList *fileList)
 		for (int i = 0; i < fileList->count() && !exitThread && !stopScan; i++) {
 			emit progressChanged(count++);
 			QFileInfo fi(fileList->at(i));
-			if ( fi.lastModified().toTime_t() < scanTime && pathsInDatabase.contains(fileList->at(i)) ) {
+			if ( fi.lastModified().toSecsSinceEpoch() < scanTime && pathsInDatabase.contains(fileList->at(i)) ) {
 				fileList->removeAt(i);
 				filesRemoved++;
 				i--;
@@ -4552,7 +4552,7 @@ void CheckSumScannerThread::run()
 									emitlog(tr("database update") + ": " + tr("an object with SHA-1 '%1' and CRC '%2' already exists in the database").arg(sha1List[i]).arg(crcList[i]) + ", " + tr("member '%1' from archive '%2' ignored").arg(memberList[i]).arg(filePath));
 								if ( m_pendingUpdates >= QMC2_CHECKSUM_DB_MAX_TRANSACTIONS ) {
 									emitlog(tr("committing database transaction"));
-									checkSumDb()->setScanTime(QDateTime::currentDateTime().toTime_t());
+									checkSumDb()->setScanTime(QDateTime::currentDateTime().toSecsSinceEpoch());
 									checkSumDb()->commitTransaction();
 									m_pendingUpdates = 0;
 									emitlog(tr("starting database transaction"));
@@ -4591,7 +4591,7 @@ void CheckSumScannerThread::run()
 				}
 				if ( m_pendingUpdates >= QMC2_CHECKSUM_DB_MAX_TRANSACTIONS ) {
 					emitlog(tr("committing database transaction"));
-					checkSumDb()->setScanTime(QDateTime::currentDateTime().toTime_t());
+					checkSumDb()->setScanTime(QDateTime::currentDateTime().toSecsSinceEpoch());
 					checkSumDb()->commitTransaction();
 					m_pendingUpdates = 0;
 					emitlog(tr("starting database transaction"));
@@ -4632,7 +4632,7 @@ void CheckSumScannerThread::run()
 			if ( exitThread || stopScan )
 				emitlog(tr("scanner interrupted"));
 			emitlog(tr("committing database transaction"));
-			checkSumDb()->setScanTime(QDateTime::currentDateTime().toTime_t());
+			checkSumDb()->setScanTime(QDateTime::currentDateTime().toSecsSinceEpoch());
 			checkSumDb()->commitTransaction();
 			if ( useHashCache ) {
 				m_hashCache.clear();

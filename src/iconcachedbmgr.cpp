@@ -218,7 +218,7 @@ bool IconCacheDatabaseManager::importRequired(const QStringList &pathList)
 		foreach (QString path, pathList) {
 			QFileInfo fi(path);
 			uint dtImport = importDates.at(importPaths.indexOf(path)).toUInt();
-			if ( dtImport < fi.lastModified().toTime_t() )
+			if ( dtImport < fi.lastModified().toSecsSinceEpoch() )
 				datesChanged = true;
 			if ( datesChanged )
 				break;

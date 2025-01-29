@@ -526,11 +526,11 @@ void MachineList::load()
 	QString execFile(qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/ExecutableFile").toString());
 	QFileInfo fi(execFile);
 	uint cacheTime = qmc2Config->value(QMC2_EMULATOR_PREFIX + "Cache/Time", 0).toUInt();
-	if ( !qmc2Config->value(QMC2_EMULATOR_PREFIX + "SkipEmuIdent", true).toBool() || fi.lastModified().toTime_t() != cacheTime || cacheTime == 0 ) {
+	if ( !qmc2Config->value(QMC2_EMULATOR_PREFIX + "SkipEmuIdent", true).toBool() || fi.lastModified().toSecsSinceEpoch() != cacheTime || cacheTime == 0 ) {
 		QTime elapsedTime(0, 0, 0, 0);
 		qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("determining emulator version and supported sets"));
 		parseTimer.start();
-		qmc2Config->setValue(QMC2_EMULATOR_PREFIX + "Cache/Time", fi.lastModified().toTime_t());
+		qmc2Config->setValue(QMC2_EMULATOR_PREFIX + "Cache/Time", fi.lastModified().toSecsSinceEpoch());
 		QProcess commandProc;
 		bool started = false, commandProcStarted = false;
 		int retries = 0;
@@ -3246,7 +3246,7 @@ bool MachineList::loadIcon(const QString &machineName, QTreeWidgetItem *item)
 		iconCacheDb()->commitTransaction();
 		QStringList importDates;
 		foreach (QString path, importPaths)
-			importDates << QString::number(QFileInfo(path).lastModified().toTime_t());
+			importDates << QString::number(QFileInfo(path).lastModified().toSecsSinceEpoch());
 		qmc2Config->setValue(QMC2_EMULATOR_PREFIX + "IconCacheDatabase/ImportPaths", importPaths);
 		qmc2Config->setValue(QMC2_EMULATOR_PREFIX + "IconCacheDatabase/ImportDates", importDates);
 	} else {

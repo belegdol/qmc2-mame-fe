@@ -2183,7 +2183,7 @@ void CollectionRebuilderThread::updateHashCache()
 			emit log(tr("hash cache update interrupted"));
 		} else {
 			emit log(tr("hash cache updated") + " - " + tr("%n hash(es) loaded", "", m_hashCache.count()));
-			m_hashCacheUpdateTime = QDateTime::currentDateTime().toTime_t();
+			m_hashCacheUpdateTime = QDateTime::currentDateTime().toSecsSinceEpoch();
 			emit progressRangeChanged(m_xmlIndex, m_xmlIndexCount);
 			emit progressChanged(m_xmlIndex);
 		}

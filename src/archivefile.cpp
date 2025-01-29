@@ -108,7 +108,7 @@ bool ArchiveFile::seekNextEntry(ArchiveEntryMetaData *metaData, bool *reset)
 		}
 	}
 	if ( archive_read_next_header(m_archive, &m_entry) == ARCHIVE_OK ) {
-		*metaData = ArchiveEntryMetaData(archive_entry_pathname(m_entry), archive_entry_size(m_entry), QDateTime::fromTime_t(archive_entry_mtime(m_entry)));
+		*metaData = ArchiveEntryMetaData(archive_entry_pathname(m_entry), archive_entry_size(m_entry), QDateTime::fromSecsSinceEpoch(archive_entry_mtime(m_entry)));
 		return true;
 	} else
 		return false;
@@ -163,7 +163,7 @@ bool ArchiveFile::createEntry(QString name, size_t size)
 	archive_entry_set_size(m_entry, size);
 	archive_entry_set_filetype(m_entry, AE_IFREG);
 	archive_entry_set_perm(m_entry, 0644);
-	archive_entry_set_mtime(m_entry, QDateTime::currentDateTime().toTime_t(), 0);
+	archive_entry_set_mtime(m_entry, QDateTime::currentDateTime().toSecsSinceEpoch(), 0);
 	archive_write_header(m_archive, m_entry);
 	return !hasError();
 }
@@ -184,7 +184,7 @@ void ArchiveFile::createEntryList()
 	int counter = 0;
 	while ( archive_read_next_header(m_archive, &entry) == ARCHIVE_OK ) {
 		QString entryName(archive_entry_pathname(entry));
-		entryList() << ArchiveEntryMetaData(entryName, archive_entry_size(entry), QDateTime::fromTime_t(archive_entry_mtime(entry)));
+		entryList() << ArchiveEntryMetaData(entryName, archive_entry_size(entry), QDateTime::fromSecsSinceEpoch(archive_entry_mtime(entry)));
 		m_nameToIndexCache.insert(entryName, counter++);
 		archive_read_data_skip(m_archive);
 	}

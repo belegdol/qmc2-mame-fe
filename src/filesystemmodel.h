@@ -702,7 +702,7 @@ class FileSystemModel : public QAbstractItemModel
 							t->tm_mday = (int)(zipInfo.dosDate >> 16) & 0x1f;
 							t->tm_mon  = ((int)(zipInfo.dosDate >> 21) & 0x0f) - 1;
 							t->tm_year = ((int)(zipInfo.dosDate >> 25) & 0x7f) + 80;
-							mZipEntryDates << QDateTime::fromTime_t(mktime(t));
+							mZipEntryDates << QDateTime::fromSecsSinceEpoch(mktime(t));
 							insertRows(row, 1, index);
 						}
 						mZipEntryList.clear();

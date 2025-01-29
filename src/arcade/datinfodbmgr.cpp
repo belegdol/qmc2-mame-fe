@@ -520,7 +520,7 @@ bool DatInfoDatabaseManager::softwareInfoImportRequired(QStringList pathList)
 		foreach (QString path, pathList) {
 			QFileInfo fi(path);
 			uint dtImport = importDates[importFiles.indexOf(path)].toUInt();
-			if ( dtImport != fi.lastModified().toTime_t() )
+			if ( dtImport != fi.lastModified().toSecsSinceEpoch() )
 				datesChanged = true;
 			if ( datesChanged )
 				break;
@@ -616,7 +616,7 @@ void DatInfoDatabaseManager::importSoftwareInfo(QStringList pathList, bool fromS
 			commitTransaction();
 			QMC2_ARCADE_LOG_STR(QString(tr("DAT-info database") + ": " + tr("done (importing %1 from '%2')").arg(tr("software info-texts")).arg(QDir::toNativeSeparators(path))));
 			importPaths << path;
-			importDates << QString::number(QFileInfo(path).lastModified().toTime_t());
+			importDates << QString::number(QFileInfo(path).lastModified().toSecsSinceEpoch());
 			swInfoDB.close();
 		} else
 			QMC2_ARCADE_LOG_STR(QString(tr("DAT-info database") + ": " + tr("WARNING: can't open software info file '%1'").arg(QDir::toNativeSeparators(path))));
@@ -660,7 +660,7 @@ bool DatInfoDatabaseManager::emuInfoImportRequired(QStringList pathList)
 		foreach (QString path, pathList) {
 			QFileInfo fi(path);
 			uint dtImport = importDates[importFiles.indexOf(path)].toUInt();
-			if ( dtImport != fi.lastModified().toTime_t() )
+			if ( dtImport != fi.lastModified().toSecsSinceEpoch() )
 				datesChanged = true;
 			if ( datesChanged )
 				break;
@@ -747,7 +747,7 @@ void DatInfoDatabaseManager::importEmuInfo(QStringList pathList, bool fromScratc
 			commitTransaction();
 			QMC2_ARCADE_LOG_STR(QString(tr("DAT-info database") + ": " + tr("done (importing %1 from '%2')").arg(tr("emulator info-texts")).arg(QDir::toNativeSeparators(path))));
 			importPaths << path;
-			importDates << QString::number(QFileInfo(path).lastModified().toTime_t());
+			importDates << QString::number(QFileInfo(path).lastModified().toSecsSinceEpoch());
 			emuInfoDB.close();
 		} else
 			QMC2_ARCADE_LOG_STR(QString(tr("DAT-info database") + ": " + tr("WARNING: can't open emulator info file %1").arg(QDir::toNativeSeparators(path))));
@@ -791,7 +791,7 @@ bool DatInfoDatabaseManager::machineInfoImportRequired(QStringList pathList)
 		foreach (QString path, pathList) {
 			QFileInfo fi(path);
 			uint dtImport = importDates[importFiles.indexOf(path)].toUInt();
-			if ( dtImport != fi.lastModified().toTime_t() )
+			if ( dtImport != fi.lastModified().toSecsSinceEpoch() )
 				datesChanged = true;
 			if ( datesChanged )
 				break;
@@ -889,7 +889,7 @@ void DatInfoDatabaseManager::importMachineInfo(QStringList pathList, QStringList
 			commitTransaction();
 			QMC2_ARCADE_LOG_STR(QString(tr("DAT-info database") + ": " + tr("done (importing %1 from '%2')").arg(tr("system info-texts")).arg(QDir::toNativeSeparators(path))));
 			importPaths << path;
-			importDates << QString::number(QFileInfo(path).lastModified().toTime_t());
+			importDates << QString::number(QFileInfo(path).lastModified().toSecsSinceEpoch());
 			machineInfoDB.close();
 		} else
 			QMC2_ARCADE_LOG_STR(QString(tr("DAT-info database") + ": " + tr("WARNING: can't open machine info file %1").arg(QDir::toNativeSeparators(path))));

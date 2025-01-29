@@ -10785,7 +10785,7 @@ int main(int argc, char **argv)
 	}
 #endif
 
-	qsrand(QDateTime::currentDateTime().toTime_t());
+	qsrand(QDateTime::currentDateTime().toSecsSinceEpoch());
 
 	// install message handler
 	qInstallMessageHandler(myQtMessageHandler);

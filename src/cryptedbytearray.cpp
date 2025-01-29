@@ -41,7 +41,7 @@ void CryptedByteArray::crypt()
 		char randChar = qrand() % 256;
 		m_cryptoData.append(at(i) ^ randChar);
 	}
-	qsrand((uint)QDateTime::currentDateTime().toTime_t());
+	qsrand((uint)QDateTime::currentDateTime().toSecsSinceEpoch());
 }
 
 uint CryptedByteArray::keyToValue()

@@ -275,7 +275,7 @@ void SetupWizard::probeExecutable()
 							labelTotalMachinesResult->setText("<font color=\"sandybrown\" size=\"4\"><b>" + tr("Unknown") + " (" + tr("emulator didn't start") + "</b></font>");
 							labelBinaryIdentHashResult->setText("<font color=\"sandybrown\" size=\"4\"><b>" + tr("Unknown") + " (" + tr("emulator didn't start") + "</b></font>");
 						}
-						m_modificationTime = fi.lastModified().toTime_t();
+						m_modificationTime = fi.lastModified().toSecsSinceEpoch();
 						labelFileModificationDateResult->setText("<font color=\"green\" size=\"4\"><b>" + fi.lastModified().toString(Qt::SystemLocaleShortDate) + "</b></font>");
 						if ( findIniFiles() ) {
 							if ( m_emulatorIniPath.isEmpty() )

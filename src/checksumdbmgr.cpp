@@ -509,7 +509,7 @@ void CheckSumDatabaseManager::recreateDatabase()
 		emitlog(tr("WARNING: failed to create check-sum database: query = '%1', error = '%2'").arg(query.lastQuery()).arg(query.lastError().text()));
 		return;
 	}
-	setScanTime(QDateTime::currentDateTime().toTime_t());
+	setScanTime(QDateTime::currentDateTime().toSecsSinceEpoch());
 	setQmc2Version(XSTR(QMC2_VERSION));
 	setCheckSumDbVersion(QMC2_CHECKSUM_DB_VERSION);
 	emitlog(tr("check-sum database '%1' initialized").arg(databasePath()));
