@@ -656,9 +656,9 @@ void MiniWebBrowser::setStatus(QString statusMessage)
 		labelStatus->setMaximumHeight(f.pointSize() + 4);
 		QFontMetrics fm(f);
 		if ( progressBar->isVisible() )
-			labelStatus->setText(fm.elidedText(m_statusMessage, Qt::ElideRight, webViewBrowser->width() / 2 - fm.width("W")));
+			labelStatus->setText(fm.elidedText(m_statusMessage, Qt::ElideRight, webViewBrowser->width() / 2 - fm.horizontalAdvance("W")));
 		else
-			labelStatus->setText(fm.elidedText(m_statusMessage, Qt::ElideRight, webViewBrowser->width() - fm.width("W")));
+			labelStatus->setText(fm.elidedText(m_statusMessage, Qt::ElideRight, webViewBrowser->width() - fm.horizontalAdvance("W")));
 		labelStatus->show();
 	}
 
