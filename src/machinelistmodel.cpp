@@ -538,7 +538,7 @@ void MachineListModel::sort(int column, Qt::SortOrder order)
 	}
 	if ( order == Qt::DescendingOrder )
 		for (int k = 0; k < rootItem()->childItems().size() / 2; k++)
-			rootItem()->childItems().swap(k, rootItem()->childItems().size() - (1 + k));
+			rootItem()->childItems().swapItemsAt(k, rootItem()->childItems().size() - (1 + k));
 	emit layoutChanged();
 	if ( selectedItem ) {
 		int row = rootItem()->childItems().indexOf(selectedItem);
