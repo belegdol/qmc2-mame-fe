@@ -476,7 +476,7 @@ void Embedder::checkWindow()
 		qApp->processEvents();
 		HWND hwnd = 0;
 		int retries = 0;
-		Q_PID gamePid = qmc2ProcessManager->getPid(machineId.toInt());
+		qint64 gamePid = qmc2ProcessManager->getPid(machineId.toInt());
 		while ( gamePid && !hwnd && retries++ < QMC2_MAX_WININFO_RETRIES ) {
 			hwnd = winFindWindowHandleOfProcess(gamePid, "MAME:");
 			if ( !hwnd )

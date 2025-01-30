@@ -698,9 +698,9 @@ void ProjectWidget::started()
 	lastRc = 0;
 	runningProjects++;
 #if defined(Q_OS_WIN)
-	log(tr("process started: PID = %1").arg(chdmanProc->pid()->dwProcessId));
+	log(tr("process started: PID = %1").arg(chdmanProc->processId()->dwProcessId));
 #else
-	log(tr("process started: PID = %1").arg(chdmanProc->pid()));
+	log(tr("process started: PID = %1").arg(chdmanProc->processId()));
 #endif
 	status = QCHDMAN_PRJSTAT_RUNNING;
 	ui->toolButtonStop->setEnabled(true);

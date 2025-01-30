@@ -132,7 +132,7 @@ QProcess *ProcessManager::process(ushort index)
 
 void ProcessManager::terminate(QProcess *proc)
 {
-	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("terminating emulator #%1, PID = %2").arg(procMap.value(proc)).arg((quint64)proc->pid()));
+	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("terminating emulator #%1, PID = %2").arg(procMap.value(proc)).arg((quint64)proc->processId()));
 	proc->terminate();
 }
 
@@ -156,7 +156,7 @@ void ProcessManager::terminate(ushort index)
 
 void ProcessManager::kill(QProcess *proc)
 {
-	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("killing emulator #%1, PID = %2").arg(procMap.value(proc)).arg((quint64)proc->pid()));
+	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("killing emulator #%1, PID = %2").arg(procMap.value(proc)).arg((quint64)proc->processId()));
 	proc->kill();
 }
 
@@ -272,7 +272,7 @@ void ProcessManager::started()
 	QProcess *proc = (QProcess *)sender();
 	QTreeWidgetItem *procItem = new QTreeWidgetItem(qmc2MainWindow->treeWidgetEmulators);
 	procItem->setText(QMC2_EMUCONTROL_COLUMN_ID, QString::number(procMap.value(proc)));
-	procItem->setText(QMC2_EMUCONTROL_COLUMN_PID, QString::number((quint64)(proc->pid())));
+	procItem->setText(QMC2_EMUCONTROL_COLUMN_PID, QString::number((quint64)(proc->processId())));
 	procItem->setText(QMC2_EMUCONTROL_COLUMN_STATUS, tr("running"));
 	procItem->setIcon(QMC2_EMUCONTROL_COLUMN_LED0, QIcon(QString::fromUtf8(":/data/img/led_off.png")));
 	procItem->setIcon(QMC2_EMUCONTROL_COLUMN_LED1, QIcon(QString::fromUtf8(":/data/img/led_off.png")));
@@ -292,7 +292,7 @@ void ProcessManager::started()
 	if ( qmc2MainWindow->treeWidgetEmulators->header()->visualIndex(QMC2_EMUCONTROL_COLUMN_COMMAND) == QMC2_EMUCONTROL_COLUMN_COMMAND ) 
 		qmc2MainWindow->treeWidgetEmulators->resizeColumnToContents(QMC2_EMUCONTROL_COLUMN_COMMAND);
 
-	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("emulator #%1 started, PID = %2, running emulators = %3").arg(procMap.value(proc)).arg((quint64)proc->pid()).arg(procMap.count()));
+	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("emulator #%1 started, PID = %2, running emulators = %3").arg(procMap.value(proc)).arg((quint64)proc->processId()).arg(procMap.count()));
 
 #if QMC2_USE_PHONON_API
 	if ( qmc2MainWindow->phononAudioPlayer->state() == Phonon::PlayingState && procMap.count() == 1 ) {
@@ -405,11 +405,11 @@ QString &ProcessManager::exitCodeString(int exitCode, bool textOnly)
 	return exitString;
 }
 
-Q_PID ProcessManager::getPid(int id)
+qint64 ProcessManager::getPid(int id)
 {
 	QProcess *proc = process(id);
 	if ( proc )
-		return proc->pid();
+		return proc->processId();
 	else
-		return QProcess().pid();
+		return QProcess().processId();
 }

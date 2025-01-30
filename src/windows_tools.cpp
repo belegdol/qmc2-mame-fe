@@ -75,7 +75,7 @@ void winRefreshWindowMap()
 	winFindWindowHandle("DUMMY");
 }
 
-HWND winFindWindowHandleOfProcess(Q_PID processInfo, QString subString)
+HWND winFindWindowHandleOfProcess(qint64 processInfo, QString subString)
 {
 	bool handleFound = false;
 	HWND windowHandle = GetTopWindow(0);

@@ -5030,7 +5030,7 @@ void MainWindow::action_embedEmulator_triggered()
 		QList<WId> winIdList;
 		int wininfoRetries = 0;
 		while ( winIdList.isEmpty() && wininfoRetries++ < QMC2_MAX_WININFO_RETRIES ) {
-			Q_PID gamePid = qmc2ProcessManager->getPid(machineId.toInt());
+			qint64 gamePid = qmc2ProcessManager->getPid(machineId.toInt());
 			if ( gamePid ) {
 				HWND hwnd = winFindWindowHandleOfProcess(gamePid, "MAME:");
 				if ( hwnd )

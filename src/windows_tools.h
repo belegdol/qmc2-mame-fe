@@ -13,7 +13,7 @@
 
 HANDLE winFindProcessHandle(QString);
 HWND winFindWindowHandle(QString);
-HWND winFindWindowHandleOfProcess(Q_PID, QString subString = QString());
+  HWND winFindWindowHandleOfProcess(qint64, QString subString = QString());
 void winRefreshWindowMap();
 void winAllocConsole(bool parentOnly = true);
 void winFreeConsole();
