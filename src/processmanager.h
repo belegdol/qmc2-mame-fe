@@ -43,7 +43,7 @@ class ProcessManager : public QObject
 		void kill(QProcess *);
 		void kill(ushort);
 		QString &exitCodeString(int, bool textOnly = false);
-		Q_PID getPid(int);
+		qint64 getPid(int);
 
 		static QString errorText(QProcess::ProcessError);
 
