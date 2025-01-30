@@ -320,7 +320,7 @@ void DemoModeDialog::startNextEmu()
 			seqNum = 0;
 		qmc2DemoMachine = selectedMachines[seqNum];
 	} else
-		qmc2DemoMachine = selectedMachines[qrand() % selectedMachines.count()];
+		qmc2DemoMachine = selectedMachines[QRandomGenerator::global()->generate() % selectedMachines.count()];
 	QString gameDescription = qmc2MachineListItemHash.value(qmc2DemoMachine)->text(QMC2_MACHINELIST_COLUMN_MACHINE);
 	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("starting emulation in demo mode for '%1'").arg(gameDescription));
 	setStatus(gameDescription);
