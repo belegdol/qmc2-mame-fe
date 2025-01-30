@@ -336,7 +336,7 @@ class FileSystemItem : public QObject
 			}
 
 			if ( sortOrder == Qt::DescendingOrder )
-				for (int k = 0; k < mFiles.size() / 2; k++) mFiles.swap(k, mFiles.size() - (1 + k));
+				for (int k = 0; k < mFiles.size() / 2; k++) mFiles.swapItemsAt(k, mFiles.size() - (1 + k));
 
 			if ( foldersFirst ) {
 				int lastInsertIndex = 0;
