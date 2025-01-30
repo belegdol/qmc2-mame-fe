@@ -52,7 +52,7 @@ SoftwareListExporter::SoftwareListExporter(QWidget *parent)
 	QStringList columnActivation = qmc2Config->value(QMC2_FRONTEND_PREFIX + "SoftwareListExporter/ColumnActivation", defaultColumnActivation).toStringList();
 
 	// make sure all columns are included, otherwise reset column order & activation
-	if ( orderedColumns.toSet() != columnNamesUntranslated.toSet() ) {
+	if ( QSet(orderedColumns.begin(), orderedColumns.end()) != QSet(columnNamesUntranslated.begin(), columnNamesUntranslated.end()) ) {
 		orderedColumns = columnNamesUntranslated;
 		columnActivation = defaultColumnActivation;
 	}
