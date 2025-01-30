@@ -4907,7 +4907,7 @@ void SoftwareSnap::loadImage(bool fromParent)
 										QPainter p;
 										QString message = tr("Decompressing archive, please wait...");
 										p.begin(&pm);
-										p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform);
+										p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 										QFont f(qApp->font());
 										f.setWeight(QFont::Bold);
 										f.setPointSize(f.pointSize() * 2);

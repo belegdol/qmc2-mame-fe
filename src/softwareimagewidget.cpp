@@ -305,7 +305,7 @@ bool SoftwareImageWidget::loadImage(const QString &listName, const QString &eN, 
 								QPainter p;
 								QString message = tr("Decompressing archive, please wait...");
 								p.begin(&currentPixmap);
-								p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform);
+								p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 								QFont f(qApp->font());
 								f.setWeight(QFont::Bold);
 								f.setPointSize(f.pointSize() * 2);
@@ -434,7 +434,7 @@ void SoftwareImageWidget::drawCenteredImage(QPixmap *pm, QPainter *p)
 
 	if ( qmc2ShowMachineName ) {
 		// draw entry title
-		p->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform);
+		p->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 		QString title = qmc2SoftwareList->currentItem->text(QMC2_SWLIST_COLUMN_TITLE);
 		QFont f(qApp->font());
 		f.setWeight(QFont::Bold);

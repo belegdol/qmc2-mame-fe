@@ -420,7 +420,7 @@ bool ImageWidget::loadImage(const QString &machineName, const QString &onBehalfO
 								QPainter p;
 								QString message = tr("Decompressing archive, please wait...");
 								p.begin(&currentPixmap);
-								p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform);
+								p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 								QFont f(qApp->font());
 								f.setWeight(QFont::Bold);
 								f.setPointSize(f.pointSize() * 2);
@@ -871,7 +871,7 @@ void ImageWidget::drawCenteredImage(QPixmap *pm, QPainter *p)
 
 	if ( drawMachineName ) {
 		// draw game/machine title
-		p->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform);
+		p->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 		QString title = qmc2CurrentItem->text(QMC2_MACHINELIST_COLUMN_MACHINE);
 		QFont f(qApp->font());
 		f.setWeight(QFont::Bold);
