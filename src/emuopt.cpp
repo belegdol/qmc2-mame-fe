@@ -761,7 +761,7 @@ void EmulatorOptions::load(bool overwrite, QString optName)
 					} else
 						v = qmc2Config->value(option.name, option.dvalue.toInt()).toInt(&ok);
 					if ( ok ) {
-						optionsMap[sectionTitle][i].value.sprintf("%d", v);
+						optionsMap[sectionTitle][i].value.setNum(v);
 						optionsMap[sectionTitle][i].valid = true;
 						optionsMap[sectionTitle][i].item->setData(QMC2_EMUOPT_COLUMN_VALUE, Qt::EditRole, QVariant::fromValue(v));
 					}
@@ -913,7 +913,7 @@ void EmulatorOptions::save(QString optName)
 				case QMC2_EMUOPT_TYPE_INT: {
 					int v = optionsMap[sectionTitle][i].item->data(QMC2_EMUOPT_COLUMN_VALUE, Qt::DisplayRole).toInt();
 					int gv = qmc2GlobalEmulatorOptions->optionsMap[sectionTitle][i].item->data(QMC2_EMUOPT_COLUMN_VALUE, Qt::DisplayRole).toInt();
-					vs.sprintf("%d", v);
+					vs.setNum(v);
 					if ( isGlobal ) {
 						if ( v != optionsMap[sectionTitle][i].dvalue.toInt() ) {
 							optionsMap[sectionTitle][i].value = vs;
