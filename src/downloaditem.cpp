@@ -125,7 +125,7 @@ void ItemDownloader::checkError()
 
 	if ( dataReceived == 0 ) {
 		if ( retryCount < QMC2_DOWNLOAD_OPCANCEL_RETRY )
-			QTimer::singleShot((qrand() % 6 + 5) * QMC2_DOWNLOAD_RETRY_DELAY, this, SLOT(reload()));
+			QTimer::singleShot((QRandomGenerator::global()->generate() % 6 + 5) * QMC2_DOWNLOAD_RETRY_DELAY, this, SLOT(reload()));
 		else {
 			error(QNetworkReply::TimeoutError);
 			finished();

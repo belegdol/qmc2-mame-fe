@@ -7200,10 +7200,10 @@ void MainWindow::audioFinished()
 	else if ( checkBoxAudioShuffle->isChecked() ) {
 		if ( shuffleSelectionList.count() >= listWidgetAudioPlaylist->count() )
 			shuffleSelectionList.clear();
-		int newTrackIndex = qrand() % listWidgetAudioPlaylist->count();
+		int newTrackIndex = QRandomGenerator::global()->generate() % listWidgetAudioPlaylist->count();
 		while ( shuffleSelectionList.contains(listWidgetAudioPlaylist->item(newTrackIndex)->text()) ) {
 			qApp->processEvents();
-			newTrackIndex = qrand() % listWidgetAudioPlaylist->count();
+			newTrackIndex = QRandomGenerator::global()->generate() % listWidgetAudioPlaylist->count();
 		}
 		shuffleSelectionList << listWidgetAudioPlaylist->item(newTrackIndex)->text();
 		listWidgetAudioPlaylist->setCurrentRow(newTrackIndex);
@@ -10784,8 +10784,6 @@ int main(int argc, char **argv)
 		QCoreApplication::addLibraryPath(fi.absoluteDir().absolutePath() + "/../PlugIns");
 	}
 #endif
-
-	qsrand(QDateTime::currentDateTime().toSecsSinceEpoch());
 
 	// install message handler
 	qInstallMessageHandler(myQtMessageHandler);

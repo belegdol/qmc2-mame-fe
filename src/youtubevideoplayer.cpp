@@ -413,7 +413,7 @@ void YouTubeVideoPlayer::playNextVideo()
 	if ( il.count() > 0 ) {
 		switch ( comboBoxMode->currentIndex() ) {
 			case YOUTUBE_PLAYOMATIC_RANDOM: {
-					int index = qrand() % il.count();
+					int index = QRandomGenerator::global()->generate() % il.count();
 					VideoItemWidget *viw = (VideoItemWidget *)listWidgetAttachedVideos->itemWidget(il[index]);
 					if ( viw ) {
 						bool localFile = (viw->itemType == VIDEOITEM_TYPE_LOCAL_MOVIE || viw->itemType == VIDEOITEM_TYPE_VIDEO_SNAP);
@@ -433,7 +433,7 @@ void YouTubeVideoPlayer::playNextVideo()
 								playVideo(vidOrig);
 						} else if ( playedVideos.count() < il.count() ) {
 							do {
-								index = qrand() % il.count();
+								index = QRandomGenerator::global()->generate() % il.count();
 								viw = (VideoItemWidget *)listWidgetAttachedVideos->itemWidget(il[index]);
 							} while ( playedVideos.contains(vidOrig) );
 							if ( localFile )
