@@ -688,7 +688,7 @@ void BrowserWidget::wheelEvent(QWheelEvent *e)
 {
 	if ( e->modifiers() & Qt::ControlModifier ) {
 		if ( parentBrowser )
-			parentBrowser->spinBoxZoom->setValue(parentBrowser->spinBoxZoom->value() + parentBrowser->spinBoxZoom->singleStep() * (e->delta() > 0 ? 1 : e->delta() < 0 ? -1 : 0));
+			parentBrowser->spinBoxZoom->setValue(parentBrowser->spinBoxZoom->value() + parentBrowser->spinBoxZoom->singleStep() * (e->angleDelta().y() > 0 ? 1 : e->angleDelta().y() < 0 ? -1 : 0));
 		e->accept();
 	} else {
 		e->ignore();
