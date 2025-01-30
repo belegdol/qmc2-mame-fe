@@ -548,7 +548,7 @@ void DatInfoDatabaseManager::importSoftwareInfo(QStringList pathList, bool fromS
 			qApp->processEvents();
 			beginTransaction();
 			QTextStream ts(&swInfoDB);
-			ts.setCodec(QTextCodec::codecForName("UTF-8"));
+			ts.setEncoding(QStringConverter::Utf8);
 			quint64 recordsProcessed = 0, pendingUpdates = 0;
 			QRegularExpression markRegExp("^\\$\\S+\\=\\S+\\,$");
 			QRegularExpression reduceLinesRegExp("(<br>){2,}");
@@ -688,7 +688,7 @@ void DatInfoDatabaseManager::importEmuInfo(QStringList pathList, bool fromScratc
 			qApp->processEvents();
 			beginTransaction();
 			QTextStream ts(&emuInfoDB);
-			ts.setCodec(QTextCodec::codecForName("UTF-8"));
+			ts.setEncoding(QStringConverter::Utf8);
 			quint64 recordsProcessed = 0, pendingUpdates = 0;
 			QRegularExpression lineBreakRx("(<br>){2,}");
 			while ( !ts.atEnd() ) {
@@ -821,7 +821,7 @@ void DatInfoDatabaseManager::importMachineInfo(QStringList pathList, QStringList
 			qApp->processEvents();
 			beginTransaction();
 			QTextStream ts(&machineInfoDB);
-			ts.setCodec(QTextCodec::codecForName("UTF-8"));
+			ts.setEncoding(QStringConverter::Utf8);
 			quint64 recordsProcessed = 0, pendingUpdates = 0;
 			QRegularExpression lineBreakRx("(<br>){2,}");
 			while ( !ts.atEnd() ) {

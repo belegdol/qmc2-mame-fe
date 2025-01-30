@@ -1257,7 +1257,7 @@ void MachineList::parse()
 	machineListCache.setFileName(qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/MachineListCacheFile").toString());
 	if ( machineListCache.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 		tsMachineListCache.setDevice(&machineListCache);
-		tsMachineListCache.setCodec(QTextCodec::codecForName("UTF-8"));
+		tsMachineListCache.setEncoding(QStringConverter::Utf8);
 		tsMachineListCache.seek(0);
 		if ( !tsMachineListCache.atEnd() ) {
 			QString line(tsMachineListCache.readLine());
@@ -1531,7 +1531,7 @@ void MachineList::parse()
 			machineListDb()->setQmc2Version(XSTR(QMC2_VERSION));
 			machineListDb()->setMachineListVersion(QMC2_MACHINELIST_DB_VERSION);
 			tsMachineListCache.setDevice(&machineListCache);
-			tsMachineListCache.setCodec(QTextCodec::codecForName("UTF-8"));
+			tsMachineListCache.setEncoding(QStringConverter::Utf8);
 			tsMachineListCache.reset();
 			tsMachineListCache << "# THIS FILE IS AUTO-GENERATED - PLEASE DO NOT EDIT!\n";
 			tsMachineListCache << "MAME_VERSION\t" + emulatorVersion + "\tMLC_VERSION\t" + QString::number(QMC2_MLC_VERSION) + "\n";

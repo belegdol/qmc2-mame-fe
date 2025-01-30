@@ -135,7 +135,7 @@ void ROMStatusExporter::exportToASCII()
 		if ( exportFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 			qmc2ExportingROMStatus = true;
 			ts.setDevice(&exportFile);
-			ts.setCodec(QTextCodec::codecForName("UTF-8"));
+			ts.setEncoding(QStringConverter::Utf8);
 			qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("exporting ROM status in ASCII format to '%1'").arg(QFileInfo(exportFile).filePath()));
 		} else {
 			qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("WARNING: can't open ASCII export file '%1' for writing, please check permissions").arg(QFileInfo(exportFile).filePath()));
@@ -456,7 +456,7 @@ void ROMStatusExporter::exportToCSV()
 		if ( exportFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 			qmc2ExportingROMStatus = true;
 			ts.setDevice(&exportFile);
-			ts.setCodec(QTextCodec::codecForName("UTF-8"));
+			ts.setEncoding(QStringConverter::Utf8);
 			qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("exporting ROM status in CSV format to '%1'").arg(QFileInfo(exportFile).filePath()));
 		} else {
 			qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("WARNING: can't open CSV export file '%1' for writing, please check permissions").arg(QFileInfo(exportFile).filePath()));
@@ -695,7 +695,7 @@ void ROMStatusExporter::exportToHTML()
 	    	if ( exportFile.open(QIODevice::WriteOnly | QIODevice::Text) ) {
 		  	qmc2ExportingROMStatus = true;
 		  	ts.setDevice(&exportFile);
-		  	ts.setCodec(QTextCodec::codecForName("UTF-8"));
+		  	ts.setEncoding(QStringConverter::Utf8);
 		  	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("exporting ROM status in HTML format to '%1'").arg(QFileInfo(exportFile).filePath()));
 	    	} else {
 		  	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("WARNING: can't open HTML export file '%1' for writing, please check permissions").arg(QFileInfo(exportFile).filePath()));

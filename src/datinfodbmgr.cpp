@@ -734,7 +734,7 @@ void DatInfoDatabaseManager::importEmuInfo(QStringList pathList, bool fromScratc
 			qmc2MainWindow->progressBarMachineList->setValue(0);
 			qApp->processEvents();
 			QTextStream ts(&emuInfoDB);
-			ts.setCodec(QTextCodec::codecForName("UTF-8"));
+			ts.setEncoding(QStringConverter::Utf8);
 			quint64 recordsProcessed = 0, pendingUpdates = 0;
 			QRegularExpression lineBreakRx("(<br>){2,}");
 			while ( !ts.atEnd() && !qmc2LoadingInterrupted ) {
