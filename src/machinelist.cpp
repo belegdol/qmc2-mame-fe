@@ -2318,8 +2318,8 @@ void MachineList::loadReadyReadStandardOutput()
 	static QRegularExpression rxDescYearManu("\\<description\\>$|\\<year\\>$|\\<manufacturer\\>$");
 
 	// this makes the GUI much more responsive, but is HAS to be called before loadProc->readAllStandardOutput()!
-	if ( QCoreApplication::hasPendingEvents() )
-		qApp->processEvents();
+	//if ( QCoreApplication::hasPendingEvents() )
+	//	qApp->processEvents();
 #if defined(QMC2_OS_WIN)
 	QString readBuffer(QString::fromUtf8(loadProc->readAllStandardOutput()));
 #else
