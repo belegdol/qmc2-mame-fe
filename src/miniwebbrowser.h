@@ -40,7 +40,7 @@ class BrowserWidget : public QWebEngineView
 			lastMouseClickPosition = e->pos();
 			QWebEngineView::mousePressEvent(e);
 		}
-		void enterEvent(QEvent *e)
+		void enterEvent(QEnterEvent *e)
 		{
 			QWebEngineView::enterEvent(e);
 			mouseCurrentlyOnView = true;

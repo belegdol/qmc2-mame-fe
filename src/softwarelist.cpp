@@ -4620,7 +4620,7 @@ void SoftwareSnap::mousePressEvent(QMouseEvent *e)
 		ctxMenuRequested = true;
 }
 
-void SoftwareSnap::enterEvent(QEvent *e)
+void SoftwareSnap::enterEvent(QEnterEvent *e)
 {
 	if ( contextMenu->isVisible() )
 		QTimer::singleShot(0, contextMenu, SLOT(hide()));

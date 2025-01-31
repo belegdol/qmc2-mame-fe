@@ -29,7 +29,7 @@ class RomStateFilter : public QWidget, public Ui::RomStateFilter
 
 	protected:
 		void showEvent(QShowEvent *);
-		void enterEvent(QEvent *);
+		void enterEvent(QEnterEvent *);
 		void leaveEvent(QEvent *);
 };
 
