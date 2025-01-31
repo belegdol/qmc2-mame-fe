@@ -1128,7 +1128,7 @@ bool CollectionRebuilderThread::nextId(QString *id, QStringList *romNameList, QS
 			}
 		} else {
 			QByteArray line(m_xmlFile.readLine());
-			while ( !m_xmlFile.atEnd() && line.indexOf(setEntityStartPattern()) < 0 && (rebuilderDialog()->romAlyzer()->mode() == QMC2_ROMALYZER_MODE_SOFTWARE ? line.indexOf(listEntityStartPattern()) < 0 : true) && !exitThread )
+			while ( !m_xmlFile.atEnd() && line.indexOf(setEntityStartPattern().toUtf8()) < 0 && (rebuilderDialog()->romAlyzer()->mode() == QMC2_ROMALYZER_MODE_SOFTWARE ? line.indexOf(listEntityStartPattern().toUtf8()) < 0 : true) && !exitThread )
 				line = m_xmlFile.readLine();
 			if ( m_xmlFile.atEnd() ) {
 				emit progressChanged(m_xmlIndexCount);
@@ -1137,7 +1137,7 @@ bool CollectionRebuilderThread::nextId(QString *id, QStringList *romNameList, QS
 			} else if ( !exitThread ) {
 				QString xmlString;
 				if ( rebuilderDialog()->romAlyzer()->mode() == QMC2_ROMALYZER_MODE_SOFTWARE ) {
-					int startIndex = line.indexOf(listEntityStartPattern());
+					int startIndex = line.indexOf(listEntityStartPattern().toUtf8());
 					if ( startIndex >= 0 ) {
 						startIndex += listEntityStartPattern().length();
 						setListCheckpoint(line.mid(startIndex, line.indexOf("\"", startIndex) - startIndex), rebuilderDialog()->comboBoxXmlSource->currentIndex());
@@ -1145,7 +1145,7 @@ bool CollectionRebuilderThread::nextId(QString *id, QStringList *romNameList, QS
 					}
 				}
 				QString setEntityEndPattern("</" + rebuilderDialog()->lineEditSetEntity->text() + ">");
-				while ( !m_xmlFile.atEnd() && line.indexOf(setEntityEndPattern) < 0 && !exitThread ) {
+				while ( !m_xmlFile.atEnd() && line.indexOf(setEntityEndPattern.toUtf8()) < 0 && !exitThread ) {
 					xmlString += line;
 					line = m_xmlFile.readLine();
 				}
