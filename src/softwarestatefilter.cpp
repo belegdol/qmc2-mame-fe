@@ -154,7 +154,7 @@ void SoftwareStateFilter::showEvent(QShowEvent *e)
 		QWidget::showEvent(e);
 }
 
-void SoftwareStateFilter::enterEvent(QEvent *e)
+void SoftwareStateFilter::enterEvent(QEnterEvent *e)
 {
 	qmc2MainWindow->statusBar()->showMessage(tr("State filter settings"));
 	QWidget::enterEvent(e);

@@ -177,7 +177,7 @@ void RomStateFilter::showEvent(QShowEvent *e)
 	QWidget::showEvent(e);
 }
 
-void RomStateFilter::enterEvent(QEvent *e)
+void RomStateFilter::enterEvent(QEnterEvent *e)
 {
 	qmc2MainWindow->statusBar()->showMessage(tr("State filter settings"));
 	QWidget::enterEvent(e);
