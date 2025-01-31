@@ -23,7 +23,7 @@ QString Settings::stResolve(const QString& qstr) {
 	int posLastEnd = -1;
 	while ((pos = qrx.indexIn(qstr, pos)) != -1) {
 		if (pos > posLastEnd)
-			qstrFinal += qstr.midRef(posLastEnd + 1, pos - (posLastEnd + 1));
+			qstrFinal += qstr.mid(posLastEnd + 1, pos - (posLastEnd + 1));
 
 		qbaBuf = qrx.cap(2).toUtf8();
 		qbaBuf = qgetenv(qbaBuf.constData());
@@ -36,7 +36,7 @@ QString Settings::stResolve(const QString& qstr) {
 		posLastEnd = pos - 1;
 	}
 	if (posLastEnd < qstr.length())
-		qstrFinal += qstr.midRef(posLastEnd + 1, qstr.length());
+		qstrFinal += qstr.mid(posLastEnd + 1, qstr.length());
 	return qstrFinal;
 }
 
