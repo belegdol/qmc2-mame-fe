@@ -2211,8 +2211,8 @@ void SoftwareList::verifyFinished(int exitCode, QProcess::ExitStatus exitStatus)
 void SoftwareList::verifyReadyReadStandardOutput()
 {
 	// this makes the GUI much more responsive, but is HAS to be called before verifyProc->readAllStandardOutput()!
-	if ( QCoreApplication::hasPendingEvents() )
-		qApp->processEvents();
+	//if ( QCoreApplication::hasPendingEvents() )
+		//qApp->processEvents();
 	verifyReadingStdout = true;
 	QString s(swStatesLastLine + verifyProc->readAllStandardOutput());
 	QStringList lines(s.split('\n'));
