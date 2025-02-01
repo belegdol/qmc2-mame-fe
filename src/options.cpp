@@ -19,6 +19,7 @@
 #include <QSplashScreen>
 #include <QNetworkAccessManager>
 #include <QCache>
+#include <QWebEngineProfile>
 #include <QWebEngineSettings>
 
 #include "options.h"
@@ -601,14 +602,14 @@ void Options::apply()
 			tb->setIconSize(iconSizeMiddle);
 	}
 	// global web-browser fonts
-	QWebEngineSettings::defaultSettings()->setFontFamily(QWebEngineSettings::StandardFont, qApp->font().family());
-	QWebEngineSettings::defaultSettings()->setFontFamily(QWebEngineSettings::SerifFont, qApp->font().family());
-	QWebEngineSettings::defaultSettings()->setFontFamily(QWebEngineSettings::SansSerifFont, qApp->font().family());
-	QWebEngineSettings::defaultSettings()->setFontFamily(QWebEngineSettings::FantasyFont, qApp->font().family());
-	QWebEngineSettings::defaultSettings()->setFontFamily(QWebEngineSettings::CursiveFont, qApp->font().family());
-	QWebEngineSettings::defaultSettings()->setFontFamily(QWebEngineSettings::FixedFont, logFont.family());
-	QWebEngineSettings::defaultSettings()->setFontSize(QWebEngineSettings::DefaultFontSize, qApp->font().pointSize() + 1);
-	QWebEngineSettings::defaultSettings()->setFontSize(QWebEngineSettings::DefaultFixedFontSize, logFont.pointSize() + 1);
+	QWebEngineProfile::defaultProfile()->settings()->setFontFamily(QWebEngineSettings::StandardFont, qApp->font().family());
+	QWebEngineProfile::defaultProfile()->settings()->setFontFamily(QWebEngineSettings::SerifFont, qApp->font().family());
+	QWebEngineProfile::defaultProfile()->settings()->setFontFamily(QWebEngineSettings::SansSerifFont, qApp->font().family());
+	QWebEngineProfile::defaultProfile()->settings()->setFontFamily(QWebEngineSettings::FantasyFont, qApp->font().family());
+	QWebEngineProfile::defaultProfile()->settings()->setFontFamily(QWebEngineSettings::CursiveFont, qApp->font().family());
+	QWebEngineProfile::defaultProfile()->settings()->setFontFamily(QWebEngineSettings::FixedFont, logFont.family());
+	QWebEngineProfile::defaultProfile()->settings()->setFontSize(QWebEngineSettings::DefaultFontSize, qApp->font().pointSize() + 1);
+	QWebEngineProfile::defaultProfile()->settings()->setFontSize(QWebEngineSettings::DefaultFixedFontSize, logFont.pointSize() + 1);
 #if QMC2_JOYSTICK == 1
 	pushButtonRescanJoysticks->setIconSize(iconSize);
 	pushButtonRemapJoystickFunction->setIconSize(iconSize);
