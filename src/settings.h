@@ -11,7 +11,7 @@
 #include <QtCore/QStringList>
 #endif
 #ifndef QREGEXP_H
-#include <QtCore/QRegExp>
+#include <QtCore5Compat/QRegExp>
 #endif
 
 class Settings : public QSettings
