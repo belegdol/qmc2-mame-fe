@@ -6,6 +6,8 @@
 #include <QMouseEvent>
 #include <QTimer>
 #include <QCache>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 #include "ui_miniwebbrowser.h"
 #include "iconlineedit.h"
