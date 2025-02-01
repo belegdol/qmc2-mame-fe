@@ -2460,8 +2460,8 @@ void MachineList::verifyFinished(int exitCode, QProcess::ExitStatus exitStatus)
 		// the progress text may have changed in the meantime...
 		if ( qmc2Config->value(QMC2_FRONTEND_PREFIX + "GUI/ProgressTexts").toBool() )
 			mainProgressBar->setFormat(tr("ROM check - %p%"));
-		QSet<QString> gameSet(QSet<QString>::fromList(qmc2MachineListItemHash.uniqueKeys()));
-		QList<QString> remainingMachines(gameSet.subtract(QSet<QString>::fromList(verifiedList)).values());
+		QSet<QString> gameSet(qmc2MachineListItemHash.uniqueKeys().begin(), qmc2MachineListItemHash.uniqueKeys().end());
+		QList<QString> remainingMachines(gameSet.subtract(QSet(verifiedList.begin(), verifiedList.end())).values());
 		int counter = mainProgressBar->value();
 		if ( qmc2LoadingInterrupted || !cleanExit ) {
 			for (int i = 0; i < remainingMachines.count(); i++) {
