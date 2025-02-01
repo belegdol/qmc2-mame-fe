@@ -5,7 +5,6 @@
 #include "settings.h"
 #include "qmc2main.h"
 #include "macros.h"
-#include "ftpreply.h"
 #include "downloaditem.h"
 #include "networkaccessmanager.h"
 #include "romalyzer.h"
@@ -142,13 +141,6 @@ void ItemDownloader::readyRead()
 		downloadBytesTotal = networkReply->size();
 		if ( localFile.isOpen() )
 			localFile.write(buffer);
-		retryCount = 0;
-	} else if ( networkReply->url().scheme() == "ftp" ) {
-		dataReceived = networkReply->bytesAvailable();
-		downloadBytesTotal = ((FtpReply *)networkReply)->totalSize(networkReply->url().toString());
-		if ( downloadBytesTotal == -1 )
-			downloadBytesTotal = dataReceived;
-		downloadProgress(dataReceived, downloadBytesTotal);
 		retryCount = 0;
 	}
 }

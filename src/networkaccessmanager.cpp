@@ -1,6 +1,5 @@
 #include <QtNetwork>
 #include "networkaccessmanager.h"
-#include "ftpreply.h"
 
 NetworkAccessManager::NetworkAccessManager(QNetworkAccessManager *manager, QObject *parent)
 	: QNetworkAccessManager(parent)
@@ -18,8 +17,6 @@ QNetworkReply *NetworkAccessManager::createRequest(QNetworkAccessManager::Operat
 	if ( request.url().scheme() != "ftp" )
 		return QNetworkAccessManager::createRequest(operation, request, device);
 
-	if ( operation == GetOperation )
-		return new FtpReply(request.url());
-	else
+	if ( operation != GetOperation )
 		return QNetworkAccessManager::createRequest(operation, request, device);
 }

@@ -5,12 +5,7 @@ win32 {
 	QT += winextras
 }
 contains(DEFINES, "QMC2_MULTIMEDIA=1"): QT += multimedia multimediawidgets
-HEADERS += src/qftp/qftp.h \
-	src/qftp/qurlinfo.h
-SOURCES += src/qftp/qftp.cpp \
-	src/qftp/qurlinfo.cpp
 INCLUDEPATH += src/ \
-	src/qftp \
 	src/lzma
 TEMPLATE = app
 FORMS += ui/qmc2main.ui \
@@ -138,7 +133,6 @@ SOURCES += src/qmc2main.cpp \
 	src/settings.cpp \
 	src/sevenzipfile.cpp \
 	src/networkaccessmanager.cpp \
-	src/ftpreply.cpp \
 	src/fileiconprovider.cpp \
 	src/rankitemwidget.cpp \
 	src/rankitemdelegate.cpp \
@@ -263,7 +257,6 @@ HEADERS += src/qmc2main.h \
 	src/settings.h \
 	src/sevenzipfile.h \
 	src/networkaccessmanager.h \
-	src/ftpreply.h \
 	src/fileiconprovider.h \
 	src/rankitemwidget.h \
 	src/rankitemdelegate.h \
