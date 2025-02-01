@@ -33,7 +33,6 @@
 #include <QAction>
 #include <QBuffer>
 #include <QByteArray>
-#include <QXmlQuery>
 #include <QStringList>
 #include "highlighter.h"
 
@@ -65,10 +64,6 @@ class HtmlEditor : public QMainWindow
 		bool stopLoading;
 		bool loadSuccess;
 		QStringList imageTypes;
-		QBuffer *xmlQueryBuffer;
-		QByteArray *xmlDocument;
-		QXmlQuery xmlQuery;
-		QStringList xmlResult;
 
 		HtmlEditor(QString, bool embedded = false, QWidget *parent = 0);
 		~HtmlEditor();
@@ -148,7 +143,6 @@ class HtmlEditor : public QMainWindow
 		void setLoadSuccess(bool success) { loadSuccess = success; }
 		void javaScriptWindowObjectCleared();
 		void showHtmlTab(bool enable = true);
-		void closeXmlBuffer();
 		void clearContent();
 
 		// helper functions (not only) for template use
@@ -159,9 +153,6 @@ class HtmlEditor : public QMainWindow
 		QString getImage(QString currentImage = QString());
 		bool isZippedImage(QString imageType);
 		QString getImageData(QString imageType);
-		bool queryXml(QString id, QString queryString, bool sort = true, QString systemEntityName = QString()) { return queryLocalXml(id, queryString, sort, systemEntityName); }
-		bool queryLocalXml(QString id, QString queryString, bool sort = true, QString systemEntityName = QString());
-		QStringList getXmlResult() { return xmlResult; }
 		bool isBios(QString id);
 		bool isDevice(QString id);
 		QString romStatus(QString id, bool translated = false);

@@ -442,12 +442,10 @@ void MachineList::load()
 	qmc2LastDeviceConfigItem = 0;
 	if ( qmc2SystemNotesEditor ) {
 		qmc2SystemNotesEditor->save();
-		qmc2SystemNotesEditor->closeXmlBuffer();
 		qmc2SystemNotesEditor->clearContent();
 	}
 	if ( qmc2SoftwareNotesEditor ) {
 		qmc2SoftwareNotesEditor->save();
-		qmc2SoftwareNotesEditor->closeXmlBuffer();
 		qmc2SoftwareNotesEditor->clearContent();
 	}
 	if ( qmc2SoftwareList ) {

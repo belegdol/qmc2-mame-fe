@@ -137,8 +137,6 @@ HtmlEditor::HtmlEditor(QString editorName, bool embedded, QWidget *parent) :
 
 	loadActive = false;
 	loadSuccess = true;
-	xmlQueryBuffer = 0;
-	xmlDocument = 0;
 
 	// hide new-from-template and file-revert actions initially
 	ui->actionFileNewFromTemplate->setVisible(false);
@@ -352,7 +350,6 @@ HtmlEditor::~HtmlEditor()
 	qmc2Config->setValue(QMC2_FRONTEND_PREFIX + QString("HtmlEditor/%1/MenuHidden").arg(myEditorName), actionHideMenu->isChecked());
 	qmc2Config->setValue(QMC2_FRONTEND_PREFIX + QString("HtmlEditor/%1/ReadOnly").arg(myEditorName), actionReadOnly->isChecked());
 	qmc2Config->setValue(QMC2_FRONTEND_PREFIX + QString("HtmlEditor/%1/ShowHtml").arg(myEditorName), actionShowHTML->isChecked());
-	closeXmlBuffer();
 	if ( highlighter )
 		delete highlighter;
 	delete ui;
@@ -1236,26 +1233,6 @@ QString HtmlEditor::getImage(QString currentImage)
 		return currentImage;
 }
 
-bool HtmlEditor::queryLocalXml(QString id, QString queryString, bool sort, QString systemEntityName)
-{
-	QByteArray localXmlDocument(ROMAlyzer::getXmlData(id, true).toLocal8Bit());
-	if ( !systemEntityName.isEmpty() )
-		localXmlDocument.replace("machine", systemEntityName.toLocal8Bit());
-	QBuffer localXmlQueryBuffer(&localXmlDocument);
-	localXmlQueryBuffer.open(QIODevice::ReadOnly);
-	xmlQuery.bindVariable("xmlDocument", &localXmlQueryBuffer);
-	xmlResult.clear();
-	if ( !queryString.contains("doc($xmlDocument)") )
-		queryString.prepend("doc($xmlDocument)");
-	xmlQuery.setQuery(queryString);
-	if ( xmlQuery.evaluateTo(&xmlResult) ) {
-		if ( sort )
-			std::sort(xmlResult.begin(), xmlResult.end(), MainWindow::qStringListLessThan);
-		return true;
-	} else
-		return false;
-}
-
 bool HtmlEditor::isBios(QString id)
 {
 	return qmc2MachineList->isBios(id);
@@ -1633,17 +1610,6 @@ QString HtmlEditor::operatingSystemName()
 #else
 	return "Other OS";
 #endif
-}
-
-void HtmlEditor::closeXmlBuffer()
-{
-	if ( xmlQueryBuffer ) {
-		xmlQueryBuffer->close();
-		delete xmlQueryBuffer;
-		delete xmlDocument;
-		xmlQueryBuffer = 0;
-		xmlDocument = 0;
-	}
 }
 
 void HtmlEditor::enableFileNewFromTemplateAction(bool enable)
