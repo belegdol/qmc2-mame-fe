@@ -38,7 +38,7 @@ void CustomSettings::saveTo(QSettings *cfg)
 {
 	if ( cfg ) {
 		cfg->clear();
-		foreach (QString key, m_settingsHash.uniqueKeys())
+		foreach (QString key, m_settingsHash.keys())
 			cfg->setValue(key, m_settingsHash.value(key));
 	}
 }
