@@ -15,9 +15,9 @@ jobs:
         os: [macos-13, macos-latest]
         include:
           - os: macos-13
-            qtpath: /usr/local/opt/qt@5/bin
+            qtpath: /usr/local/opt/qt@6/bin
           - os: macos-latest
-            qtpath: /opt/homebrew/opt/qt@5/bin
+            qtpath: /opt/homebrew/opt/qt@6/bin
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -25,7 +25,7 @@ jobs:
     - name: Install dependencies
       run: |
         brew update
-        brew install qt@5
+        brew install qt@6
         wget https://github.com/libsdl-org/SDL/releases/download/release-$SDL_VERSION/SDL2-$SDL_VERSION.dmg
         sudo hdiutil attach SDL2-$SDL_VERSION.dmg
         sudo cp -R /Volumes/SDL2/SDL2.framework /Library/Frameworks
