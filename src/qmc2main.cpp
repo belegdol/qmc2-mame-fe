@@ -1707,7 +1707,7 @@ void MainWindow::on_actionPlay_triggered(bool)
 		emuOptions = demoOpts;
 	}
 
-	foreach (sectionTitle, emuOptions->optionsMap.uniqueKeys()) {
+	foreach (sectionTitle, emuOptions->optionsMap.keys()) {
 		int i;
 		for (i = 0; i < emuOptions->optionsMap.value(sectionTitle).count(); i++) {
 			EmulatorOption option(emuOptions->optionsMap.value(sectionTitle).at(i));
