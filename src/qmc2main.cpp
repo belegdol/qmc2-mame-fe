@@ -307,7 +307,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	phononAudioPlayer(0),
 	phononAudioOutput(0),
 #endif
+#if QMC2_MULTIMEDIA_ENABLED
 	mediaPlayer(0),
+#endif
 	m_ignoreSelectionChange(false),
 	m_ignoreDetailTabChange(false),
 #if defined(QMC2_YOUTUBE_ENABLED)
