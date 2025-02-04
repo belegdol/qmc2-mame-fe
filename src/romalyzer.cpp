@@ -2776,13 +2776,13 @@ void ROMAlyzer::on_pushButtonChecksumWizardSearch_clicked()
 					foreach (QString set, qmc2MainWindow->swlDb->uniqueSoftwareSets(list)) {
 						QXmlStreamReader xmlMachineEntry(qmc2MainWindow->swlDb->xml(list, set));
 						if ( xmlMachineEntry.readNextStartElement() ) {
-							if ( xmlMachineEntry.name() == "machine" ) {
+							if ( xmlMachineEntry.name() == QLatin1String("machine") ) {
 								while ( xmlMachineEntry.readNextStartElement() ) {
 									if ( xmlMachineEntry.attributes().hasAttribute(hashAttribute) ) {
 										QString currentChecksum(xmlMachineEntry.attributes().value(hashAttribute).toString().toLower());
 										if ( currentChecksum.compare(searchedChecksum) == 0 ) {
 											QString fileType;
-											if ( xmlMachineEntry.name() == "disk" )
+											if ( xmlMachineEntry.name() == QLatin1String("disk") )
 												fileType = tr("CHD");
 											else
 												fileType = tr("ROM");
@@ -2820,13 +2820,13 @@ void ROMAlyzer::on_pushButtonChecksumWizardSearch_clicked()
 				QString currentMachine(qmc2MainWindow->treeWidgetMachineList->topLevelItem(i)->text(QMC2_MACHINELIST_COLUMN_NAME));
 				QXmlStreamReader xmlMachineEntry(qmc2MachineList->xmlDb()->xml(currentMachine));
 				if ( xmlMachineEntry.readNextStartElement() ) {
-					if ( xmlMachineEntry.name() == "machine" ) {
+					if ( xmlMachineEntry.name() == QLatin1String("machine") ) {
 						while ( xmlMachineEntry.readNextStartElement() ) {
 							if ( xmlMachineEntry.attributes().hasAttribute(hashAttribute) ) {
 								QString currentChecksum(xmlMachineEntry.attributes().value(hashAttribute).toString().toLower());
 								if ( currentChecksum.compare(searchedChecksum) == 0 ) {
 									QString fileType;
-									if ( xmlMachineEntry.name() == "disk" )
+									if ( xmlMachineEntry.name() == QLatin1String("disk") )
 										fileType = tr("CHD");
 									else
 										fileType = tr("ROM");
@@ -3206,7 +3206,7 @@ void ROMAlyzer::exportToDataFile()
 					QString sourcefile, isbios, cloneof, romof, sampleof;
 					QXmlStreamReader xmlMachineEntry(ROMAlyzer::getXmlData(name, false).toUtf8());
 					if ( xmlMachineEntry.readNextStartElement() ) {
-						if ( xmlMachineEntry.name() == "machine" ) {
+						if ( xmlMachineEntry.name() == QLatin1String("machine") ) {
 							if ( xmlMachineEntry.attributes().hasAttribute("sourcefile") )
 								sourcefile = xmlMachineEntry.attributes().value("sourcefile").toString();
 							if ( xmlMachineEntry.attributes().hasAttribute("isbios") )
@@ -3231,15 +3231,15 @@ void ROMAlyzer::exportToDataFile()
 							ts << ">\n";
 							QString description, year, manufacturer;
 							while ( xmlMachineEntry.readNextStartElement() ) {
-								if ( xmlMachineEntry.name() == "description" ) {
+								if ( xmlMachineEntry.name() == QLatin1String("description") ) {
 									description = xmlMachineEntry.readElementText();
 									ts << "\t\t<description>" << description << "</description>\n";
 								}
-								else if ( xmlMachineEntry.name() == "year" ) {
+								else if ( xmlMachineEntry.name() == QLatin1String("year") ) {
 									year = xmlMachineEntry.readElementText();
 									ts << "\t\t<year>" << year << "</year>\n";
 								}
-								else if ( xmlMachineEntry.name() == "manufacturer" ) {
+								else if ( xmlMachineEntry.name() == QLatin1String("manufacturer") ) {
 									manufacturer = xmlMachineEntry.readElementText();
 									ts << "\t\t<manufacturer>" << manufacturer << "</manufacturer>\n";
 								}

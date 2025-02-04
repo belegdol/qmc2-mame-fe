@@ -4637,7 +4637,7 @@ QStringList &MainWindow::getXmlChoices(const QString &machineName, const QString
 	QString defaultYes("yes");
 	QString defaultOne("1");
 	if ( xmlMachineEntry.readNextStartElement() ) {
-		if ( xmlMachineEntry.name() == "machine" ) {
+		if ( xmlMachineEntry.name() == QLatin1String("machine") ) {
 			while ( xmlMachineEntry.readNextStartElement() ) {
 				if ( xmlMachineEntry.name() == optionElement ) {
 					if ( optionAttribute.isEmpty() ) {

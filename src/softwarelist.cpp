@@ -1050,14 +1050,14 @@ QString &SoftwareList::lookupMountDevice(QString device, QString deviceInterface
 	}
 
 	if ( xmlMachineEntry.readNextStartElement() ) {
-		if ( xmlMachineEntry.name() == "machine" ) {
+		if ( xmlMachineEntry.name() == QLatin1String("machine") ) {
 			while ( xmlMachineEntry.readNextStartElement() ) {
-				if ( xmlMachineEntry.name() == "device" && xmlMachineEntry.attributes().hasAttribute("type") ) {
+				if ( xmlMachineEntry.name() == QLatin1String("device") && xmlMachineEntry.attributes().hasAttribute("type") ) {
 					QString devName;
 					if ( xmlMachineEntry.attributes().hasAttribute("interface") ) {
 						QStringList devInterfaces(xmlMachineEntry.attributes().value("interface").toString().split(',', Qt::SkipEmptyParts));
 						while ( xmlMachineEntry.readNextStartElement() ) {
-							if ( xmlMachineEntry.name() == "instance" && xmlMachineEntry.attributes().hasAttribute("briefname") ) {
+							if ( xmlMachineEntry.name() == QLatin1String("instance") && xmlMachineEntry.attributes().hasAttribute("briefname") ) {
 								devName = xmlMachineEntry.attributes().value("briefname").toString();
 								if ( !devName.isEmpty() )
 									foreach (QString devIf, devInterfaces)
@@ -1067,7 +1067,7 @@ QString &SoftwareList::lookupMountDevice(QString device, QString deviceInterface
 						}
 					} else {
 						while ( xmlMachineEntry.readNextStartElement() ) {
-							if ( xmlMachineEntry.name() == "instance" && xmlMachineEntry.attributes().hasAttribute("briefname") ) {
+							if ( xmlMachineEntry.name() == QLatin1String("instance") && xmlMachineEntry.attributes().hasAttribute("briefname") ) {
 								devName = xmlMachineEntry.attributes().value("briefname").toString();
 								if ( !devName.isEmpty() )
 									deviceInstanceHash[devName] << devName;
@@ -1112,9 +1112,9 @@ void SoftwareList::getXmlData()
 		QString filter;
 		QXmlStreamReader xmlMachineEntry(qmc2MachineList->xmlDb()->xml(systemName));
 		if ( xmlMachineEntry.readNextStartElement() ) {
-			if ( xmlMachineEntry.name() == "machine" ) {
+			if ( xmlMachineEntry.name() == QLatin1String("machine") ) {
 				while ( !interruptLoad && xmlMachineEntry.readNextStartElement() ) {
-					if ( xmlMachineEntry.name() == "softwarelist" && xmlMachineEntry.attributes().hasAttribute("name") ) {
+					if ( xmlMachineEntry.name() == QLatin1String("softwarelist") && xmlMachineEntry.attributes().hasAttribute("name") ) {
 						softwareList << xmlMachineEntry.attributes().value("name").toString();
 						if ( xmlMachineEntry.attributes().hasAttribute("filter"))
 							filter = xmlMachineEntry.attributes().value("filter").toString();

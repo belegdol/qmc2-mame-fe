@@ -2008,9 +2008,9 @@ QString DeviceTreeXmlHandler::lookupDescription(const QString &machine)
 {
 	QXmlStreamReader xmlMachineEntry(qmc2MachineList->xmlDb()->xml(machine));
 	if ( xmlMachineEntry.readNextStartElement() ) {
-		if ( xmlMachineEntry.name() == "machine" ) {
+		if ( xmlMachineEntry.name() == QLatin1String("machine") ) {
 			while ( xmlMachineEntry.readNextStartElement() ) {
-				if ( xmlMachineEntry.name() == "description" ) {
+				if ( xmlMachineEntry.name() == QLatin1String("description") ) {
 					QString description(xmlMachineEntry.readElementText());
 					QTextDocument doc;
 					doc.setHtml(description);
@@ -2027,10 +2027,10 @@ QString DeviceTreeXmlHandler::lookupBiosOptions(const QString &machine, QStringL
 {
 	QXmlStreamReader xmlMachineEntry(qmc2MachineList->xmlDb()->xml(machine));
 	if ( xmlMachineEntry.readNextStartElement() ) {
-		if ( xmlMachineEntry.name() == "machine" ) {
+		if ( xmlMachineEntry.name() == QLatin1String("machine") ) {
 			QString defaultOption;
 			while ( xmlMachineEntry.readNextStartElement() ) {
-				if ( xmlMachineEntry.name() == "biosset" ) {
+				if ( xmlMachineEntry.name() == QLatin1String("biosset") ) {
 					QString name;
 					QString description;
 					if ( xmlMachineEntry.attributes().hasAttribute("name") )
