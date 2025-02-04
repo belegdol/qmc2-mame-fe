@@ -33,6 +33,7 @@ jobs:
     - name: Build
       env:
         DISTCFG: 1
+        MULTIMEDIA: 0
       run: |
         export PATH="${{ matrix.qtpath }}:$PATH"
         make -j3
