@@ -5,23 +5,23 @@ on:
   pull_request:
 
 env:
-  SDL_VERSION: 2.30.3
+  SDL_VERSION: 2.30.12
 
 jobs:
   build:
 
-    runs-on: windows-2019
+    runs-on: windows-latest
 
     steps:
       - name: Download Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
-          version:      5.15.2
+          version:      6.8.2
           host:         windows
           target:       desktop
-          arch:         win64_msvc2019_64
-          modules:      qtwebengine
-          archives:     qtbase qtdeclarative qtlocation qtmultimedia qtsvg qttools qtwebchannel qtwinextras qtxmlpatterns
+          arch:         win64_msvc2022_64
+          modules:      qt5compat qtlocation qtmultimedia qtpositioning qtwebchannel qtwebengine
+          archives:     qtbase qtdeclarative qtsvg qttools
           setup-python: false
           cache: true
       - name: Download SDL
@@ -53,7 +53,7 @@ jobs:
           Copy-Item ${{ runner.workspace }}\SDL2-$env:SDL_VERSION\lib\x64\SDL2.dll  release
       - uses: actions/upload-artifact@v4
         with:
-          name: qmc2-windows-2019-${{ github.sha }}
+          name: qmc2-windows-latest-${{ github.sha }}
           path: |
             release
 
