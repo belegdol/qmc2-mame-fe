@@ -1,9 +1,6 @@
 # general project settings
 isEmpty(TARGET):TARGET = qmc2
 QT += core core5compat gui widgets xml network sql svg testlib webenginewidgets
-win32 {
-	QT += winextras
-}
 contains(DEFINES, "QMC2_MULTIMEDIA=1"): QT += multimedia multimediawidgets
 INCLUDEPATH += src/ \
 	src/lzma
