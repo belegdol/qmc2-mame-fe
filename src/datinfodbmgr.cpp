@@ -576,13 +576,13 @@ void DatInfoDatabaseManager::importSoftwareInfo(QStringList pathList, bool fromS
 			QRegularExpression doubleLineBreakRx("\n{2,}");
 			QRegularExpression singleLineBreakRx("\n");
 			if ( xsr.readNextStartElement() && !qmc2LoadingInterrupted ) {
-				if ( xsr.name() == "history" ) {
+				if ( xsr.name() == QLatin1String("history") ) {
 					if ( recordsProcessed++ % QMC2_INFOSOURCE_RESPONSIVENESS == 0 ) {
 						qmc2MainWindow->progressBarMachineList->setValue(swInfoDB.pos());
 						qApp->processEvents();
 					}
 					while ( xsr.readNextStartElement() && !qmc2LoadingInterrupted ) {
-						if ( xsr.name() == "entry" ) {
+						if ( xsr.name() == QLatin1String("entry") ) {
 							QStringList systemNames;
 							QStringList gameNames;
 							QString swInfoString;
@@ -591,13 +591,13 @@ void DatInfoDatabaseManager::importSoftwareInfo(QStringList pathList, bool fromS
 								qApp->processEvents();
 							}
 							while ( xsr.readNextStartElement() && !qmc2LoadingInterrupted ) {
-								if ( xsr.name() == "software" ) {
+								if ( xsr.name() == QLatin1String("software") ) {
 									if ( recordsProcessed++ % QMC2_INFOSOURCE_RESPONSIVENESS == 0 ) {
 										qmc2MainWindow->progressBarMachineList->setValue(swInfoDB.pos());
 										qApp->processEvents();
 									}
 									while ( xsr.readNextStartElement() && !qmc2LoadingInterrupted ) {
-										if ( xsr.name() == "item" && xsr.attributes().hasAttribute("list") && xsr.attributes().hasAttribute("name") ) {
+										if ( xsr.name() == QLatin1String("item") && xsr.attributes().hasAttribute("list") && xsr.attributes().hasAttribute("name") ) {
 											if ( recordsProcessed++ % QMC2_INFOSOURCE_RESPONSIVENESS == 0 ) {
 												qmc2MainWindow->progressBarMachineList->setValue(swInfoDB.pos());
 												qApp->processEvents();
@@ -607,7 +607,7 @@ void DatInfoDatabaseManager::importSoftwareInfo(QStringList pathList, bool fromS
 											xsr.skipCurrentElement();
 										}
 									}
-								} else if ( xsr.name() == "text") {
+								} else if ( xsr.name() == QLatin1String("text")) {
 									if ( recordsProcessed++ % QMC2_INFOSOURCE_RESPONSIVENESS == 0 ) {
 										qmc2MainWindow->progressBarMachineList->setValue(swInfoDB.pos());
 										qApp->processEvents();
@@ -896,13 +896,13 @@ void DatInfoDatabaseManager::importMachineInfo(QStringList pathList, QStringList
 			QRegularExpression doubleLineBreakRx("\n{2,}");
 			QRegularExpression singleLineBreakRx("\n");
 			if ( xsr.readNextStartElement() && !qmc2LoadingInterrupted ) {
-				if ( xsr.name() == "history" ) {
+				if ( xsr.name() == QLatin1String("history") ) {
 					if ( recordsProcessed++ % QMC2_INFOSOURCE_RESPONSIVENESS == 0 ) {
 						qmc2MainWindow->progressBarMachineList->setValue(machineInfoDB.pos());
 						qApp->processEvents();
 					}
 					while ( xsr.readNextStartElement() && !qmc2LoadingInterrupted ) {
-						if ( xsr.name() == "entry" ) {
+						if ( xsr.name() == QLatin1String("entry") ) {
 							QStringList gameNames;
 							QString machineInfoString;
 							if ( recordsProcessed++ % QMC2_INFOSOURCE_RESPONSIVENESS == 0 ) {
@@ -910,13 +910,13 @@ void DatInfoDatabaseManager::importMachineInfo(QStringList pathList, QStringList
 								qApp->processEvents();
 							}
 							while ( xsr.readNextStartElement() && !qmc2LoadingInterrupted ) {
-								if ( xsr.name() == "systems" ) {
+								if ( xsr.name() == QLatin1String("systems") ) {
 									if ( recordsProcessed++ % QMC2_INFOSOURCE_RESPONSIVENESS == 0 ) {
 										qmc2MainWindow->progressBarMachineList->setValue(machineInfoDB.pos());
 										qApp->processEvents();
 									}
 									while ( xsr.readNextStartElement() && !qmc2LoadingInterrupted ) {
-										if ( xsr.name() == "system" && xsr.attributes().hasAttribute("name") ) {
+										if ( xsr.name() == QLatin1String("system") && xsr.attributes().hasAttribute("name") ) {
 											if ( recordsProcessed++ % QMC2_INFOSOURCE_RESPONSIVENESS == 0 ) {
 												qmc2MainWindow->progressBarMachineList->setValue(machineInfoDB.pos());
 												qApp->processEvents();
@@ -925,7 +925,7 @@ void DatInfoDatabaseManager::importMachineInfo(QStringList pathList, QStringList
 											xsr.skipCurrentElement();
 										}
 									}
-								} else if ( xsr.name() == "text") {
+								} else if ( xsr.name() == QLatin1String("text")) {
 									if ( recordsProcessed++ % QMC2_INFOSOURCE_RESPONSIVENESS == 0 ) {
 										qmc2MainWindow->progressBarMachineList->setValue(machineInfoDB.pos());
 										qApp->processEvents();

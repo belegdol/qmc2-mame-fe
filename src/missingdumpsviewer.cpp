@@ -81,7 +81,7 @@ void MissingDumpsViewer::on_toolButtonExportToDataFile_clicked()
 					QHash <QString, QString> mergeInfo;
 					QXmlStreamReader xmlMachineEntry(ROMAlyzer::getXmlData(id, false).toUtf8());
 					if ( xmlMachineEntry.readNextStartElement() ) {
-						if ( xmlMachineEntry.name() == "machine" ) {
+						if ( xmlMachineEntry.name() == QLatin1String("machine") ) {
 							ts << "\t<machine name=\"" << id << "\"";
 							if ( xmlMachineEntry.attributes().hasAttribute("sourcefile") ) {
 								sourcefile = xmlMachineEntry.attributes().value("sourcefile").toString();
@@ -110,22 +110,22 @@ void MissingDumpsViewer::on_toolButtonExportToDataFile_clicked()
 							}
 							ts << ">\n";
 							while ( xmlMachineEntry.readNextStartElement() ) {
-								if ( xmlMachineEntry.name() == "description" ) {
+								if ( xmlMachineEntry.name() == QLatin1String("description") ) {
 									description = xmlMachineEntry.readElementText();
 									if ( !description.isEmpty() )
 										ts << "\t\t<description>" << description << "</description>\n";
 								}
-								else if ( xmlMachineEntry.name() == "year" ) {
+								else if ( xmlMachineEntry.name() == QLatin1String("year") ) {
 									year = xmlMachineEntry.readElementText();
 									if ( !year.isEmpty() )
 										ts << "\t\t<year>" << year << "</year>\n";
 								}
-								else if ( xmlMachineEntry.name() == "manufacturer" ) {
+								else if ( xmlMachineEntry.name() == QLatin1String("manufacturer") ) {
 									manufacturer = xmlMachineEntry.readElementText();
 									if ( !manufacturer.isEmpty() )
 										ts << "\t\t<manufacturer>" << manufacturer << "</manufacturer>\n";
 								}
-								else if ( ( xmlMachineEntry.name() == "rom" || xmlMachineEntry.name() == "disk" ) && xmlMachineEntry.attributes().hasAttribute("name") && xmlMachineEntry.attributes().hasAttribute("merge") ) {
+								else if ( ( xmlMachineEntry.name() == QLatin1String("rom") || xmlMachineEntry.name() == QLatin1String("disk") ) && xmlMachineEntry.attributes().hasAttribute("name") && xmlMachineEntry.attributes().hasAttribute("merge") ) {
 									mergeInfo[xmlMachineEntry.attributes().value("name").toString()] = xmlMachineEntry.attributes().value("merge").toString();
 									xmlMachineEntry.skipCurrentElement();
 								}
