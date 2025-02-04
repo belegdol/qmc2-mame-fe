@@ -4,10 +4,6 @@
 #include "macros.h"
 #include "fileiconprovider.h"
 
-#if defined(QMC2_OS_WIN)
-#include <QtWinExtras>
-#endif
-
 QCache<QString, QIcon> FileIconProvider::m_iconCache;
 QFileIconProvider FileIconProvider::m_iconProvider;
 
