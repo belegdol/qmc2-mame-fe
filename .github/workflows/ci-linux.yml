@@ -18,6 +18,7 @@ jobs:
     - name: Build
       env:
         DISTCFG: 1
+        MULTIMEDIA: 0
       run: make -j4
     - uses: actions/upload-artifact@master
       with:

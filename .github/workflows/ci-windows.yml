@@ -39,6 +39,7 @@ jobs:
         env:
           MKSPEC: win32-msvc
           FORCE_MINGW: 0
+          MULTIMEDIA: 0
           ARCH: Windows
           SDL: 2
           SDL_LIBS: 'LIBS+="../SDL2-${SDL_VERSION}/lib/x64/SDL2.lib ../SDL2-${SDL_VERSION}/lib/x64/SDL2main.lib"'
