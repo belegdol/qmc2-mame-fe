@@ -479,7 +479,7 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
 		void on_pushButtonClearFinishedDownloads_clicked();
 		void on_pushButtonReloadSelectedDownloads_clicked();
 		void on_pushButtonStopSelectedDownloads_clicked();
-		void emuSelector_currentIndexChanged(const QString &);
+		void emuSelector_currentIndexChanged(int);
 		void checkActivity();
 		void enableContextMenuPlayActions(bool);
 		void softwareLoadInterrupted();
