@@ -4180,7 +4180,7 @@ void MainWindow::on_tabWidgetMachineDetail_currentChanged(int currentIndex)
 				emuSelectorLayout->addWidget(labelEmuSelector);
 				emuSelectorLayout->addWidget(comboBoxEmuSelector);
 				layout->addLayout(emuSelectorLayout);
-				connect(comboBoxEmuSelector, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(emuSelector_currentIndexChanged(const QString &)));
+				connect(comboBoxEmuSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(emuSelector_currentIndexChanged(int)));
 
 				// emulator options
 				qmc2EmulatorOptions = new EmulatorOptions(QMC2_EMULATOR_PREFIX + "Configuration/" + machineName, configWidget);
@@ -4669,11 +4669,12 @@ QStringList &MainWindow::getXmlChoices(const QString &machineName, const QString
 	return xmlChoices;
 }
 
-void MainWindow::emuSelector_currentIndexChanged(const QString &text)
+void MainWindow::emuSelector_currentIndexChanged(int index)
 {
 	if ( !qmc2EmulatorOptions )
 		return;
 
+	QString text = comboBoxEmuSelector->itemText(index);
 	if ( text == tr("Default") ) {
 		qmc2UseDefaultEmulator = true;
 		qmc2EmulatorOptions->setEnabled(true);
