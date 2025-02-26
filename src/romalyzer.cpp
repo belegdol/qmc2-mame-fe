@@ -1697,7 +1697,7 @@ QString &ROMAlyzer::getEffectiveFile(QTreeWidgetItem *myItem, QString listName, 
 											}
 											QString command = lineEditCHDManagerExecutableFile->text();
 											QProcess *chdManagerProc = new QProcess(this);
-											connect(chdManagerProc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(chdManagerError(QProcess::ProcessError)));
+											connect(chdManagerProc, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(chdManagerError(QProcess::ProcessError)));
 											connect(chdManagerProc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(chdManagerFinished(int, QProcess::ExitStatus)));
 											connect(chdManagerProc, SIGNAL(readyReadStandardOutput()), this, SLOT(chdManagerReadyReadStandardOutput()));
 											connect(chdManagerProc, SIGNAL(readyReadStandardError()), this, SLOT(chdManagerReadyReadStandardError()));
