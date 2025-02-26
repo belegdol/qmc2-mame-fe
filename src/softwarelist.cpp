@@ -1280,7 +1280,7 @@ bool SoftwareList::load()
 		swlDb->recreateDatabase(true);
 		uncommittedSwlDbRows = 0;
 		loadProc = new QProcess(this);
-		connect(loadProc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(loadError(QProcess::ProcessError)));
+		connect(loadProc, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(loadError(QProcess::ProcessError)));
 		connect(loadProc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(loadFinished(int, QProcess::ExitStatus)));
 		connect(loadProc, SIGNAL(readyReadStandardOutput()), this, SLOT(loadReadyReadStandardOutput()));
 		connect(loadProc, SIGNAL(readyReadStandardError()), this, SLOT(loadReadyReadStandardError()));
@@ -2047,7 +2047,7 @@ void SoftwareList::checkSoftwareStates()
 		if ( verifyProc )
 			delete verifyProc;
 		verifyProc = new QProcess(this);
-		connect(verifyProc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(verifyError(QProcess::ProcessError)));
+		connect(verifyProc, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(verifyError(QProcess::ProcessError)));
 		connect(verifyProc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(verifyFinished(int, QProcess::ExitStatus)));
 		connect(verifyProc, SIGNAL(readyReadStandardOutput()), this, SLOT(verifyReadyReadStandardOutput()));
 		connect(verifyProc, SIGNAL(readyReadStandardError()), this, SLOT(verifyReadyReadStandardError()));

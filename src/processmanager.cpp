@@ -107,7 +107,7 @@ int ProcessManager::start(QString &command, QStringList &arguments, bool autoCon
 #else
 		qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("starting emulator #%1, command = %2").arg(procCount).arg(loggedCommandLine));
 #endif
-		connect(proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(error(QProcess::ProcessError)));
+		connect(proc, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(error(QProcess::ProcessError)));
 		connect(proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(finished(int, QProcess::ExitStatus)));
 		connect(proc, SIGNAL(readyReadStandardOutput()), this, SLOT(readyReadStandardOutput()));
 		connect(proc, SIGNAL(readyReadStandardError()), this, SLOT(readyReadStandardError()));

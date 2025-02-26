@@ -28,7 +28,7 @@ ToolExecutor::ToolExecutor(QWidget *parent, QString &command, QStringList &args,
 	toolProc = new QProcess(this);
 	if ( !workDir.isEmpty() )
 		toolProc->setWorkingDirectory(workDir);
-	connect(toolProc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(toolError(QProcess::ProcessError)));
+	connect(toolProc, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(toolError(QProcess::ProcessError)));
 	connect(toolProc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(toolFinished(int, QProcess::ExitStatus)));
 	connect(toolProc, SIGNAL(readyReadStandardOutput()), this, SLOT(toolReadyReadStandardOutput()));
 	connect(toolProc, SIGNAL(readyReadStandardError()), this, SLOT(toolReadyReadStandardError()));
