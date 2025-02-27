@@ -913,7 +913,7 @@ void EmulatorOptions::save(QString optName)
 				case QMC2_EMUOPT_TYPE_INT: {
 					int v = optionsMap[sectionTitle][i].item->data(QMC2_EMUOPT_COLUMN_VALUE, Qt::DisplayRole).toInt();
 					int gv = qmc2GlobalEmulatorOptions->optionsMap[sectionTitle][i].item->data(QMC2_EMUOPT_COLUMN_VALUE, Qt::DisplayRole).toInt();
-					vs.asprintf("%d", v);
+					vs.setNum(v);
 					if ( isGlobal ) {
 						if ( v != optionsMap[sectionTitle][i].dvalue.toInt() ) {
 							optionsMap[sectionTitle][i].value = vs;
