@@ -45,8 +45,7 @@ SoftwareStateFilter::~SoftwareStateFilter()
 
 void SoftwareStateFilter::adjustIconSizes()
 {
-	QFont f;
-	f.fromString(qmc2Config->value(QMC2_FRONTEND_PREFIX + "GUI/Font").toString());
+	QFont f(qApp->font());
 	QFontMetrics fm(f);
 	QSize iconSize = QSize(fm.height(), fm.height());
 
