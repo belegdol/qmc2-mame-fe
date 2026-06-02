@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<template emulator="SDLMAME" format="0.2.9" version="0.243">
+<template emulator="SDLMAME" format="0.2.9" version="0.288">
 	<section name="search_paths">
 		<description lang="es" text="Rutas de búsqueda"/>
 		<description lang="us" text="Search paths"/>
@@ -179,11 +179,6 @@
 			<description lang="fr" text="Etat à charger"/>
 			<description lang="pt" text="Estado salvo para carregar"/>
 		</option>
-		<option default="%g" name="statename" type="combo">
-			<description lang="us" text="Override of the default state sub-folder naming: %g == gamename"/>
-			<description lang="de" text="Namensgebung für Status-Unterordner ändern: %g == Spielname"/>
-			<choice name="%g"/>
-		</option>
 		<option default="false" name="autosave" type="bool">
 			<description lang="es" text="Habilitar la restauración automática al iniciar y guardar automáticamente al salir"/>
 			<description lang="us" text="Enable automatic restore at startup, and automatic save at exit time"/>
@@ -191,6 +186,14 @@
 			<description lang="pl" text="Automatycznie zapisz stan gry przy wyjściu i przywróć przy starcie"/>
 			<description lang="fr" text="Sauvegarde automatiquement l'état en sortie et le restaure au démarrage"/>
 			<description lang="pt" text="Habilitar restauração automática ao inicializar, e automaticamente salvar ao sair"/>
+		</option>
+		<option default="false" name="rewind" type="bool">
+			<description lang="us" text="Enable rewind save states"/>
+			<description lang="de" text="Rewind für gespeicherte Maschinen-Stati aktivieren"/>
+		</option>
+		<option default="100" name="rewind_capacity" type="int">
+			<description lang="us" text="Quantity of states rewind buffer can contain"/>
+			<description lang="de" text="Anzahl der Stati, die der Rewind-Buffer enthalten kann"/>
 		</option>
 		<option default="" name="playback" type="file" relativeTo="input_directory">
 			<description lang="es" text="Reproducir un fichero de entrada"/>
@@ -200,10 +203,6 @@
 			<description lang="fr" text="Relire un fichier input"/>
 			<description lang="pt" text="Carregar um arquivo de entrada"/>
 		</option>
-		<option default="false" name="exit_after_playback" type="bool">
-			<description lang="us" text="Close the program at the end of playback"/>
-			<description lang="de" text="Nach der Wiedergabe Programm beenden"/>
-		</option>
 		<option default="" name="record" type="file" relativeTo="input_directory">
 			<description lang="es" text="Grabar un fichero de entrada"/>
 			<description lang="us" text="Record an input file"/>
@@ -211,6 +210,10 @@
 			<description lang="pl" text="Zapisz plik wejścia"/>
 			<description lang="fr" text="Enregistrer un fichier input"/>
 			<description lang="pt" text="Gravar um arquivo de entrada"/>
+		</option>
+		<option default="false" name="exit_after_playback" type="bool">
+			<description lang="us" text="Close the program at the end of playback"/>
+			<description lang="de" text="Nach der Wiedergabe Programm beenden"/>
 		</option>
 		<option default="" name="mngwrite" type="file" relativeTo="snapshot_directory">
 			<description lang="es" text="Nombre de archivo opcional para guardar una vídeo MNG de la sesión actual"/>
@@ -265,6 +268,11 @@
 			<description lang="us" text="Specify if the snapshot/movie should have bilinear filtering applied"/>
 			<description lang="de" text="Screenshot/Movie mit bilinearer Filterung ausstatten"/>
 		</option>
+		<option default="%g" name="statename" type="combo">
+			<description lang="us" text="Override of the default state sub-folder naming: %g == gamename"/>
+			<description lang="de" text="Namensgebung für Status-Unterordner ändern: %g == Spielname"/>
+			<choice name="%g"/>
+		</option>
 		<option default="false" name="burnin" type="bool">
 			<description lang="es" text="Crear capturas para cada pantalla"/>
 			<description lang="us" text="Create burn-in snapshots for each screen"/>
@@ -272,14 +280,6 @@
 			<description lang="pl" text="Utwórz zrzuty ekranu symulujące wypalanie się luminoforu dla każdego ekranu"/>
 			<description lang="fr" text="Créer des snapshots pour chaque écran"/>
 			<description lang="pt" text="Criar snapshots para cada tela"/>
-		</option>
-		<option default="false" name="rewind" type="bool">
-			<description lang="us" text="Enable rewind save states"/>
-			<description lang="de" text="Rewind für gespeicherte Maschinen-Stati aktivieren"/>
-		</option>
-		<option default="100" name="rewind_capacity" type="int">
-			<description lang="us" text="Quantity of states rewind buffer can contain"/>
-			<description lang="de" text="Anzahl der Stati, die der Rewind-Buffer enthalten kann"/>
 		</option>
 	</section>
 	<section name="performance">
@@ -461,6 +461,9 @@
 			<description lang="us" text="Override artwork for external artwork and internal driver layout"/>
 			<description lang="de" text="Artwork mit dem sowohl externes Artwork als auch das interne Treiber-Layout überschrieben wird"/>
 		</option>
+		<option default="" name="artwork_font" type="combo">
+			<description lang="us" text="Specify a font to use for artwork text elements"/>
+		</option>
 	</section>
 	<section name="game_screen">
 		<description lang="es" text="Pantalla del juego"/>
@@ -517,21 +520,21 @@
 		<description lang="pl" text="Renderowanie grafiki wektorowej"/>
 		<description lang="fr" text="Rendu Vectoriel"/>
 		<description lang="pt" text="Renderização Vetorial"/>
-		<option default="0.0" name="beam_intensity_weight" type="float">
-			<description lang="us" text="Set vector beam intensity weight"/>
-			<description lang="de" text="Gewichtung der Strahlen-Intensität"/>
+		<option default="1.0" name="beam_width_min" type="float">
+			<description lang="us" text="Set vector beam width minimum"/>
+			<description lang="de" text="Minimale Strahlen-Breite"/>
 		</option>
 		<option default="1.0" name="beam_width_max" type="float">
 			<description lang="us" text="Set vector beam width maximum"/>
 			<description lang="de" text="Maximale Strahlen-Breite"/>
 		</option>
-		<option default="1.0" name="beam_width_min" type="float">
-			<description lang="us" text="Set vector beam width minimum"/>
-			<description lang="de" text="Minimale Strahlen-Breite"/>
-		</option>
 		<option default="1.0" name="beam_dot_size" type="float">
 			<description lang="us" text="Set vector beam size for dots"/>
 			<description lang="de" text="Strahlen-Größe für Punkte"/>
+		</option>
+		<option default="0.0" name="beam_intensity_weight" type="float">
+			<description lang="us" text="Set vector beam intensity weight"/>
+			<description lang="de" text="Gewichtung der Strahlen-Intensität"/>
 		</option>
 		<option default="0.0" name="flicker" type="float">
 			<description lang="es" text="Definir el efecto de parpadeo del vector"/>
@@ -555,7 +558,17 @@
 			<choice name="auto"/>
 			<choice name="sdl"/>
 			<choice name="portaudio"/>
+			<choice name="pulse"/>
+			<choice name="pipewire"/>
 			<choice name="none"/>
+		</option>
+		<option default="2" name="audio_latency" type="int">
+			<description lang="es" text="Definir latencia de sonido (incrementar para reducir ruidos, reducir para aumentar velocidad de respuesta)"/>
+			<description lang="us" text="Set audio latency (increase to reduce glitches, decrease for responsiveness)"/>
+			<description lang="de" text="Audio-Latenz einstellen (erhöhen zur Reduktion von Störungen, verringern zur Verbesserung des Antwortverhaltens)"/>
+			<description lang="pl" text="Ustaw zwłokę dźwięku (zwiększ aby zmniejszyć trzaski, zmniejsz dla szybszej odpowiedzi)"/>
+			<description lang="fr" text="Latence Audio (augmenter la valeur pour réduire les problèmes de son)"/>
+			<description lang="pt" text="Definir latência do áudio (aumente para reduzir defeitos, diminua para aumentar o desempenho)"/>
 		</option>
 		<option default="48000" name="samplerate" type="int">
 			<description lang="es" text="Frecuencia de salida"/>
@@ -580,22 +593,6 @@
 			<description lang="pl" text="Siła głosu w decybelach (-32 min, 0 max)"/>
 			<description lang="fr" text="Volume sonore en décibels (-32 min, 0 max)"/>
 			<description lang="pt" text="Volume do som em decibéis (-32 min, 0 max)"/>
-		</option>
-		<option default="2" name="audio_latency" type="int">
-			<description lang="es" text="Definir latencia de sonido (incrementar para reducir ruidos, reducir para aumentar velocidad de respuesta)"/>
-			<description lang="us" text="Set audio latency (increase to reduce glitches, decrease for responsiveness)"/>
-			<description lang="de" text="Audio-Latenz einstellen (erhöhen zur Reduktion von Störungen, verringern zur Verbesserung des Antwortverhaltens)"/>
-			<description lang="pl" text="Ustaw zwłokę dźwięku (zwiększ aby zmniejszyć trzaski, zmniejsz dla szybszej odpowiedzi)"/>
-			<description lang="fr" text="Latence Audio (augmenter la valeur pour réduire les problèmes de son)"/>
-			<description lang="pt" text="Definir latência do áudio (aumente para reduzir defeitos, diminua para aumentar o desempenho)"/>
-		</option>
-		<option default="true" name="compressor" type="bool">
-			<description lang="us" text="Enable compressor for sound"/>
-			<description lang="de" text="Kompressor für Sound aktivieren"/>
-		</option>
-		<option default="0" name="speaker_report" type="int">
-			<description lang="us" text="Print report of speaker ouput maxima (0=none, or 1-4 for more detail)"/>
-			<description lang="de" text="Report der Lautsprecher Ausgabe Maxima ausgeben (0=kein Report, oder 1-4 für mehr Details)"/>
 		</option>
 	</section>
 	<section name="input_devices">
@@ -675,14 +672,6 @@
 			<description lang="de" text="User-Interface gemeinsam mit emulierter Tastatur aktivieren (wenn vorhanden)"/>
 			<description lang="es" text="Habilitar la interfaz del usuario sobre el teclado emulado (si está presente)"/>
 		</option>
-		<option default="false" name="offscreen_reload" type="bool">
-			<description lang="es" text="Cambiar el botón 2 de la pistola de luz a &quot;recarga fuera de pantalla&quot;"/>
-			<description lang="us" text="Convert lightgun button 2 into offscreen reload"/>
-			<description lang="de" text="Lightgun Button 2 zu 'Offscreen Reload' konvertieren"/>
-			<description lang="pl" text="Skonwertuj 2 przycisk pistoletu na przeładowanie 'poza ekranem'"/>
-			<description lang="fr" text="Convertir le bouton 2 du pistolet a visée infra-rouge en 'recharge hors écran'"/>
-			<description lang="pt" text="Converter botão 2 da pistola laser em recarregamento fora da tela"/>
-		</option>
 		<option default="auto" name="joystick_map" type="combo">
 			<description lang="es" text="Mapeado explícito de joystick, o 'auto' para auto-seleccionar"/>
 			<description lang="us" text="Explicit joystick map, or 'auto' to auto-select"/>
@@ -692,7 +681,7 @@
 			<description lang="pt" text="Mapeamento explícito de joystick, ou 'auto' para selecionar automaticamente"/>
 			<choice name="auto"/>
 		</option>
-		<option default="0.3" name="joystick_deadzone" type="float">
+		<option default="0.15" name="joystick_deadzone" type="float">
 			<description lang="es" text="Rango de la zona muerta del joystick donde se ignoran los cambios (0.0 centro, 1.0 final)"/>
 			<description lang="us" text="Center deadzone range for joystick where change is ignored (0.0 center, 1.0 end)"/>
 			<description lang="de" text="Joystick-Deadzone für die Änderungen ignoriert werden (0.0 = Zentrum, 1.0 = Ende)"/>
@@ -707,6 +696,9 @@
 			<description lang="pl" text="Nasycenie końca osi dżojstika, dla którego zmiany są ignorowane (0.0 środek, 1.0 koniec)"/>
 			<description lang="fr" text="Choisir le plafond des axes du joystick pour lequel les contrôles sont ignorés (0.0 centre, 1.0 fin)"/>
 			<description lang="pt" text="Fim do intervalo de saturação do eixo do joystick onde mudanças são ignoradas (0.0 centro, 1.0 fim)"/>
+		</option>
+		<option default="0.3" name="joystick_threshold" type="float">
+			<description lang="us" text="Threshold for joystick to be considered active as a switch (0.0 center, 1.0 end)"/>
 		</option>
 		<option default="false" name="natural" type="bool">
 			<description lang="es" text="Especifica si utilizar un teclado natural o no"/>
@@ -808,6 +800,9 @@
 		<option default="true" name="drc" type="bool">
 			<description lang="us" text="Enable DRC cpu core if available"/>
 			<description lang="de" text="DRC CPU Core aktivieren, wenn verfügbar"/>
+		</option>
+		<option default="true" name="drc_rwx" type="bool">
+			<description lang="us" text="Allow DRC to use writable executable pages if supported"/>
 		</option>
 		<option default="false" name="drc_use_c" type="bool">
 			<description lang="us" text="Force DRC to use C back-end"/>
@@ -999,12 +994,16 @@
 			<description lang="pt" text="Habilitar/desativar debugger"/>
 		</option>
 		<option default="auto" name="debugger" type="combo">
-			<description lang="us" text="Debugger used: none, internal, qt or auto"/>
-			<description lang="de" text="Verwendeter Debugger: none, internal, qt oder auto"/>
-			<choice name="none"/>
-			<choice name="internal"/>
+			<description lang="us" text="Debugger used: qt, imgui, gdbstub or none"/>
+			<description lang="de" text="Verwendeter Debugger: qt, imgui, gdbstub oder none"/>
 			<choice name="qt"/>
+			<choice name="imgui"/>
+			<choice name="gdbstub"/>
+			<choice name="none"/>
 			<choice name="auto"/>
+		</option>
+		<option default="localhost" name="debugger_host" type="combo">
+			<description lang="us" text="Address to bind to for gdbstub debugger"/>
 		</option>
 		<option default="auto" name="debugger_font" type="combo">
 			<description lang="us" text="Specifies the font to use for debugging; defaults to 'Lucida Console'"/>
@@ -1216,7 +1215,7 @@
 			<description lang="pt" text="Forçar texturas em potência de 2 (padrão desligado)"/>
 			<description lang="es" text="Forzar texturas a poder de dos (desactivado por defecto)"/>
 		</option>
-		<option default="false" name="gl_notexturerect" type="bool">
+		<option default="true" name="gl_notexturerect" type="bool">
 			<description lang="us" text="Don't use OpenGL GL_ARB_texture_rectangle (default on)"/>
 			<description lang="de" text="OpenGL GL_ARB_texture_rectangle nicht benutzen (Standard: an)"/>
 			<description lang="pl" text="Nie używaj GL_ARB_texture_rectangle (domyślnie włączone)"/>
@@ -1799,45 +1798,11 @@
 			<choice ignore.Darwin="true" name="SCRLOCK"/>
 			<choice ignore.Linux="true" ignore.Windows="true" name="INSERT"/>
 		</option>
-		<option default="auto" name="keyb_idx1" type="combo">
-			<description lang="us" text="Name of keyboard mapped to keyboard #1"/>
-			<description lang="de" text="Name der Tastatur, welche als Tastatur #1 gemapped wird"/>
-			<choice name="auto"/>
+		<option default="none" name="controller_map" type="file">
+			<description lang="us" text="Game controller mapping file"/>
 		</option>
-		<option default="auto" name="keyb_idx2" type="combo">
-			<description lang="us" text="Name of keyboard mapped to keyboard #2"/>
-			<description lang="de" text="Name der Tastatur, welche als Tastatur #2 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="keyb_idx3" type="combo">
-			<description lang="us" text="Name of keyboard mapped to keyboard #3"/>
-			<description lang="de" text="Name der Tastatur, welche als Tastatur #3 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="keyb_idx4" type="combo">
-			<description lang="us" text="Name of keyboard mapped to keyboard #4"/>
-			<description lang="de" text="Name der Tastatur, welche als Tastatur #4 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="keyb_idx5" type="combo">
-			<description lang="us" text="Name of keyboard mapped to keyboard #5"/>
-			<description lang="de" text="Name der Tastatur, welche als Tastatur #5 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="keyb_idx6" type="combo">
-			<description lang="us" text="Name of keyboard mapped to keyboard #6"/>
-			<description lang="de" text="Name der Tastatur, welche als Tastatur #6 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="keyb_idx7" type="combo">
-			<description lang="us" text="Name of keyboard mapped to keyboard #7"/>
-			<description lang="de" text="Name der Tastatur, welche als Tastatur #7 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="keyb_idx8" type="combo">
-			<description lang="us" text="Name of keyboard mapped to keyboard #8"/>
-			<description lang="de" text="Name der Tastatur, welche als Tastatur #8 gemapped wird"/>
-			<choice name="auto"/>
+		<option default="false" name="background_input" type="bool">
+			<description lang="us" text="Don't ignore input when losing UI focus"/>
 		</option>
 	</section>
 	<section name="joystick_mapping">
@@ -1847,77 +1812,8 @@
 		<description lang="fr" text="Mapping de joystick"/>
 		<description lang="pt" text="Mapeamento de joystick"/>
 		<description lang="es" text="Mapeado de joystick"/>
-		<option default="auto" name="joy_idx1" type="combo">
-			<description lang="us" text="Name of joystick mapped to joystick #1"/>
-			<description lang="de" text="Name des Joytsicks, der als Joystick #1 gemapped wird"/>
-			<description lang="pl" text="Nazwa dżojstika, który będzie mapowany jako dżojstik #1"/>
-			<description lang="fr" text="Nom du joystick mappé en joystick #1"/>
-			<description lang="pt" text="Nome do joystick mapeado para o joystick #1"/>
-			<description lang="es" text="Nombre de joystick mapeado a joystick #1"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="joy_idx2" type="combo">
-			<description lang="us" text="Name of joystick mapped to joystick #2"/>
-			<description lang="de" text="Name des Joytsicks, der als Joystick #2 gemapped wird"/>
-			<description lang="pl" text="Nazwa dżojstika, który będzie mapowany jako dżojstik #2"/>
-			<description lang="fr" text="Nom du joystick mappé en joystick #2"/>
-			<description lang="pt" text="Nome do joystick mapeado para o joystick #2"/>
-			<description lang="es" text="Nombre de joystick mapeado a joystick #2"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="joy_idx3" type="combo">
-			<description lang="us" text="Name of joystick mapped to joystick #3"/>
-			<description lang="de" text="Name des Joytsicks, der als Joystick #3 gemapped wird"/>
-			<description lang="pl" text="Nazwa dżojstika, który będzie mapowany jako dżojstik #3"/>
-			<description lang="fr" text="Nom du joystick mappé en joystick #3"/>
-			<description lang="pt" text="Nome do joystick mapeado para o joystick #3"/>
-			<description lang="es" text="Nombre de joystick mapeado a joystick #3"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="joy_idx4" type="combo">
-			<description lang="us" text="Name of joystick mapped to joystick #4"/>
-			<description lang="de" text="Name des Joytsicks, der als Joystick #4 gemapped wird"/>
-			<description lang="pl" text="Nazwa dżojstika, który będzie mapowany jako dżojstik #4"/>
-			<description lang="fr" text="Nom du joystick mappé en joystick #4"/>
-			<description lang="pt" text="Nome do joystick mapeado para o joystick #4"/>
-			<description lang="es" text="Nombre de joystick mapeado a joystick #4"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="joy_idx5" type="combo">
-			<description lang="us" text="Name of joystick mapped to joystick #5"/>
-			<description lang="de" text="Name des Joytsicks, der als Joystick #5 gemapped wird"/>
-			<description lang="pl" text="Nazwa dżojstika, który będzie mapowany jako dżojstik #5"/>
-			<description lang="fr" text="Nom du joystick mappé en joystick #5"/>
-			<description lang="pt" text="Nome do joystick mapeado para o joystick #5"/>
-			<description lang="es" text="Nombre de joystick mapeado a joystick #5"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="joy_idx6" type="combo">
-			<description lang="us" text="Name of joystick mapped to joystick #6"/>
-			<description lang="de" text="Name des Joytsicks, der als Joystick #6 gemapped wird"/>
-			<description lang="pl" text="Nazwa dżojstika, który będzie mapowany jako dżojstik #6"/>
-			<description lang="fr" text="Nom du joystick mappé en joystick #6"/>
-			<description lang="pt" text="Nome do joystick mapeado para o joystick #6"/>
-			<description lang="es" text="Nombre de joystick mapeado a joystick #6"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="joy_idx7" type="combo">
-			<description lang="us" text="Name of joystick mapped to joystick #7"/>
-			<description lang="de" text="Name des Joytsicks, der als Joystick #7 gemapped wird"/>
-			<description lang="pl" text="Nazwa dżojstika, który będzie mapowany jako dżojstik #7"/>
-			<description lang="fr" text="Nom du joystick mappé en joystick #7"/>
-			<description lang="pt" text="Nome do joystick mapeado para o joystick #7"/>
-			<description lang="es" text="Nombre de joystick mapeado a joystick #7"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="joy_idx8" type="combo">
-			<description lang="us" text="Name of joystick mapped to joystick #8"/>
-			<description lang="de" text="Name des Joytsicks, der als Joystick #8 gemapped wird"/>
-			<description lang="pl" text="Nazwa dżojstika, który będzie mapowany jako dżojstik #8"/>
-			<description lang="fr" text="Nom du joystick mappé en joystick #8"/>
-			<description lang="pt" text="Nome do joystick mapeado para o joystick #8"/>
-			<description lang="es" text="Nombre de joystick mapeado a joystick #8"/>
-			<choice name="auto"/>
+		<option default="false" name="enable_touch" type="bool">
+			<description lang="us" text="Enable touch input support"/>
 		</option>
 		<option default="false" name="sixaxis" type="bool">
 			<description lang="us" text="Use special handling for PS3 Sixaxis controllers"/>
@@ -1927,49 +1823,8 @@
 			<description lang="pt" text="Usar tratamento especial para controles de PS3 de 6 eixos"/>
 			<description lang="es" text="Usar un control especial para los mandos PS3 Sixaxis"/>
 		</option>
-	</section>
-	<section name="mouse_mapping">
-		<description lang="us" text="Mouse mapping"/>
-		<description lang="de" text="Maus-Mapping"/>
-		<option default="auto" name="mouse_index1" type="combo">
-			<description lang="us" text="Name of mouse mapped to mouse #1"/>
-			<description lang="de" text="Name der Maus, welche als Maus #1 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="mouse_index2" type="combo">
-			<description lang="us" text="Name of mouse mapped to mouse #2"/>
-			<description lang="de" text="Name der Maus, welche als Maus #2 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="mouse_index3" type="combo">
-			<description lang="us" text="Name of mouse mapped to mouse #3"/>
-			<description lang="de" text="Name der Maus, welche als Maus #3 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="mouse_index4" type="combo">
-			<description lang="us" text="Name of mouse mapped to mouse #4"/>
-			<description lang="de" text="Name der Maus, welche als Maus #4 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="mouse_index5" type="combo">
-			<description lang="us" text="Name of mouse mapped to mouse #5"/>
-			<description lang="de" text="Name der Maus, welche als Maus #5 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="mouse_index6" type="combo">
-			<description lang="us" text="Name of mouse mapped to mouse #6"/>
-			<description lang="de" text="Name der Maus, welche als Maus #6 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="mouse_index7" type="combo">
-			<description lang="us" text="Name of mouse mapped to mouse #7"/>
-			<description lang="de" text="Name der Maus, welche als Maus #7 gemapped wird"/>
-			<choice name="auto"/>
-		</option>
-		<option default="auto" name="mouse_index8" type="combo">
-			<description lang="us" text="Name of mouse mapped to mouse #8"/>
-			<description lang="de" text="Name der Maus, welche als Maus #8 gemapped wird"/>
-			<choice name="auto"/>
+		<option default="false" name="dual_lightgun" type="bool">
+			<description lang="us" text="Enable dual lightgun input"/>
 		</option>
 	</section>
 	<section name="sdl_driver_options">
@@ -2031,6 +1886,24 @@
 			<description lang="es" text="libGL.so alternativa a utilizar; 'auto' para predeterminado de sistema"/>
 		</option>
 	</section>
+	<section name="midi_options">
+		<description lang="us" text="MIDI options"/>
+		<option default="auto" name="midiprovider" type="combo">
+			<description lang="us" text="MIDI I/O method: pm or none"/>
+			<choice name="auto"/>
+			<choice name="pm"/>
+			<choice name="none"/>
+		</option>
+	</section>
+	<section name="network_options">
+		<description lang="us" text="Emulated networking options"/>
+		<option default="auto" name="networkprovider" type="combo">
+			<description lang="us" text="Emulated networking provider: taptun or none"/>
+			<choice name="auto"/>
+			<choice name="taptun"/>
+			<choice name="none"/>
+		</option>
+	</section>
 	<section name="bgfx_post_processing_options">
 		<description lang="us" text="BGFX post-processing options"/>
 		<description lang="de" text="BGFX Post-Processing Optionen"/>
@@ -2040,8 +1913,10 @@
 			<choice name="auto"/>
 			<choice ignore.Linux="true" ignore.Darwin="true" name="d3d9"/>
 			<choice ignore.Linux="true" ignore.Darwin="true" name="d3d11"/>
+			<choice ignore.Linux="true" ignore.Darwin="true" name="d3d12"/>
 			<choice ignore.Linux="true" ignore.Windows="true" name="metal"/>
 			<choice name="opengl"/>
+			<choice name="vulkan"/>
 			<choice name="gles"/>
 		</option>
 		<option default="false" name="bgfx_debug" type="bool">
@@ -2085,73 +1960,6 @@
 		<option default="8080" name="http_port" type="int">
 			<description lang="us" text="HTTP server port"/>
 			<description lang="de" text="HTTP Server Port"/>
-		</option>
-	</section>
-	<section name="pa_options">
-		<description lang="us" text="PortAudio options"/>
-		<description lang="de" text="PortAudio Optionen"/>
-		<option default="none" name="pa_api" type="combo">
-			<description lang="us" text="PortAudio API"/>
-			<description lang="de" text="PortAudio API"/>
-			<choice name="none"/>
-		</option>
-		<option default="none" name="pa_device" type="combo">
-			<description lang="us" text="PortAudio device"/>
-			<description lang="de" text="PortAudio device"/>
-			<choice name="none"/>
-		</option>
-		<option default="0.0" name="pa_latency" type="float">
-			<description lang="us" text="Suggested latency in seconds, 0 for default"/>
-			<description lang="de" text="Angepeilte Latenz in Sekunden, 0 für Standard"/>
-		</option>
-	</section>
-	<section ignore.Linux="true" ignore.Windows="true" name="core_audio">
-		<description lang="us" text="CoreAudio options"/>
-		<description lang="de" text="CoreAudio Optionen"/>
-		<option default="auto" ignore.Linux="true" ignore.Windows="true" name="audio_output" type="combo">
-			<description lang="us" text="Audio output device"/>
-			<description lang="de" text="Audio Ausgabe Gerät"/>
-			<choice name="auto"/>
-		</option>
-		<option default="none" ignore.Linux="true" ignore.Windows="true" name="audio_effect0" type="file">
-			<description lang="us" text="AudioUnit effect file 0"/>
-			<description lang="de" text="AudioUnit Effekt Datei 0"/>
-		</option>
-		<option default="none" ignore.Linux="true" ignore.Windows="true" name="audio_effect1" type="file">
-			<description lang="us" text="AudioUnit effect file 1"/>
-			<description lang="de" text="AudioUnit Effekt Datei 1"/>
-		</option>
-		<option default="none" ignore.Linux="true" ignore.Windows="true" name="audio_effect2" type="file">
-			<description lang="us" text="AudioUnit effect file 2"/>
-			<description lang="de" text="AudioUnit Effekt Datei 2"/>
-		</option>
-		<option default="none" ignore.Linux="true" ignore.Windows="true" name="audio_effect3" type="file">
-			<description lang="us" text="AudioUnit effect file 3"/>
-			<description lang="de" text="AudioUnit Effekt Datei 3"/>
-		</option>
-		<option default="none" ignore.Linux="true" ignore.Windows="true" name="audio_effect4" type="file">
-			<description lang="us" text="AudioUnit effect file 4"/>
-			<description lang="de" text="AudioUnit Effekt Datei 4"/>
-		</option>
-		<option default="none" ignore.Linux="true" ignore.Windows="true" name="audio_effect5" type="file">
-			<description lang="us" text="AudioUnit effect file 5"/>
-			<description lang="de" text="AudioUnit Effekt Datei 5"/>
-		</option>
-		<option default="none" ignore.Linux="true" ignore.Windows="true" name="audio_effect6" type="file">
-			<description lang="us" text="AudioUnit effect file 6"/>
-			<description lang="de" text="AudioUnit Effekt Datei 6"/>
-		</option>
-		<option default="none" ignore.Linux="true" ignore.Windows="true" name="audio_effect7" type="file">
-			<description lang="us" text="AudioUnit effect file 7"/>
-			<description lang="de" text="AudioUnit Effekt Datei 7"/>
-		</option>
-		<option default="none" ignore.Linux="true" ignore.Windows="true" name="audio_effect8" type="file">
-			<description lang="us" text="AudioUnit effect file 8"/>
-			<description lang="de" text="AudioUnit Effekt Datei 8"/>
-		</option>
-		<option default="none" ignore.Linux="true" ignore.Windows="true" name="audio_effect9" type="file">
-			<description lang="us" text="AudioUnit effect file 0"/>
-			<description lang="de" text="AudioUnit Effekt Datei 9"/>
 		</option>
 	</section>
 	<!--
