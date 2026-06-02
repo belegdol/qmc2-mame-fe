@@ -26,5 +26,5 @@ else
 		fi
 	fi
 fi
-echo $SDL_CFLAGS | egrep -o -e "\\-D\\S+" | sed -e 's/^-D//'
+echo $SDL_CFLAGS | grep -E -o -e "\\-D\\S+" | sed -e 's/^-D//'
 exit 0

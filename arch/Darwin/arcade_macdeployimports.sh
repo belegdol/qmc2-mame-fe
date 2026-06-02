@@ -7,7 +7,7 @@ cd arcade
 QT_INSTALL_IMPORTS=`qmake -query QT_INSTALL_IMPORTS`
 rsync -avP $QT_INSTALL_IMPORTS/ qmc2-arcade.app/Contents/MacOS/
 for i in $(find qmc2-arcade.app/Contents/MacOS -name "*.dylib"); do
-	QTLIBS=`otool -L $i | egrep ".*Qt.*framework.*Qt.*" | awk '{ print $1 }'`
+	QTLIBS=`otool -L $i | grep -E ".*Qt.*framework.*Qt.*" | awk '{ print $1 }'`
 	for j in $QTLIBS; do
 		qtlib=""
 		for k in $(echo $j | tr "/" " "); do

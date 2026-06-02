@@ -7,9 +7,9 @@ DIST="$(uname -r)"
 
 if [ "${OS}" = "Linux" ]; then
 	if [ -f /etc/os-release ]; then
-		VERSION_ID=$(cat /etc/os-release | egrep "\bVERSION_ID\b" | sed 's/VERSION_ID=//g' | sed 's/\"//g')
-		VERSION=$(cat /etc/os-release | egrep "\bVERSION\b" | sed 's/VERSION=//g' | sed 's/\"//g')
-		NAME=$(cat /etc/os-release | egrep "\bNAME\b" | sed 's/NAME=//g' | sed 's/\"//g' | tr ' ' '_' | tr '/' '_')
+		VERSION_ID=$(cat /etc/os-release | grep -E "\bVERSION_ID\b" | sed 's/VERSION_ID=//g' | sed 's/\"//g')
+		VERSION=$(cat /etc/os-release | grep -E "\bVERSION\b" | sed 's/VERSION=//g' | sed 's/\"//g')
+		NAME=$(cat /etc/os-release | grep -E "\bNAME\b" | sed 's/NAME=//g' | sed 's/\"//g' | tr ' ' '_' | tr '/' '_')
 		case ${NAME} in
 			Fedora | Fedora_Linux)
 				NAME="Fedora_release"
