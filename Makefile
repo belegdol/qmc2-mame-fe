@@ -919,7 +919,7 @@ qchdman-install: qchdman-bin
 	@$(ECHO) "Installing qchdman.desktop to $(GLOBAL_DATADIR)/applications"
 	@$(MKDIR) $(GLOBAL_DATADIR)/applications
 	@$(CHMOD) a+rx $(GLOBAL_DATADIR)/applications
-	@$(SED) -e "s*DATADIR*$(QMC2DATADIR)*g" < ./inst/qchdman.desktop.template > $(GLOBAL_DATADIR)/applications/qchdman.desktop
+	@$(SED) -e "s*DATADIR*$(QMC2DATADIR)*g" < ./inst/qchdman.desktop.template > $(GLOBAL_DATADIR)/applications/net.batcom-it.qmc2.qchdman.desktop
 endif
 
 tools: qchdman
@@ -1001,7 +1001,7 @@ arcade-install: arcade-bin
 	@$(ECHO) "Installing qmc2-arcade.desktop to $(GLOBAL_DATADIR)/applications"
 	@$(MKDIR) $(GLOBAL_DATADIR)/applications
 	@$(CHMOD) a+rx $(GLOBAL_DATADIR)/applications
-	@$(SED) -e "s*DATADIR*$(QMC2DATADIR)*g" < ./inst/qmc2-arcade.desktop.template > $(GLOBAL_DATADIR)/applications/qmc2-arcade.desktop
+	@$(SED) -e "s*DATADIR*$(QMC2DATADIR)*g" < ./inst/qmc2-arcade.desktop.template > $(GLOBAL_DATADIR)/applications/net.batcom-it.qmc2.qmc2-arcade.desktop
 endif
 endif
 
@@ -1156,7 +1156,7 @@ ifneq '$(ARCH)' 'Darwin'
 	@$(ECHO) "Installing $(TARGET_NAME).desktop to $(GLOBAL_DATADIR)/applications"
 	@$(MKDIR) $(GLOBAL_DATADIR)/applications
 	@$(CHMOD) a+rx $(GLOBAL_DATADIR)/applications
-	@$(SED) -e "s*DATADIR*$(QMC2DATADIR)*g; s*EMULATOR*$(QMC2_EMULATOR)*g; s*TARGET*$(TARGET_NAME)*g; s*EMUICO*$(EMUICO)*g; s*GENERICNAME*$(GENERICNAME)*g" < ./inst/$(PROJECT).desktop.template > $(GLOBAL_DATADIR)/applications/$(TARGET_NAME).desktop
+	@$(SED) -e "s*DATADIR*$(QMC2DATADIR)*g; s*EMULATOR*$(QMC2_EMULATOR)*g; s*TARGET*$(TARGET_NAME)*g; s*EMUICO*$(EMUICO)*g; s*GENERICNAME*$(GENERICNAME)*g" < ./inst/$(PROJECT).desktop.template > $(GLOBAL_DATADIR)/applications/net.batcom-it.qmc2.$(TARGET_NAME).desktop
 endif
 	@$(ECHO) "Installation complete"
 
