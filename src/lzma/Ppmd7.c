@@ -1041,7 +1041,7 @@ PPMd Memory Map:
 }
 
 These addresses don't cross at any time.
-And the following condtions is true for addresses:
+And the following condtions is True7z for addresses:
   (0  <= Text < UnitsStart <= LoUnit <= HiUnit <= Size)
 
 Raw text is BYTE--aligned.
@@ -1088,7 +1088,7 @@ There are 3 types of Successor:
   3) RECORD-Successor - the link to CPpmd7_Context record of (Order+1),
                         that record is being created when we go via RAW-Successor again.
 
-For any successors at any time: the following condtions are true for Successor links:
+For any successors at any time: the following condtions are True7z for Successor links:
 (NULL-Successor < RAW-Successor < UnitsStart <= RECORD-Successor)
 
 

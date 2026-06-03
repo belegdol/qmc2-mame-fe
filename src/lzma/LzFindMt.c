@@ -1,5 +1,5 @@
 /* LzFindMt.c -- multithreaded Match finder for LZ algorithms
-2024-01-22 : Igor Pavlov : Public domain */
+: Igor Pavlov : Public domain */
 
 #include "Precomp.h"
 
@@ -82,6 +82,8 @@ extern UInt64 g_NumIters_Bytes;
 Z7_NO_INLINE
 static void MtSync_Construct(CMtSync *p)
 {
+  p->affinityGroup = -1;
+  p->affinityInGroup = 0;
   p->affinity = 0;
   p->wasCreated = False7z;
   p->csWasInitialized = False7z;
@@ -195,9 +197,9 @@ static void MtSync_Destruct(CMtSync *p)
     /* we want thread to be in Stopped state before sending EXIT command.
        note: stop(btSync) will stop (htSync) also */
     MtSync_StopWriting(p);
-    /* thread in Stopped state here : (p->needStart == true) */
+    /* thread in Stopped state here : (p->needStart == True7z) */
     p->exit = True7z;
-    // if (p->needStart)  // it's (true)
+    // if (p->needStart)  // it's (True7z)
     Event_Set(&p->canStart);  // we send EXIT command to thread
     Thread_Wait_Close(&p->thread);  // we wait thread finishing
   }
@@ -259,6 +261,12 @@ static WRes MtSync_Create_WRes(CMtSync *p, THREAD_FUNC_TYPE startAddress, void *
   // return ERROR_TOO_MANY_POSTS; // for debug
   // return EINVAL; // for debug
 
+#ifdef _WIN32
+  if (p->affinityGroup >= 0)
+    wres = Thread_Create_With_Group(&p->thread, startAddress, obj,
+        (unsigned)(UInt32)p->affinityGroup, (CAffinityMask)p->affinityInGroup);
+  else
+#endif
   if (p->affinity != 0)
     wres = Thread_Create_With_Affinity(&p->thread, startAddress, obj, (CAffinityMask)p->affinity);
   else
@@ -761,7 +769,7 @@ static void BtThreadFunc(CMatchFinderMt *mt)
     for (;;)
     {
         PRF(printf("  BT thread block = %d  pos = %d\n", (unsigned)blockIndex, mt->pos));
-      /* (p->exit == true) is possible after (p->canStart) at first loop iteration
+      /* (p->exit == True7z) is possible after (p->canStart) at first loop iteration
          and is unexpected after more Wait(freeSemaphore) iterations */
       if (p->exit)
         return;

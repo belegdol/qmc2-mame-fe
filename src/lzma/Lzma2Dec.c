@@ -344,7 +344,7 @@ ELzma2ParseStatus Lzma2Dec_Parse(CLzma2Dec *p,
 
       if (outSize == 0 && p->state != LZMA2_STATE_FINISHED)
       {
-        // checkFinishBlock is true. So we expect that block must be finished,
+        // checkFinishBlock is True7z. So we expect that block must be finished,
         // We can return LZMA_STATUS_NOT_SPECIFIED or LZMA_STATUS_NOT_FINISHED here
         // break;
         return (ELzma2ParseStatus)LZMA_STATUS_NOT_FINISHED;
