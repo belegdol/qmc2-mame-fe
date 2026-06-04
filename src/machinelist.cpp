@@ -147,6 +147,8 @@ MachineList::MachineList(QObject *parent) :
 	numMachines = numTotalMachines = numCorrectMachines = numMostlyCorrectMachines = numIncorrectMachines = numUnknownMachines = numNotFoundMachines = -1;
 	uncommittedXmlDbRows = numTaggedSets = numMatchedMachines = numVerifyRoms = 0;
 	loadProc = verifyProc = 0;
+	xmlReader = nullptr;
+	xmlWriter = nullptr;
 	checkedItem = 0;
 	emulatorVersion = tr("unknown");
 	mergeCategories = autoRomCheck = verifyCurrentOnly = dtdBufferReady = false;
@@ -771,7 +773,8 @@ void MachineList::load()
 			mainProgressBar->setFormat("%p%");
 		uncommittedXmlDbRows = 0;
 		dtdBufferReady = false;
-		xmlLineBuffer.clear();
+		xmlReader = nullptr;
+		xmlWriter = nullptr;
 		xmlDb()->setLogActive(false);
 		xmlDb()->recreateDatabase();
 		xmlDb()->setLogActive(true);
@@ -782,7 +785,7 @@ void MachineList::load()
 		connect(loadProc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(loadFinished(int, QProcess::ExitStatus)));
 		connect(loadProc, SIGNAL(readyReadStandardOutput()), this, SLOT(loadReadyReadStandardOutput()));
 		connect(loadProc, SIGNAL(started()), this, SLOT(loadStarted()));
-		loadProc->setProcessChannelMode(QProcess::MergedChannels);
+		loadProc->setProcessChannelMode(QProcess::SeparateChannels);
 		loadProc->start(qmc2Config->value(QMC2_EMULATOR_PREFIX + "FilesAndDirectories/ExecutableFile").toString(), QStringList() << "-listxml");
 	}
 	userDataDb()->setEmulatorVersion(emulatorVersion);
@@ -2255,6 +2258,14 @@ void MachineList::loadFinished(int exitCode, QProcess::ExitStatus exitStatus)
 	qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("done (loading XML data and recreating cache, elapsed time = %1)").arg(elapsedTime.toString("mm:ss.zzz")));
 	mainProgressBar->reset();
 	qmc2EarlyReloadActive = false;
+	if ( xmlReader ) {
+		delete xmlReader;
+		xmlReader = nullptr;
+	}
+	if ( xmlWriter ) {
+		delete xmlWriter;
+		xmlWriter = nullptr;
+	}
 	if ( loadProc )
 		delete loadProc;
 	loadProc = 0;
@@ -2309,133 +2320,62 @@ void MachineList::loadFinished(int exitCode, QProcess::ExitStatus exitStatus)
 
 void MachineList::loadReadyReadStandardOutput()
 {
-	static bool lastCharacterWasSpace = false;
 	static QString dtdBuffer;
-	static QString setXmlBuffer;
-	static QString currentSetName;
-	static QRegularExpression rxDescYearManu("\\<description\\>$|\\<year\\>$|\\<manufacturer\\>$");
+	static int machineDepth = 0;
 
-	// this makes the GUI much more responsive, but is HAS to be called before loadProc->readAllStandardOutput()!
-	//if ( QCoreApplication::hasPendingEvents() )
-	//	qApp->processEvents();
-#if defined(QMC2_OS_WIN)
-	QString readBuffer(QString::fromUtf8(loadProc->readAllStandardOutput()));
-#else
-	QString readBuffer(loadProc->readAllStandardOutput());
-#endif
-	bool startsWithSpace = readBuffer.startsWith(' ') && !lastCharacterWasSpace;
-	bool endsWithSpace = readBuffer.endsWith(' ');
-	lastCharacterWasSpace = false;
+	QByteArray newData = loadProc->readAllStandardOutput();
 	if ( uncommittedXmlDbRows == 0 )
 		xmlDb()->beginTransaction();
 	if ( qmc2LoadingInterrupted )
 		loadProc->kill();
-	readBuffer = readBuffer.simplified();
-	if ( startsWithSpace )
-		readBuffer.prepend(' ');
-	// ensure XML elements are on individual lines
-	for (int i = 0; i < readBuffer.length(); i++) {
-		if ( readBuffer.at(i) == '>' ) {
-			if ( i + 1 < readBuffer.length() ) {
-				if ( readBuffer[i + 1] == '<' )
-					readBuffer.insert(i + 1, '\n');
-				else if ( readBuffer[i + 1] == ' ' ) {
-					if ( i + 2 < readBuffer.length() ) {
-						if ( readBuffer.at(i + 2) == '<' )
-							readBuffer.replace(i + 1, 1, '\n');
-					}
-				}
-			}
+	if ( !xmlReader ) {
+		xmlReader = new QXmlStreamReader();
+		machineDepth = 0;
+		dtdBuffer.clear();
+		if ( xmlWriter ) {
+			delete xmlWriter;
+			xmlWriter = nullptr;
 		}
 	}
-	QStringList sl(readBuffer.split('\n'));
-	for (int l = 0; l < sl.count(); l++) {
-		QString singleXMLLine(sl.at(l));
-		bool newLine = singleXMLLine.endsWith('>');
-		if ( newLine ) {
-			if ( singleXMLLine.indexOf(rxDescYearManu) >= 0 )
-				newLine = false;
-			if ( newLine ) {
-				bool found = false;
-				int i;
-				for (i = singleXMLLine.length() - 2; i > 0 && !found; i--)
-					found = (singleXMLLine.at(i) == '<');
-				if ( found && i == 0 )
-					newLine = false;
-			}
+	xmlReader->addData(newData);
+	int machineCount = 0;
+
+	while ( !xmlReader->atEnd() ) {
+		QXmlStreamReader::TokenType token = xmlReader->readNext();
+		if ( xmlReader->hasError() ) {
+			if ( xmlReader->error() == QXmlStreamReader::PrematureEndOfDocumentError )
+				break;
+			else
+				break;
 		}
-		bool needsSpace = singleXMLLine.endsWith('\"');
-		if ( needsSpace ) {
-			bool found = false;
-			bool stop = false;
-			for (int i = singleXMLLine.length() - 2; i > 1 && !found && !stop; i--) {
-				if ( singleXMLLine[i] == '\"' ) {
-					if ( singleXMLLine.at(i - 1) == '=' )
-						found = true;
-					else
-						stop = true;
-				}
-			}
-			if ( !found )
-				needsSpace = false;
-		}
-		int i = singleXMLLine.length() - 1;
-		while ( i >= 0 && singleXMLLine.at(i).isSpace() )
-			singleXMLLine.remove(i--, 1);
-		needsSpace |= endsWithSpace;
-		if ( newLine )
-			singleXMLLine += '\n';
-		else if ( needsSpace ) {
-			singleXMLLine += ' ';
-			lastCharacterWasSpace = true;
-		}
-		xmlLineBuffer += singleXMLLine;
-		if ( xmlLineBuffer.endsWith('\n') ) {
-			if ( !dtdBufferReady ) {
-				dtdBufferReady = xmlLineBuffer.startsWith("<mame build=");
-				if ( !dtdBufferReady ) {
-					if ( !xmlLineBuffer.startsWith("<?xml version=") )
-						dtdBuffer += xmlLineBuffer;
-				} else {
-					if ( dtdBuffer.endsWith('\n') )
-						dtdBuffer.remove(dtdBuffer.length() - 1, 1);
+		if ( token == QXmlStreamReader::StartElement && xmlReader->name() == QLatin1String("machine") ) {
+			QString currentSetName = xmlReader->attributes().value(QLatin1String("name")).toString();
+			QString machineXml = "<machine";
+			for (const QXmlStreamAttribute &attr : xmlReader->attributes())
+				machineXml += " " + attr.name().toString() + "=\"" + attr.value().toString() + "\"";
+			machineXml += ">";
+			machineXml += xmlReader->readRawInnerData();
+			machineXml += "</machine>";
+			xmlDb()->setXml(currentSetName, machineXml);
+			uncommittedXmlDbRows++;
+			machineCount++;
+		} else if ( !dtdBufferReady ) {
+			if ( token == QXmlStreamReader::DTD ) {
+				dtdBuffer = xmlReader->text().toString();
+			} else if ( token == QXmlStreamReader::StartElement && xmlReader->name() == QLatin1String("mame") ) {
+				if ( !dtdBuffer.isEmpty() ) {
 					xmlDb()->setDtd(dtdBuffer);
 					dtdBuffer.clear();
 				}
-			} else {
-				if ( currentSetName.isEmpty() ) {
-					int startIndex = xmlLineBuffer.indexOf("<machine name=\"");
-					if ( startIndex >= 0 ) {
-						startIndex += 15;
-						int endIndex = xmlLineBuffer.indexOf('\"', startIndex);
-						if ( endIndex >= 0 ) {
-							currentSetName = xmlLineBuffer.mid(startIndex, endIndex - startIndex);
-							setXmlBuffer += xmlLineBuffer;
-						}
-					}
-				} else {
-					setXmlBuffer += xmlLineBuffer;
-					int index = xmlLineBuffer.indexOf("</machine>");
-					if ( index >= 0 ) {
-						if ( setXmlBuffer.endsWith('\n') )
-							setXmlBuffer.remove(setXmlBuffer.length() - 1, 1);
-						if ( xmlDb()->exists(currentSetName) )
-							qmc2MainWindow->log(QMC2_LOG_FRONTEND, tr("WARNING: XML bug: the name '%1' is used for multiple sets -- please inform MAME developers").arg(currentSetName));
-						xmlDb()->setXml(currentSetName, setXmlBuffer);
-						uncommittedXmlDbRows++;
-						currentSetName.clear();
-						setXmlBuffer.clear();
-					}
-				}
+				dtdBufferReady = true;
 			}
-			xmlLineBuffer.clear();
 		}
 	}
 	if ( uncommittedXmlDbRows >= QMC2_XMLCACHE_COMMIT ) {
 		xmlDb()->commitTransaction();
 		uncommittedXmlDbRows = 0;
 	}
-	mainProgressBar->setValue(mainProgressBar->value() + readBuffer.count("<machine name="));
+	mainProgressBar->setValue(mainProgressBar->value() + machineCount);
 }
 
 void MachineList::verifyStarted()

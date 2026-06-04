@@ -6,6 +6,8 @@
 #include <QTreeWidgetItem>
 #include <QHash>
 #include <QList>
+#include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 
 #include "xmldbmgr.h"
 #include "userdatadbmgr.h"
@@ -64,7 +66,8 @@ class MachineList : public QObject
 		QString emulatorType;
 		QString emulatorVersion;
 		QString verifyLastLine;
-		QString xmlLineBuffer;
+		QXmlStreamReader *xmlReader;
+		QXmlStreamWriter *xmlWriter;
 		QStringList emulatorIdentifiers;
 		QStringList verifiedList;
 		QHash<QString, QString> driverNameHash;
